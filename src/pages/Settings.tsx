@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
+import { useTransactions } from '@/hooks/useTransactions';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { HouseholdMembersCard } from '@/components/settings/HouseholdMembersCard';
 
 export default function Settings() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
+  const { householdMembers, addHouseholdMember, deleteHouseholdMember } = useTransactions();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -19,6 +22,7 @@ export default function Settings() {
     <DashboardLayout>
       <div className="space-y-6">
         <h1 className="font-heading text-2xl lg:text-3xl font-bold">Instellingen</h1>
+        
         <Card>
           <CardHeader>
             <CardTitle>Account</CardTitle>
@@ -31,6 +35,12 @@ export default function Settings() {
             <Button variant="destructive" onClick={signOut}>Uitloggen</Button>
           </CardContent>
         </Card>
+
+        <HouseholdMembersCard
+          members={householdMembers}
+          onAdd={(data) => addHouseholdMember.mutate(data)}
+          onDelete={(id) => deleteHouseholdMember.mutate(id)}
+        />
       </div>
     </DashboardLayout>
   );

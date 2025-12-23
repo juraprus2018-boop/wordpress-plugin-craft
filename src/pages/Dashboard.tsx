@@ -6,6 +6,7 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
+import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
 import { Wallet, TrendingUp, TrendingDown, PiggyBank } from 'lucide-react';
 
@@ -35,6 +36,8 @@ export default function Dashboard() {
           <KPICard title="Netto Resultaat" value={formatCurrency(netResult)} icon={<Wallet className="h-6 w-6" />} trend={netResult >= 0 ? 'up' : 'down'} />
           <KPICard title="Spaarquote" value={`${savingsRate.toFixed(1)}%`} icon={<PiggyBank className="h-6 w-6" />} />
         </div>
+
+        <BalanceFlowChart transactions={transactions} />
 
         <div className="grid lg:grid-cols-2 gap-6">
           <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />

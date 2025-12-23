@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Transaction, Category } from '@/hooks/useTransactions';
-import { Plus, Trash2, TrendingUp, TrendingDown } from 'lucide-react';
+import { Transaction, Category, HouseholdMember } from '@/hooks/useTransactions';
+import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users } from 'lucide-react';
 import { TransactionForm } from './TransactionForm';
 import { cn } from '@/lib/utils';
 import {
@@ -20,12 +20,16 @@ interface TransactionListProps {
   type: 'income' | 'expense';
   transactions: Transaction[];
   categories: Category[];
+  householdMembers: HouseholdMember[];
   onAdd: (data: {
     type: 'income' | 'expense';
     name: string;
     amount: number;
     category_id: string | null;
     description?: string;
+    day_of_month?: number | null;
+    member_id?: string | null;
+    is_shared?: boolean;
   }) => void;
   onDelete: (id: string) => void;
 }
@@ -34,6 +38,7 @@ export function TransactionList({
   type,
   transactions,
   categories,
+  householdMembers,
   onAdd,
   onDelete,
 }: TransactionListProps) {
@@ -92,10 +97,32 @@ export function TransactionList({
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="font-medium">{transaction.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {transaction.categories?.name || 'Geen categorie'}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium">{transaction.name}</p>
+                        {transaction.is_shared && (
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                            Gezamenlijk
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span>{transaction.categories?.name || 'Geen categorie'}</span>
+                        {transaction.day_of_month && (
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {transaction.day_of_month}e
+                          </span>
+                        )}
+                        {transaction.household_members && (
+                          <span 
+                            className="flex items-center gap-1"
+                            style={{ color: transaction.household_members.color || '#6B7280' }}
+                          >
+                            <Users className="h-3 w-3" />
+                            {transaction.household_members.name}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -126,6 +153,7 @@ export function TransactionList({
         onOpenChange={setFormOpen}
         type={type}
         categories={categories}
+        householdMembers={householdMembers}
         onSubmit={onAdd}
       />
 

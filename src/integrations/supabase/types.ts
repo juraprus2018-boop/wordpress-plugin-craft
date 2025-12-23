@@ -47,6 +47,30 @@ export type Database = {
         }
         Relationships: []
       }
+      household_members: {
+        Row: {
+          color: string | null
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -76,9 +100,12 @@ export type Database = {
           amount: number
           category_id: string | null
           created_at: string
+          day_of_month: number | null
           description: string | null
           id: string
           is_recurring: boolean | null
+          is_shared: boolean | null
+          member_id: string | null
           name: string
           type: Database["public"]["Enums"]["transaction_type"]
           updated_at: string
@@ -88,9 +115,12 @@ export type Database = {
           amount: number
           category_id?: string | null
           created_at?: string
+          day_of_month?: number | null
           description?: string | null
           id?: string
           is_recurring?: boolean | null
+          is_shared?: boolean | null
+          member_id?: string | null
           name: string
           type: Database["public"]["Enums"]["transaction_type"]
           updated_at?: string
@@ -100,9 +130,12 @@ export type Database = {
           amount?: number
           category_id?: string | null
           created_at?: string
+          day_of_month?: number | null
           description?: string | null
           id?: string
           is_recurring?: boolean | null
+          is_shared?: boolean | null
+          member_id?: string | null
           name?: string
           type?: Database["public"]["Enums"]["transaction_type"]
           updated_at?: string
@@ -114,6 +147,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "household_members"
             referencedColumns: ["id"]
           },
         ]

@@ -12,6 +12,9 @@ export interface Transaction {
   amount: number;
   description: string | null;
   is_recurring: boolean;
+  day_of_month: number | null;
+  member_id: string | null;
+  is_shared: boolean;
   created_at: string;
   updated_at: string;
   categories?: {
@@ -20,6 +23,19 @@ export interface Transaction {
     icon: string | null;
     color: string | null;
   } | null;
+  household_members?: {
+    id: string;
+    name: string;
+    color: string | null;
+  } | null;
+}
+
+export interface HouseholdMember {
+  id: string;
+  user_id: string;
+  name: string;
+  color: string | null;
+  created_at: string;
 }
 
 export interface Category {
@@ -43,9 +59,9 @@ export function useTransactions() {
       if (!user) return [];
       const { data, error } = await supabase
         .from('transactions')
-        .select('*, categories(id, name, icon, color)')
+        .select('*, categories(id, name, icon, color), household_members(id, name, color)')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('day_of_month', { ascending: true, nullsFirst: false });
       
       if (error) throw error;
       return data as Transaction[];
@@ -69,6 +85,22 @@ export function useTransactions() {
     enabled: !!user,
   });
 
+  const { data: householdMembers = [] } = useQuery({
+    queryKey: ['household_members', user?.id],
+    queryFn: async () => {
+      if (!user) return [];
+      const { data, error } = await supabase
+        .from('household_members')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('name');
+      
+      if (error) throw error;
+      return data as HouseholdMember[];
+    },
+    enabled: !!user,
+  });
+
   const addTransaction = useMutation({
     mutationFn: async (transaction: {
       type: 'income' | 'expense';
@@ -77,6 +109,9 @@ export function useTransactions() {
       category_id: string | null;
       description?: string;
       is_recurring?: boolean;
+      day_of_month?: number | null;
+      member_id?: string | null;
+      is_shared?: boolean;
     }) => {
       if (!user) throw new Error('User not authenticated');
       
@@ -98,6 +133,49 @@ export function useTransactions() {
     },
     onError: (error) => {
       toast.error('Fout bij toevoegen: ' + error.message);
+    },
+  });
+
+  const addHouseholdMember = useMutation({
+    mutationFn: async (member: { name: string; color?: string }) => {
+      if (!user) throw new Error('User not authenticated');
+      
+      const { data, error } = await supabase
+        .from('household_members')
+        .insert({
+          user_id: user.id,
+          ...member,
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['household_members'] });
+      toast.success('Gezinslid toegevoegd');
+    },
+    onError: (error) => {
+      toast.error('Fout bij toevoegen: ' + error.message);
+    },
+  });
+
+  const deleteHouseholdMember = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('household_members')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['household_members'] });
+      toast.success('Gezinslid verwijderd');
+    },
+    onError: (error) => {
+      toast.error('Fout bij verwijderen: ' + error.message);
     },
   });
 
@@ -157,6 +235,7 @@ export function useTransactions() {
     categories,
     incomeCategories,
     expenseCategories,
+    householdMembers,
     totalIncome,
     totalExpenses,
     netResult,
@@ -165,5 +244,7 @@ export function useTransactions() {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    addHouseholdMember,
+    deleteHouseholdMember,
   };
 }
