@@ -8,7 +8,7 @@ import { TransactionList } from '@/components/transactions/TransactionList';
 export default function Expenses() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { expenseTransactions, expenseCategories, addTransaction, deleteTransaction } = useTransactions();
+  const { expenseTransactions, expenseCategories, householdMembers, addTransaction, deleteTransaction } = useTransactions();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -24,6 +24,7 @@ export default function Expenses() {
           type="expense"
           transactions={expenseTransactions}
           categories={expenseCategories}
+          householdMembers={householdMembers}
           onAdd={(data) => addTransaction.mutate(data)}
           onDelete={(id) => deleteTransaction.mutate(id)}
         />
