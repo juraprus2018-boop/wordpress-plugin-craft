@@ -29,8 +29,94 @@ export function PublicFooter() {
           </div>
 
           {/* Links Grid */}
-          <div className="lg:col-span-8 grid sm:grid-cols-3 gap-8">
-            {/* Product */}
+          <div className="lg:col-span-8 grid sm:grid-cols-4 gap-8">
+            {/* Financiële Tips */}
+            <div>
+              <h3 className="font-heading font-semibold mb-5 text-foreground">Financiële Tips</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link 
+                    to="/huishoudboekje" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Huishoudboekje
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/budget-beheren" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Budget beheren
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/sparen-tips" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Sparen tips
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/geld-besparen" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Geld besparen
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Financieel Beheer */}
+            <div>
+              <h3 className="font-heading font-semibold mb-5 text-foreground">Financieel Beheer</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link 
+                    to="/schulden-aflossen" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Schulden aflossen
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/financiele-planning" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Financiële planning
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/vaste-lasten-overzicht" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Vaste lasten
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/inkomen-beheren" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Inkomen beheren
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Product & Bedrijf */}
             <div>
               <h3 className="font-heading font-semibold mb-5 text-foreground">Product</h3>
               <ul className="space-y-3">
@@ -45,20 +131,13 @@ export function PublicFooter() {
                 </li>
                 <li>
                   <Link 
-                    to="/auth?mode=signup" 
+                    to="/faq" 
                     className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
                   >
-                    Gratis starten
+                    FAQ
                     <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
                   </Link>
                 </li>
-              </ul>
-            </div>
-
-            {/* Bedrijf */}
-            <div>
-              <h3 className="font-heading font-semibold mb-5 text-foreground">Bedrijf</h3>
-              <ul className="space-y-3">
                 <li>
                   <Link 
                     to="/over-ons" 
@@ -80,7 +159,7 @@ export function PublicFooter() {
               </ul>
             </div>
 
-            {/* Legal */}
+            {/* Juridisch */}
             <div>
               <h3 className="font-heading font-semibold mb-5 text-foreground">Juridisch</h3>
               <ul className="space-y-3">
