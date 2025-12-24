@@ -8,7 +8,7 @@ import { DebtList } from '@/components/debts/DebtList';
 export default function Debts() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { debts, householdMembers, totalDebt, totalMonthlyPayments, addDebt, deleteDebt, makePayment } = useDebts();
+  const { debts, householdMembers, totalDebt, totalMonthlyPayments, addDebt, updateDebt, deleteDebt, makePayment } = useDebts();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -26,6 +26,7 @@ export default function Debts() {
           totalDebt={totalDebt}
           totalMonthlyPayments={totalMonthlyPayments}
           onAdd={(data) => addDebt.mutate(data)}
+          onUpdate={(data) => updateDebt.mutate({ id: data.id, ...data })}
           onDelete={(id) => deleteDebt.mutate(id)}
           onPayment={(data) => makePayment.mutate(data)}
         />
