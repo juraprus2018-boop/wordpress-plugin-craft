@@ -243,14 +243,14 @@ export function TransactionForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Gezinslid</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={(val) => field.onChange(val === 'none' ? '' : val)} value={field.value || 'none'}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecteer gezinslid (optioneel)" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="">Geen specifiek lid</SelectItem>
+                          <SelectItem value="none">Geen specifiek lid</SelectItem>
                           {householdMembers.map((member) => (
                             <SelectItem key={member.id} value={member.id}>
                               <span className="flex items-center gap-2">
