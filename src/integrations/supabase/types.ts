@@ -47,6 +47,59 @@ export type Database = {
         }
         Relationships: []
       }
+      debts: {
+        Row: {
+          created_at: string
+          creditor: string | null
+          day_of_month: number | null
+          description: string | null
+          id: string
+          member_id: string | null
+          monthly_payment: number
+          name: string
+          original_amount: number
+          remaining_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          creditor?: string | null
+          day_of_month?: number | null
+          description?: string | null
+          id?: string
+          member_id?: string | null
+          monthly_payment?: number
+          name: string
+          original_amount: number
+          remaining_amount: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          creditor?: string | null
+          day_of_month?: number | null
+          description?: string | null
+          id?: string
+          member_id?: string | null
+          monthly_payment?: number
+          name?: string
+          original_amount?: number
+          remaining_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "debts_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "household_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       household_members: {
         Row: {
           color: string | null

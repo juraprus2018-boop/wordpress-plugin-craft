@@ -11,7 +11,8 @@ import {
   LogOut, 
   Menu, 
   X,
-  Wallet
+  Wallet,
+  CreditCard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +24,7 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/income', icon: TrendingUp, label: 'Inkomsten' },
   { href: '/expenses', icon: TrendingDown, label: 'Uitgaven' },
+  { href: '/debts', icon: CreditCard, label: 'Schulden' },
   { href: '/settings', icon: Settings, label: 'Instellingen' },
 ];
 
