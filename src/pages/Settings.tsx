@@ -6,15 +6,60 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HouseholdMembersCard } from '@/components/settings/HouseholdMembersCard';
+import { CategoriesCard } from '@/components/settings/CategoriesCard';
+import { ThemeToggle } from '@/components/settings/ThemeToggle';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Settings() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const { householdMembers, addHouseholdMember, deleteHouseholdMember } = useTransactions();
+  const queryClient = useQueryClient();
+  const { householdMembers, categories, addHouseholdMember, deleteHouseholdMember } = useTransactions();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
   }, [user, loading, navigate]);
+
+  const handleAddCategory = async (data: { name: string; type: 'income' | 'expense'; color?: string }) => {
+    if (!user) return;
+    const { error } = await supabase.from('categories').insert({
+      user_id: user.id,
+      name: data.name,
+      type: data.type,
+      color: data.color,
+    });
+    if (error) {
+      toast.error('Fout bij toevoegen categorie');
+    } else {
+      toast.success('Categorie toegevoegd');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    }
+  };
+
+  const handleUpdateCategory = async (data: { id: string; name: string; color?: string }) => {
+    const { error } = await supabase.from('categories').update({
+      name: data.name,
+      color: data.color,
+    }).eq('id', data.id);
+    if (error) {
+      toast.error('Fout bij bijwerken categorie');
+    } else {
+      toast.success('Categorie bijgewerkt');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    }
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    const { error } = await supabase.from('categories').delete().eq('id', id);
+    if (error) {
+      toast.error('Fout bij verwijderen categorie');
+    } else {
+      toast.success('Categorie verwijderd');
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+    }
+  };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Laden...</div>;
 
@@ -36,10 +81,19 @@ export default function Settings() {
           </CardContent>
         </Card>
 
+        <ThemeToggle />
+
         <HouseholdMembersCard
           members={householdMembers}
           onAdd={(data) => addHouseholdMember.mutate(data)}
           onDelete={(id) => deleteHouseholdMember.mutate(id)}
+        />
+
+        <CategoriesCard
+          categories={categories}
+          onAdd={handleAddCategory}
+          onUpdate={handleUpdateCategory}
+          onDelete={handleDeleteCategory}
         />
       </div>
     </DashboardLayout>

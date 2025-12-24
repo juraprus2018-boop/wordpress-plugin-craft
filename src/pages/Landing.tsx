@@ -80,7 +80,7 @@ export default function Landing() {
 
       <footer className="border-t border-border py-8">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2024 FinOverzicht. Alle rechten voorbehouden.</p>
+          <p>© {new Date().getFullYear()} FinOverzicht. Alle rechten voorbehouden.</p>
         </div>
       </footer>
     </div>

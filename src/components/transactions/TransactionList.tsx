@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Transaction, Category, HouseholdMember } from '@/hooks/useTransactions';
-import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter, Download, FileSpreadsheet, FileText, Repeat } from 'lucide-react';
+import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter, Download, FileSpreadsheet, FileText, Repeat, Pencil } from 'lucide-react';
 import { TransactionForm } from './TransactionForm';
 import { cn } from '@/lib/utils';
 import {
@@ -46,6 +46,17 @@ interface TransactionListProps {
     member_id?: string | null;
     is_shared?: boolean;
   }) => void;
+  onUpdate: (data: {
+    id: string;
+    name: string;
+    amount: number;
+    category_id: string | null;
+    description?: string;
+    day_of_month?: number | null;
+    frequency?: number | null;
+    member_id?: string | null;
+    is_shared?: boolean;
+  }) => void;
   onDelete: (id: string) => void;
 }
 
@@ -55,9 +66,11 @@ export function TransactionList({
   categories,
   householdMembers,
   onAdd,
+  onUpdate,
   onDelete,
 }: TransactionListProps) {
   const [formOpen, setFormOpen] = useState(false);
+  const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [memberFilter, setMemberFilter] = useState<string>('all');
 
@@ -217,13 +230,21 @@ export function TransactionList({
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
                     <p className={cn(
                       "font-semibold",
                       type === 'income' ? "text-success" : "text-destructive"
                     )}>
                       {formatCurrency(Number(transaction.amount))}
                     </p>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+                      onClick={() => setEditTransaction(transaction)}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -247,6 +268,31 @@ export function TransactionList({
         categories={categories}
         householdMembers={householdMembers}
         onSubmit={onAdd}
+      />
+
+      <TransactionForm
+        open={!!editTransaction}
+        onOpenChange={(open) => !open && setEditTransaction(null)}
+        type={type}
+        categories={categories}
+        householdMembers={householdMembers}
+        transaction={editTransaction || undefined}
+        onSubmit={(data) => {
+          if (editTransaction) {
+            onUpdate({
+              id: editTransaction.id,
+              name: data.name,
+              amount: data.amount,
+              category_id: data.category_id,
+              description: data.description,
+              day_of_month: data.day_of_month,
+              frequency: data.frequency,
+              member_id: data.member_id,
+              is_shared: data.is_shared,
+            });
+            setEditTransaction(null);
+          }
+        }}
       />
 
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>

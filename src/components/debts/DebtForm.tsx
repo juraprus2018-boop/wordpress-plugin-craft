@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,11 +17,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { HouseholdMember } from '@/hooks/useTransactions';
+import { Debt } from '@/hooks/useDebts';
 
 interface DebtFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   householdMembers: HouseholdMember[];
+  debt?: Debt;
   onSubmit: (data: {
     name: string;
     creditor?: string;
@@ -34,7 +36,7 @@ interface DebtFormProps {
   }) => void;
 }
 
-export function DebtForm({ open, onOpenChange, householdMembers, onSubmit }: DebtFormProps) {
+export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit }: DebtFormProps) {
   const [name, setName] = useState('');
   const [creditor, setCreditor] = useState('');
   const [originalAmount, setOriginalAmount] = useState('');
@@ -43,6 +45,32 @@ export function DebtForm({ open, onOpenChange, householdMembers, onSubmit }: Deb
   const [dayOfMonth, setDayOfMonth] = useState<string>('');
   const [memberId, setMemberId] = useState<string>('');
   const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    if (open && debt) {
+      setName(debt.name);
+      setCreditor(debt.creditor || '');
+      setOriginalAmount(debt.original_amount.toString());
+      setRemainingAmount(debt.remaining_amount.toString());
+      setMonthlyPayment(debt.monthly_payment.toString());
+      setDayOfMonth(debt.day_of_month?.toString() || '');
+      setMemberId(debt.member_id || '');
+      setDescription(debt.description || '');
+    } else if (open) {
+      resetForm();
+    }
+  }, [open, debt]);
+
+  const resetForm = () => {
+    setName('');
+    setCreditor('');
+    setOriginalAmount('');
+    setRemainingAmount('');
+    setMonthlyPayment('');
+    setDayOfMonth('');
+    setMemberId('');
+    setDescription('');
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,25 +86,18 @@ export function DebtForm({ open, onOpenChange, householdMembers, onSubmit }: Deb
       description: description || undefined,
     });
 
-    // Reset form
-    setName('');
-    setCreditor('');
-    setOriginalAmount('');
-    setRemainingAmount('');
-    setMonthlyPayment('');
-    setDayOfMonth('');
-    setMemberId('');
-    setDescription('');
+    resetForm();
     onOpenChange(false);
   };
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const title = debt ? 'Schuld bewerken' : 'Schuld toevoegen';
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="font-heading">Schuld toevoegen</DialogTitle>
+          <DialogTitle className="font-heading">{title}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -193,9 +214,14 @@ export function DebtForm({ open, onOpenChange, householdMembers, onSubmit }: Deb
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Toevoegen
-          </Button>
+          <div className="flex gap-3 pt-2">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
+              Annuleren
+            </Button>
+            <Button type="submit" className="flex-1">
+              {debt ? 'Opslaan' : 'Toevoegen'}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

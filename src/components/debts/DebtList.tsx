@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Debt } from '@/hooks/useDebts';
 import { HouseholdMember } from '@/hooks/useTransactions';
-import { Plus, Trash2, CreditCard, Calendar, Users, Minus } from 'lucide-react';
+import { Plus, Trash2, CreditCard, Calendar, Users, Minus, Pencil } from 'lucide-react';
 import { DebtForm } from './DebtForm';
 import { cn } from '@/lib/utils';
 import {
@@ -42,6 +42,17 @@ interface DebtListProps {
     member_id?: string | null;
     description?: string;
   }) => void;
+  onUpdate: (data: {
+    id: string;
+    name: string;
+    creditor?: string;
+    original_amount: number;
+    remaining_amount: number;
+    monthly_payment: number;
+    day_of_month?: number | null;
+    member_id?: string | null;
+    description?: string;
+  }) => void;
   onDelete: (id: string) => void;
   onPayment: (data: { id: string; amount: number }) => void;
 }
@@ -52,10 +63,12 @@ export function DebtList({
   totalDebt,
   totalMonthlyPayments,
   onAdd,
+  onUpdate,
   onDelete,
   onPayment,
 }: DebtListProps) {
   const [formOpen, setFormOpen] = useState(false);
+  const [editDebt, setEditDebt] = useState<Debt | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [paymentDebt, setPaymentDebt] = useState<Debt | null>(null);
   const [paymentAmount, setPaymentAmount] = useState('');
@@ -174,6 +187,14 @@ export function DebtList({
                         <Button
                           variant="ghost"
                           size="icon"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+                          onClick={() => setEditDebt(debt)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
                           onClick={() => setDeleteId(debt.id)}
                         >
@@ -210,6 +231,19 @@ export function DebtList({
         onOpenChange={setFormOpen}
         householdMembers={householdMembers}
         onSubmit={onAdd}
+      />
+
+      <DebtForm
+        open={!!editDebt}
+        onOpenChange={(open) => !open && setEditDebt(null)}
+        householdMembers={householdMembers}
+        debt={editDebt || undefined}
+        onSubmit={(data) => {
+          if (editDebt) {
+            onUpdate({ id: editDebt.id, ...data });
+            setEditDebt(null);
+          }
+        }}
       />
 
       <Dialog open={!!paymentDebt} onOpenChange={() => setPaymentDebt(null)}>

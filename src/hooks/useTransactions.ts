@@ -222,8 +222,23 @@ export function useTransactions() {
 
   const incomeTransactions = transactions.filter(t => t.type === 'income');
   const expenseTransactions = transactions.filter(t => t.type === 'expense');
-  const totalIncome = incomeTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
-  const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  
+  // Helper function to normalize amounts to monthly basis
+  const normalizeToMonthly = (amount: number, frequency: number | null) => {
+    const freq = frequency || 1;
+    return amount / freq;
+  };
+  
+  // Calculate totals normalized to monthly amounts
+  const totalIncome = incomeTransactions.reduce((sum, t) => 
+    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  const totalExpenses = expenseTransactions.reduce((sum, t) => 
+    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  
+  // Raw totals (not normalized) for other uses
+  const rawTotalIncome = incomeTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const rawTotalExpenses = expenseTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  
   const netResult = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
 
@@ -240,6 +255,8 @@ export function useTransactions() {
     householdMembers,
     totalIncome,
     totalExpenses,
+    rawTotalIncome,
+    rawTotalExpenses,
     netResult,
     savingsRate,
     isLoading,
