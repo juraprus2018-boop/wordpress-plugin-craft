@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Transaction, Category, HouseholdMember } from '@/hooks/useTransactions';
-import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users } from 'lucide-react';
+import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter } from 'lucide-react';
 import { TransactionForm } from './TransactionForm';
 import { cn } from '@/lib/utils';
 import {
@@ -15,6 +15,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface TransactionListProps {
   type: 'income' | 'expense';
@@ -44,6 +51,7 @@ export function TransactionList({
 }: TransactionListProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [memberFilter, setMemberFilter] = useState<string>('all');
 
   const title = type === 'income' ? 'Inkomsten' : 'Uitgaven';
   const Icon = type === 'income' ? TrendingUp : TrendingDown;
@@ -55,12 +63,20 @@ export function TransactionList({
     }).format(value);
   };
 
-  const total = transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  // Filter transactions by household member
+  const filteredTransactions = transactions.filter((t) => {
+    if (memberFilter === 'all') return true;
+    if (memberFilter === 'shared') return t.is_shared;
+    if (memberFilter === 'none') return !t.member_id && !t.is_shared;
+    return t.member_id === memberFilter;
+  });
+
+  const total = filteredTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
 
   return (
     <>
       <Card className="animate-fade-in">
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <CardTitle className="font-heading">{title}</CardTitle>
             <p className={cn(
@@ -70,19 +86,48 @@ export function TransactionList({
               {formatCurrency(total)}
             </p>
           </div>
-          <Button onClick={() => setFormOpen(true)} size="sm">
-            <Plus className="h-4 w-4 mr-2" />
-            Toevoegen
-          </Button>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Select value={memberFilter} onValueChange={setMemberFilter}>
+                <SelectTrigger className="w-[160px]">
+                  <SelectValue placeholder="Filter op lid" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Iedereen</SelectItem>
+                  <SelectItem value="shared">Gezamenlijk</SelectItem>
+                  <SelectItem value="none">Niet toegewezen</SelectItem>
+                  {householdMembers.map((member) => (
+                    <SelectItem key={member.id} value={member.id}>
+                      <span className="flex items-center gap-2">
+                        <span 
+                          className="w-2 h-2 rounded-full" 
+                          style={{ backgroundColor: member.color || '#6B7280' }}
+                        />
+                        {member.name}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button onClick={() => setFormOpen(true)} size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Toevoegen
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
-          {transactions.length === 0 ? (
+          {filteredTransactions.length === 0 ? (
             <p className="text-center text-muted-foreground py-8">
-              Nog geen {type === 'income' ? 'inkomsten' : 'uitgaven'} toegevoegd.
+              {memberFilter === 'all' 
+                ? `Nog geen ${type === 'income' ? 'inkomsten' : 'uitgaven'} toegevoegd.`
+                : `Geen ${type === 'income' ? 'inkomsten' : 'uitgaven'} gevonden voor dit filter.`
+              }
             </p>
           ) : (
             <div className="space-y-3">
-              {transactions.map((transaction) => (
+              {filteredTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
                   className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors group"
