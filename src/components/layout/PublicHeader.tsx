@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Menu, X } from 'lucide-react';
+import { TrendingUp, Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/functies', label: 'Functies' },
-  { href: '/huishoudboekje', label: 'Huishoudboekje' },
-  { href: '/budget-beheren', label: 'Budget' },
-  { href: '/sparen-tips', label: 'Sparen' },
   { href: '/faq', label: 'FAQ' },
+];
+
+const seoPages = [
+  { href: '/huishoudboekje', label: 'Huishoudboekje' },
+  { href: '/budget-beheren', label: 'Budget beheren' },
+  { href: '/sparen-tips', label: 'Sparen tips' },
+  { href: '/geld-besparen', label: 'Geld besparen' },
+  { href: '/schulden-aflossen', label: 'Schulden aflossen' },
+  { href: '/financiele-planning', label: 'Financiële planning' },
+  { href: '/vaste-lasten-overzicht', label: 'Vaste lasten' },
+  { href: '/inkomen-beheren', label: 'Inkomen beheren' },
 ];
 
 export function PublicHeader() {
@@ -67,6 +81,41 @@ export function PublicHeader() {
                 )}
               </Link>
             ))}
+            
+            {/* Dropdown for SEO pages */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={cn(
+                    "relative px-4 py-2 text-sm font-medium transition-colors rounded-full flex items-center gap-1",
+                    seoPages.some(page => location.pathname === page.href)
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Tips & Gidsen
+                  <ChevronDown className="h-4 w-4" />
+                  {seoPages.some(page => location.pathname === page.href) && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
+                  )}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-56 bg-background border border-border shadow-lg z-50">
+                {seoPages.map((page) => (
+                  <DropdownMenuItem key={page.href} asChild>
+                    <Link
+                      to={page.href}
+                      className={cn(
+                        "w-full cursor-pointer",
+                        location.pathname === page.href && "text-primary font-medium"
+                      )}
+                    >
+                      {page.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Desktop Auth Buttons */}
@@ -98,7 +147,7 @@ export function PublicHeader() {
         <div 
           className={cn(
             "md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden transition-all duration-300",
-            mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+            mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
           )}
         >
           <nav className="flex flex-col p-4 gap-1">
@@ -117,6 +166,27 @@ export function PublicHeader() {
                 {item.label}
               </Link>
             ))}
+            
+            {/* SEO Pages in mobile */}
+            <div className="mt-2 pt-2 border-t border-border">
+              <span className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tips & Gidsen</span>
+              {seoPages.map((page) => (
+                <Link
+                  key={page.href}
+                  to={page.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "px-4 py-3 rounded-lg text-sm font-medium transition-colors block",
+                    location.pathname === page.href
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted"
+                  )}
+                >
+                  {page.label}
+                </Link>
+              ))}
+            </div>
+            
             <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
               <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="outline" className="w-full">Inloggen</Button>
