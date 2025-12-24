@@ -12,8 +12,8 @@ export function PublicFooter() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link to="/" className="flex items-center gap-2.5 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-background" />
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="font-heading font-bold text-xl tracking-tight">FinOverzicht</span>
             </Link>
