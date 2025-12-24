@@ -27,11 +27,13 @@ export default function Dashboard() {
   // Filter transactions and debts by selected member
   const filteredTransactions = useMemo(() => {
     if (selectedMember === 'all') return transactions;
+    if (selectedMember === 'personal') return transactions.filter(t => !t.member_id);
     return transactions.filter(t => t.member_id === selectedMember || t.is_shared);
   }, [transactions, selectedMember]);
 
   const filteredDebts = useMemo(() => {
     if (selectedMember === 'all') return debts;
+    if (selectedMember === 'personal') return debts.filter(d => !d.member_id);
     return debts.filter(d => d.member_id === selectedMember);
   }, [debts, selectedMember]);
 
@@ -76,6 +78,12 @@ export default function Dashboard() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Samen (iedereen)</SelectItem>
+                <SelectItem value="personal">
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary" />
+                    Alleen mijn eigen
+                  </span>
+                </SelectItem>
                 {householdMembers.map((member) => (
                   <SelectItem key={member.id} value={member.id}>
                     <span className="flex items-center gap-2">
