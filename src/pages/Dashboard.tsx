@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -10,17 +10,51 @@ import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
 import { Button } from '@/components/ui/button';
-import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users } from 'lucide-react';
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { transactions, totalIncome, totalExpenses, netResult, savingsRate, isLoading } = useTransactions();
-  const { totalDebt, totalMonthlyPayments, isLoading: debtsLoading } = useDebts();
+  const { transactions, householdMembers, isLoading } = useTransactions();
+  const { debts, isLoading: debtsLoading } = useDebts();
+  const [selectedMember, setSelectedMember] = useState<string>('all');
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
   }, [user, loading, navigate]);
+
+  // Filter transactions and debts by selected member
+  const filteredTransactions = useMemo(() => {
+    if (selectedMember === 'all') return transactions;
+    return transactions.filter(t => t.member_id === selectedMember || t.is_shared);
+  }, [transactions, selectedMember]);
+
+  const filteredDebts = useMemo(() => {
+    if (selectedMember === 'all') return debts;
+    return debts.filter(d => d.member_id === selectedMember);
+  }, [debts, selectedMember]);
+
+  // Helper function to normalize amounts to monthly basis
+  const normalizeToMonthly = (amount: number, frequency: number | null) => {
+    const freq = frequency || 1;
+    return amount / freq;
+  };
+
+  // Calculate totals based on filtered data
+  const incomeTransactions = filteredTransactions.filter(t => t.type === 'income');
+  const expenseTransactions = filteredTransactions.filter(t => t.type === 'expense');
+  
+  const totalIncome = incomeTransactions.reduce((sum, t) => 
+    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  const totalExpenses = expenseTransactions.reduce((sum, t) => 
+    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  
+  const netResult = totalIncome - totalExpenses;
+  const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
+
+  const totalDebt = filteredDebts.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
+  const totalMonthlyPayments = filteredDebts.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
 
   if (loading || isLoading || debtsLoading) {
     return <div className="min-h-screen flex items-center justify-center">Laden...</div>;
@@ -31,7 +65,32 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="font-heading text-2xl lg:text-3xl font-bold">Dashboard</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="font-heading text-2xl lg:text-3xl font-bold">Dashboard</h1>
+          
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-muted-foreground" />
+            <Select value={selectedMember} onValueChange={setSelectedMember}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter op lid" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Samen (iedereen)</SelectItem>
+                {householdMembers.map((member) => (
+                  <SelectItem key={member.id} value={member.id}>
+                    <span className="flex items-center gap-2">
+                      <span 
+                        className="w-2 h-2 rounded-full" 
+                        style={{ backgroundColor: member.color || '#6B7280' }}
+                      />
+                      {member.name}
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <KPICard title="Totale Inkomsten" value={formatCurrency(totalIncome)} icon={<TrendingUp className="h-6 w-6" />} />
@@ -45,14 +104,14 @@ export default function Dashboard() {
           <KPICard title="Spaarquote" value={`${savingsRate.toFixed(1)}%`} icon={<PiggyBank className="h-6 w-6" />} />
         </div>
 
-        <BalanceFlowChart transactions={transactions} />
+        <BalanceFlowChart transactions={filteredTransactions} />
 
         <div className="grid lg:grid-cols-2 gap-6">
           <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
-          <ExpenseChart transactions={transactions} />
+          <ExpenseChart transactions={filteredTransactions} />
         </div>
 
-        <RecentTransactions transactions={transactions} />
+        <RecentTransactions transactions={filteredTransactions} />
 
         {/* Donatie Card */}
         <div className="bg-card border border-border rounded-xl p-6">
