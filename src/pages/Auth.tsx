@@ -14,13 +14,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 
 const signInSchema = z.object({
   email: z.string().email('Voer een geldig e-mailadres in'),
-  password: z.string().min(6, 'Wachtwoord moet minimaal 6 karakters zijn'),
+  password: z.string().min(4, 'Wachtwoord moet minimaal 4 karakters zijn'),
 });
 
 const signUpSchema = z.object({
   fullName: z.string().min(2, 'Naam moet minimaal 2 karakters zijn'),
   email: z.string().email('Voer een geldig e-mailadres in'),
-  password: z.string().min(6, 'Wachtwoord moet minimaal 6 karakters zijn'),
+  password: z.string().min(4, 'Wachtwoord moet minimaal 4 karakters zijn'),
 });
 
 type SignInFormData = z.infer<typeof signInSchema>;
