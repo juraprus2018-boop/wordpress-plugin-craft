@@ -39,27 +39,21 @@ export default function Landing() {
           
           <div className="container mx-auto px-4 relative pt-24">
             <div className="max-w-4xl mx-auto text-center">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-primary/20 text-sm font-medium mb-8 animate-fade-in">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-foreground">100% Gratis — Geen creditcard nodig</span>
-              </div>
-              
               {/* Main heading */}
-              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.1] tracking-tight animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.1] tracking-tight animate-fade-in">
                 Krijg grip op je
                 <br />
                 <span className="text-gradient">financiën</span>
               </h1>
               
               {/* Subtitle */}
-              <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: '0.1s' }}>
                 FinOverzicht helpt iedereen die zijn financiën op orde wil hebben. 
                 Zie in één oogopslag wat er binnenkomt en wat er uitgaat.
               </p>
               
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <Link to="/auth?mode=signup">
                   <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold w-full sm:w-auto shadow-lg shadow-primary/25">
                     Gratis starten
@@ -71,28 +65,6 @@ export default function Landing() {
                     Bekijk functies
                   </Button>
                 </Link>
-              </div>
-
-              {/* Trust indicators */}
-              <div className="mt-16 flex flex-wrap justify-center gap-8 text-sm animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <div className="w-5 h-5 rounded-full bg-success/20 flex items-center justify-center">
-                    <CheckCircle2 className="h-3 w-3 text-success" />
-                  </div>
-                  Geen verborgen kosten
-                </span>
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <div className="w-5 h-5 rounded-full bg-success/20 flex items-center justify-center">
-                    <CheckCircle2 className="h-3 w-3 text-success" />
-                  </div>
-                  Direct aan de slag
-                </span>
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <div className="w-5 h-5 rounded-full bg-success/20 flex items-center justify-center">
-                    <CheckCircle2 className="h-3 w-3 text-success" />
-                  </div>
-                  Veilig en privé
-                </span>
               </div>
             </div>
           </div>
@@ -118,6 +90,32 @@ export default function Landing() {
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Waarom gratis Section */}
+        <section className="py-20 bg-primary/5 border-y border-primary/10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="font-heading text-3xl md:text-4xl font-bold mb-6">
+                    Waarom is FinOverzicht gratis?
+                  </h2>
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Uit onderzoek blijkt dat <strong className="text-foreground">80% van de Nederlanders</strong> geen goed beeld heeft van hun financiële situatie. Dit leidt vaak tot stress, schulden en financiële problemen.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Wij geloven dat iedereen toegang moet hebben tot simpele tools om hun financiën bij te houden. Daarom is FinOverzicht volledig gratis. Door inzicht te krijgen in je inkomsten en uitgaven, kun je betere beslissingen nemen en financiële problemen voorkomen.
+                  </p>
+                </div>
+                <div className="bg-card rounded-2xl p-8 border border-border">
+                  <div className="text-6xl font-heading font-bold text-primary mb-4">80%</div>
+                  <p className="text-lg font-medium text-foreground mb-2">van de Nederlanders</p>
+                  <p className="text-muted-foreground">weet niet precies hoe hun financiën ervoor staan. FinOverzicht helpt dit te veranderen.</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
