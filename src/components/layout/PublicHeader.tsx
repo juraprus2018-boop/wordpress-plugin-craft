@@ -7,8 +7,10 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/functies', label: 'Functies' },
-  { href: '/over-ons', label: 'Over ons' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/huishoudboekje', label: 'Huishoudboekje' },
+  { href: '/budget-beheren', label: 'Budget' },
+  { href: '/sparen-tips', label: 'Sparen' },
+  { href: '/faq', label: 'FAQ' },
 ];
 
 export function PublicHeader() {
