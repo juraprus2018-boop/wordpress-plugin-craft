@@ -1,76 +1,122 @@
 import { Link } from 'react-router-dom';
-import { Wallet } from 'lucide-react';
+import { TrendingUp, Mail, ArrowUpRight } from 'lucide-react';
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-border bg-muted/30">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
+    <footer className="relative overflow-hidden border-t border-border/50 bg-card">
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+      
+      <div className="container mx-auto px-4 py-16 relative">
+        <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand */}
-          <div className="md:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <Wallet className="h-6 w-6 text-primary" />
-              <span className="font-heading font-bold text-lg">FinOverzicht</span>
+          <div className="lg:col-span-4">
+            <Link to="/" className="flex items-center gap-2.5 mb-5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 text-background" />
+              </div>
+              <span className="font-heading font-bold text-xl tracking-tight">FinOverzicht</span>
             </Link>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground leading-relaxed max-w-xs">
               Jouw gratis tool voor financieel overzicht. Beheer je inkomsten, uitgaven en schulden op één plek.
             </p>
+            
+            {/* Email CTA */}
+            <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+              <Mail className="h-4 w-4" />
+              <span>info@finoverzicht.nl</span>
+            </div>
           </div>
 
-          {/* Product */}
-          <div>
-            <h3 className="font-heading font-semibold mb-4">Product</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/functies" className="text-muted-foreground hover:text-primary transition-colors">
-                  Functies
-                </Link>
-              </li>
-              <li>
-                <Link to="/auth?mode=signup" className="text-muted-foreground hover:text-primary transition-colors">
-                  Gratis starten
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Links Grid */}
+          <div className="lg:col-span-8 grid sm:grid-cols-3 gap-8">
+            {/* Product */}
+            <div>
+              <h3 className="font-heading font-semibold mb-5 text-foreground">Product</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link 
+                    to="/functies" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Functies
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/auth?mode=signup" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Gratis starten
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Bedrijf */}
-          <div>
-            <h3 className="font-heading font-semibold mb-4">Bedrijf</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/over-ons" className="text-muted-foreground hover:text-primary transition-colors">
-                  Over ons
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
+            {/* Bedrijf */}
+            <div>
+              <h3 className="font-heading font-semibold mb-5 text-foreground">Bedrijf</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link 
+                    to="/over-ons" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Over ons
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/contact" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Contact
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="font-heading font-semibold mb-4">Juridisch</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacybeleid
-                </Link>
-              </li>
-              <li>
-                <Link to="/voorwaarden" className="text-muted-foreground hover:text-primary transition-colors">
-                  Algemene voorwaarden
-                </Link>
-              </li>
-            </ul>
+            {/* Legal */}
+            <div>
+              <h3 className="font-heading font-semibold mb-5 text-foreground">Juridisch</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link 
+                    to="/privacy" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Privacybeleid
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/voorwaarden" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Algemene voorwaarden
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} FinOverzicht.nl — Alle rechten voorbehouden.</p>
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} FinOverzicht.nl — Alle rechten voorbehouden.
+          </p>
+          <div className="flex items-center gap-1 text-sm text-muted-foreground">
+            <span>Gemaakt met</span>
+            <span className="text-primary">♥</span>
+            <span>in Nederland</span>
+          </div>
         </div>
       </div>
     </footer>
