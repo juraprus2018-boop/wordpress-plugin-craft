@@ -9,6 +9,7 @@ import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
+import { Button } from '@/components/ui/button';
 import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt } from 'lucide-react';
 
 export default function Dashboard() {
@@ -52,6 +53,31 @@ export default function Dashboard() {
         </div>
 
         <RecentTransactions transactions={transactions} />
+
+        {/* Donatie Card */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <span className="text-2xl">☕</span>
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <h3 className="font-heading font-semibold text-lg mb-1">Heeft FinOverzicht je geholpen?</h3>
+              <p className="text-sm text-muted-foreground">
+                FinOverzicht is gratis. Wil je ons steunen? Doneer een klein bedrag via Tikkie!
+              </p>
+            </div>
+            <a 
+              href="https://tikkie.me/pay/JOUW-TIKKIE-LINK" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <Button variant="outline" className="shrink-0 border-primary/30 hover:bg-primary/10 hover:border-primary/50">
+                <span className="mr-2">💚</span>
+                Doneer via Tikkie
+              </Button>
+            </a>
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );
