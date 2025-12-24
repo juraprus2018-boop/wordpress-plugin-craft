@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Transaction, Category, HouseholdMember } from '@/hooks/useTransactions';
-import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter } from 'lucide-react';
+import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter, Download, FileSpreadsheet, FileText } from 'lucide-react';
 import { TransactionForm } from './TransactionForm';
 import { cn } from '@/lib/utils';
 import {
@@ -22,6 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { exportToPDF, exportToExcel } from '@/lib/exportUtils';
 
 interface TransactionListProps {
   type: 'income' | 'expense';
@@ -111,6 +118,28 @@ export function TransactionList({
                 </SelectContent>
               </Select>
             </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem 
+                  onClick={() => exportToPDF({ transactions: filteredTransactions, type, title })}
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Download als PDF
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => exportToExcel({ transactions: filteredTransactions, type, title })}
+                >
+                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                  Download als Excel
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button onClick={() => setFormOpen(true)} size="sm">
               <Plus className="h-4 w-4 mr-2" />
               Toevoegen
