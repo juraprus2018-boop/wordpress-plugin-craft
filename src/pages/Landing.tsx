@@ -30,12 +30,12 @@ export default function Landing() {
           {/* Animated background elements */}
           <div className="absolute inset-0 pattern-grid" />
           <div className="hero-glow glow-primary top-1/4 -left-32 animate-pulse-slow" />
-          <div className="hero-glow glow-accent top-1/3 -right-32 animate-pulse-slow" style={{ animationDelay: '-2s' }} />
+          <div className="hero-glow glow-primary top-1/3 -right-32 animate-pulse-slow" style={{ animationDelay: '-2s', opacity: 0.2 }} />
           
           {/* Floating shapes */}
-          <div className="absolute top-1/4 left-[15%] w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 animate-float hidden lg:block" />
-          <div className="absolute bottom-1/3 right-[20%] w-16 h-16 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/20 animate-float-delayed hidden lg:block" />
-          <div className="absolute top-1/2 right-[10%] w-12 h-12 rounded-lg bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 animate-float hidden lg:block" style={{ animationDelay: '-1s' }} />
+          <div className="absolute top-1/4 left-[15%] w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 animate-float hidden lg:block" />
+          <div className="absolute bottom-1/3 right-[20%] w-16 h-16 rounded-xl bg-primary/5 border border-primary/10 animate-float-delayed hidden lg:block" />
+          <div className="absolute top-1/2 right-[10%] w-12 h-12 rounded-lg bg-primary/5 border border-primary/10 animate-float hidden lg:block" style={{ animationDelay: '-1s' }} />
           
           <div className="container mx-auto px-4 relative pt-24">
             <div className="max-w-4xl mx-auto text-center">
@@ -61,7 +61,7 @@ export default function Landing() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 <Link to="/auth?mode=signup">
-                  <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity text-background font-semibold w-full sm:w-auto shadow-lg shadow-primary/25">
+                  <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold w-full sm:w-auto shadow-lg shadow-primary/25">
                     Gratis starten
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -128,7 +128,7 @@ export default function Landing() {
           
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                 <Users className="h-3.5 w-3.5" />
                 Voor iedereen
               </div>
@@ -145,36 +145,24 @@ export default function Landing() {
                 {
                   icon: Wallet,
                   title: "Starters",
-                  description: "Net begonnen met werken? Leer goed omgaan met je eerste salaris en bouw gezonde financiële gewoontes op.",
-                  color: "primary"
+                  description: "Net begonnen met werken? Leer goed omgaan met je eerste salaris en bouw gezonde financiële gewoontes op."
                 },
                 {
                   icon: Users,
                   title: "Gezinnen",
-                  description: "Houd de financiën van het hele gezin bij. Zie per persoon wat er binnenkomt en uitgaat.",
-                  color: "accent"
+                  description: "Houd de financiën van het hele gezin bij. Zie per persoon wat er binnenkomt en uitgaat."
                 },
                 {
                   icon: Target,
                   title: "Spaarders",
-                  description: "Wil je meer sparen? Krijg inzicht in je uitgaven en ontdek waar je kunt besparen.",
-                  color: "success"
+                  description: "Wil je meer sparen? Krijg inzicht in je uitgaven en ontdek waar je kunt besparen."
                 }
               ].map((item, i) => (
                 <div 
                   key={i} 
-                  className="group relative p-8 rounded-3xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300"
+                  className="group relative p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300"
                 >
-                  <div className={`w-14 h-14 rounded-2xl bg-${item.color}/10 text-${item.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
-                    style={{ 
-                      backgroundColor: item.color === 'primary' ? 'hsl(var(--primary) / 0.1)' : 
-                                       item.color === 'accent' ? 'hsl(var(--accent) / 0.1)' : 
-                                       'hsl(var(--success) / 0.1)',
-                      color: item.color === 'primary' ? 'hsl(var(--primary))' : 
-                             item.color === 'accent' ? 'hsl(var(--accent))' : 
-                             'hsl(var(--success))'
-                    }}
-                  >
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <item.icon className="h-7 w-7" />
                   </div>
                   <h3 className="font-heading font-semibold text-xl mb-3">{item.title}</h3>
@@ -210,51 +198,39 @@ export default function Landing() {
                 {
                   icon: BarChart3,
                   title: "Overzichtelijk Dashboard",
-                  description: "Zie direct je totale inkomsten, uitgaven en netto resultaat in duidelijke KPI's.",
-                  color: "primary"
+                  description: "Zie direct je totale inkomsten, uitgaven en netto resultaat in duidelijke KPI's."
                 },
                 {
                   icon: PieChart,
                   title: "Slimme Categorieën",
-                  description: "Organiseer je transacties in categorieën en zie precies waar je geld naartoe gaat.",
-                  color: "accent"
+                  description: "Organiseer je transacties in categorieën en zie precies waar je geld naartoe gaat."
                 },
                 {
                   icon: TrendingUp,
                   title: "Inkomsten Bijhouden",
-                  description: "Registreer al je inkomstenbronnen, van salaris tot bijverdiensten.",
-                  color: "success"
+                  description: "Registreer al je inkomstenbronnen, van salaris tot bijverdiensten."
                 },
                 {
                   icon: CreditCard,
                   title: "Schulden Beheren",
-                  description: "Houd je schulden bij en zie je voortgang. Registreer betalingen en volg je aflossing.",
-                  color: "destructive"
+                  description: "Houd je schulden bij en zie je voortgang. Registreer betalingen en volg je aflossing."
                 },
                 {
                   icon: Clock,
                   title: "Terugkerende Betalingen",
-                  description: "Stel frequenties in: maandelijks, per kwartaal of jaarlijks. Automatisch genormaliseerd.",
-                  color: "warning"
+                  description: "Stel frequenties in: maandelijks, per kwartaal of jaarlijks. Automatisch genormaliseerd."
                 },
                 {
                   icon: LineChart,
                   title: "Visuele Grafieken",
-                  description: "Bekijk je financiële data in mooie grafieken en krijg direct inzicht.",
-                  color: "info"
+                  description: "Bekijk je financiële data in mooie grafieken en krijg direct inzicht."
                 }
               ].map((feature, i) => (
                 <div 
                   key={i}
-                  className="group relative p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+                  className="group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
                 >
-                  <div 
-                    className="p-3 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform duration-300"
-                    style={{ 
-                      backgroundColor: `hsl(var(--${feature.color}) / 0.1)`,
-                      color: `hsl(var(--${feature.color}))`
-                    }}
-                  >
+                  <div className="p-3 rounded-xl w-fit mb-4 bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
                     <feature.icon className="h-6 w-6" />
                   </div>
                   <h3 className="font-heading font-semibold text-lg mb-2">{feature.title}</h3>
@@ -286,20 +262,16 @@ export default function Landing() {
             <div className="max-w-4xl mx-auto">
               <div className="grid md:grid-cols-3 gap-8 relative">
                 {/* Connecting line */}
-                <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-primary via-accent to-success" style={{ left: '16.67%', right: '16.67%' }} />
+                <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-0.5 bg-primary/30" style={{ left: '16.67%', right: '16.67%' }} />
                 
                 {[
-                  { step: "1", title: "Maak een account", desc: "Registreer gratis met je e-mailadres. Geen creditcard nodig.", color: "primary" },
-                  { step: "2", title: "Voeg je gegevens toe", desc: "Voer je inkomsten, uitgaven en eventuele schulden in.", color: "accent" },
-                  { step: "3", title: "Krijg overzicht", desc: "Bekijk je dashboard en zie direct waar je staat.", color: "success" }
+                  { step: "1", title: "Maak een account", desc: "Registreer gratis met je e-mailadres. Geen creditcard nodig." },
+                  { step: "2", title: "Voeg je gegevens toe", desc: "Voer je inkomsten, uitgaven en eventuele schulden in." },
+                  { step: "3", title: "Krijg overzicht", desc: "Bekijk je dashboard en zie direct waar je staat." }
                 ].map((item, i) => (
                   <div key={i} className="text-center relative">
                     <div 
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-bold relative z-10"
-                      style={{ 
-                        background: `linear-gradient(135deg, hsl(var(--${item.color})), hsl(var(--${item.color}) / 0.7))`,
-                        color: 'hsl(var(--background))'
-                      }}
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-bold relative z-10 bg-primary text-primary-foreground"
                     >
                       {item.step}
                     </div>
@@ -349,10 +321,10 @@ export default function Landing() {
                 </div>
                 
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative glass rounded-3xl p-8 text-center">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-6">
-                      <Shield className="h-10 w-10 text-background" />
+                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-2xl" />
+                  <div className="relative glass rounded-2xl p-8 text-center">
+                    <div className="w-20 h-20 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-6">
+                      <Shield className="h-10 w-10 text-primary-foreground" />
                     </div>
                     <h3 className="font-heading font-bold text-2xl mb-2">100% Privé</h3>
                     <p className="text-muted-foreground">
@@ -371,7 +343,7 @@ export default function Landing() {
           
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto">
-              <div className="relative gradient-border rounded-3xl p-12 text-center bg-card">
+              <div className="relative rounded-2xl p-12 text-center bg-primary/5 border border-primary/20">
                 <Sparkles className="h-8 w-8 text-primary mx-auto mb-6" />
                 <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
                   Klaar om te beginnen?
@@ -380,7 +352,7 @@ export default function Landing() {
                   Maak vandaag nog je gratis account aan en krijg grip op je financiën.
                 </p>
                 <Link to="/auth?mode=signup">
-                  <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity text-background font-semibold shadow-lg shadow-primary/25">
+                  <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold shadow-lg shadow-primary/25">
                     Gratis account aanmaken
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>

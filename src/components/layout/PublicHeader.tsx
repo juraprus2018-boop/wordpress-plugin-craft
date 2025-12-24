@@ -39,8 +39,8 @@ export function PublicHeader() {
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="relative">
               <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full group-hover:bg-primary/30 transition-colors" />
-              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-background" />
+              <div className="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+                <TrendingUp className="h-5 w-5 text-primary-foreground" />
               </div>
             </div>
             <span className="font-heading font-bold text-xl tracking-tight">FinOverzicht</span>
@@ -75,7 +75,7 @@ export function PublicHeader() {
               </Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button className="rounded-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity text-background font-semibold">
+              <Button className="rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold">
                 Gratis starten
               </Button>
             </Link>
@@ -93,37 +93,40 @@ export function PublicHeader() {
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-6 mt-4 border-t border-border/50">
-            <nav className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "px-4 py-3 rounded-xl text-sm font-medium transition-colors",
-                    location.pathname === item.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
-                <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full rounded-xl">Inloggen</Button>
-                </Link>
-                <Link to="/auth?mode=signup" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full rounded-xl bg-gradient-to-r from-primary to-accent text-background">
-                    Gratis starten
-                  </Button>
-                </Link>
-              </div>
-            </nav>
-          </div>
-        )}
+        <div 
+          className={cn(
+            "md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden transition-all duration-300",
+            mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <nav className="flex flex-col p-4 gap-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                  location.pathname === item.href
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-muted"
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
+              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="outline" className="w-full">Inloggen</Button>
+              </Link>
+              <Link to="/auth?mode=signup" onClick={() => setMobileMenuOpen(false)}>
+                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                  Gratis starten
+                </Button>
+              </Link>
+            </div>
+          </nav>
+        </div>
       </div>
     </header>
   );
