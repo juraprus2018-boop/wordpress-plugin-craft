@@ -2,24 +2,26 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
+import { useDebts } from '@/hooks/useDebts';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
-import { Wallet, TrendingUp, TrendingDown, PiggyBank } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt } from 'lucide-react';
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { transactions, totalIncome, totalExpenses, netResult, savingsRate, isLoading } = useTransactions();
+  const { totalDebt, totalMonthlyPayments, isLoading: debtsLoading } = useDebts();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
   }, [user, loading, navigate]);
 
-  if (loading || isLoading) {
+  if (loading || isLoading || debtsLoading) {
     return <div className="min-h-screen flex items-center justify-center">Laden...</div>;
   }
 
@@ -30,10 +32,15 @@ export default function Dashboard() {
       <div className="space-y-6">
         <h1 className="font-heading text-2xl lg:text-3xl font-bold">Dashboard</h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <KPICard title="Totale Inkomsten" value={formatCurrency(totalIncome)} icon={<TrendingUp className="h-6 w-6" />} />
           <KPICard title="Totale Uitgaven" value={formatCurrency(totalExpenses)} icon={<TrendingDown className="h-6 w-6" />} />
           <KPICard title="Netto Resultaat" value={formatCurrency(netResult)} icon={<Wallet className="h-6 w-6" />} trend={netResult >= 0 ? 'up' : 'down'} />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <KPICard title="Openstaande Schulden" value={formatCurrency(totalDebt)} icon={<CreditCard className="h-6 w-6" />} />
+          <KPICard title="Maandelijkse Aflossing" value={formatCurrency(totalMonthlyPayments)} icon={<Receipt className="h-6 w-6" />} />
           <KPICard title="Spaarquote" value={`${savingsRate.toFixed(1)}%`} icon={<PiggyBank className="h-6 w-6" />} />
         </div>
 
