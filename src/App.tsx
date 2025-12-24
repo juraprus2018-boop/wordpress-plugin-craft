@@ -17,6 +17,15 @@ import Expenses from "./pages/Expenses";
 import Debts from "./pages/Debts";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import BudgetBeheren from "./pages/BudgetBeheren";
+import SparenTips from "./pages/SparenTips";
+import Huishoudboekje from "./pages/Huishoudboekje";
+import SchuldenAflossen from "./pages/SchuldenAflossen";
+import FinancielePlanning from "./pages/FinancielePlanning";
+import GeldBesparen from "./pages/GeldBesparen";
+import VasteLastenOverzicht from "./pages/VasteLastenOverzicht";
+import InkomenBeheren from "./pages/InkomenBeheren";
+import FAQ from "./pages/FAQ";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +49,15 @@ const App = () => (
             <Route path="/expenses" element={<Expenses />} />
             <Route path="/debts" element={<Debts />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/budget-beheren" element={<BudgetBeheren />} />
+            <Route path="/sparen-tips" element={<SparenTips />} />
+            <Route path="/huishoudboekje" element={<Huishoudboekje />} />
+            <Route path="/schulden-aflossen" element={<SchuldenAflossen />} />
+            <Route path="/financiele-planning" element={<FinancielePlanning />} />
+            <Route path="/geld-besparen" element={<GeldBesparen />} />
+            <Route path="/vaste-lasten" element={<VasteLastenOverzicht />} />
+            <Route path="/inkomen-beheren" element={<InkomenBeheren />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
