@@ -13,6 +13,7 @@ export interface Transaction {
   description: string | null;
   is_recurring: boolean;
   day_of_month: number | null;
+  frequency: number | null;
   member_id: string | null;
   is_shared: boolean;
   created_at: string;
@@ -110,6 +111,7 @@ export function useTransactions() {
       description?: string;
       is_recurring?: boolean;
       day_of_month?: number | null;
+      frequency?: number | null;
       member_id?: string | null;
       is_shared?: boolean;
     }) => {

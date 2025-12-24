@@ -20,6 +20,7 @@ const transactionSchema = z.object({
   category_id: z.string().optional(),
   description: z.string().max(500, 'Beschrijving mag maximaal 500 karakters zijn').optional(),
   day_of_month: z.string().optional(),
+  frequency: z.string().default('1'),
   member_id: z.string().optional(),
   is_shared: z.boolean().default(false),
 });
@@ -40,6 +41,7 @@ interface TransactionFormProps {
     category_id: string | null;
     description?: string;
     day_of_month?: number | null;
+    frequency?: number | null;
     member_id?: string | null;
     is_shared?: boolean;
   }) => void;
@@ -64,6 +66,7 @@ export function TransactionForm({
       category_id: transaction?.category_id || '',
       description: transaction?.description || '',
       day_of_month: transaction?.day_of_month ? String(transaction.day_of_month) : '',
+      frequency: transaction?.frequency ? String(transaction.frequency) : '1',
       member_id: transaction?.member_id || '',
       is_shared: transaction?.is_shared || false,
     },
@@ -77,6 +80,7 @@ export function TransactionForm({
         category_id: transaction?.category_id || '',
         description: transaction?.description || '',
         day_of_month: transaction?.day_of_month ? String(transaction.day_of_month) : '',
+        frequency: transaction?.frequency ? String(transaction.frequency) : '1',
         member_id: transaction?.member_id || '',
         is_shared: transaction?.is_shared || false,
       });
@@ -93,6 +97,7 @@ export function TransactionForm({
         category_id: data.category_id || null,
         description: data.description,
         day_of_month: data.day_of_month ? parseInt(data.day_of_month) : null,
+        frequency: data.frequency ? parseInt(data.frequency) : 1,
         member_id: data.member_id || null,
         is_shared: data.is_shared,
       });
@@ -108,6 +113,14 @@ export function TransactionForm({
     : (type === 'income' ? 'Inkomen toevoegen' : 'Uitgave toevoegen');
 
   const daysOfMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  const frequencyOptions = [
+    { value: '1', label: 'Elke maand' },
+    { value: '2', label: 'Elke 2 maanden' },
+    { value: '3', label: 'Elk kwartaal (3 maanden)' },
+    { value: '6', label: 'Elk half jaar (6 maanden)' },
+    { value: '12', label: 'Jaarlijks (12 maanden)' },
+  ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -145,30 +158,57 @@ export function TransactionForm({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="day_of_month"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dag van de maand</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecteer dag" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {daysOfMonth.map((day) => (
-                        <SelectItem key={day} value={String(day)}>
-                          {day}e
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                control={form.control}
+                name="day_of_month"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dag van de maand</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecteer dag" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {daysOfMonth.map((day) => (
+                          <SelectItem key={day} value={String(day)}>
+                            {day}e
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="frequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Frequentie</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Hoe vaak" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {frequencyOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
