@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Transaction, Category, HouseholdMember } from '@/hooks/useTransactions';
-import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter, Download, FileSpreadsheet, FileText } from 'lucide-react';
+import { Plus, Trash2, TrendingUp, TrendingDown, Calendar, Users, Filter, Download, FileSpreadsheet, FileText, Repeat } from 'lucide-react';
 import { TransactionForm } from './TransactionForm';
 import { cn } from '@/lib/utils';
 import {
@@ -42,6 +42,7 @@ interface TransactionListProps {
     category_id: string | null;
     description?: string;
     day_of_month?: number | null;
+    frequency?: number | null;
     member_id?: string | null;
     is_shared?: boolean;
   }) => void;
@@ -68,6 +69,17 @@ export function TransactionList({
       style: 'currency',
       currency: 'EUR',
     }).format(value);
+  };
+
+  const getFrequencyLabel = (frequency: number | null) => {
+    switch (frequency) {
+      case 1: return 'maandelijks';
+      case 2: return 'elke 2 mnd';
+      case 3: return 'per kwartaal';
+      case 6: return 'halfjaarlijks';
+      case 12: return 'jaarlijks';
+      default: return 'maandelijks';
+    }
   };
 
   // Filter transactions by household member
@@ -185,6 +197,12 @@ export function TransactionList({
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
                             {transaction.day_of_month}e
+                          </span>
+                        )}
+                        {transaction.frequency && transaction.frequency !== 1 && (
+                          <span className="flex items-center gap-1">
+                            <Repeat className="h-3 w-3" />
+                            {getFrequencyLabel(transaction.frequency)}
                           </span>
                         )}
                         {transaction.household_members && (

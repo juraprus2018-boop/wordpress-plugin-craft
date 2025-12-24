@@ -155,6 +155,7 @@ export type Database = {
           created_at: string
           day_of_month: number | null
           description: string | null
+          frequency: number | null
           id: string
           is_recurring: boolean | null
           is_shared: boolean | null
@@ -170,6 +171,7 @@ export type Database = {
           created_at?: string
           day_of_month?: number | null
           description?: string | null
+          frequency?: number | null
           id?: string
           is_recurring?: boolean | null
           is_shared?: boolean | null
@@ -185,6 +187,7 @@ export type Database = {
           created_at?: string
           day_of_month?: number | null
           description?: string | null
+          frequency?: number | null
           id?: string
           is_recurring?: boolean | null
           is_shared?: boolean | null
