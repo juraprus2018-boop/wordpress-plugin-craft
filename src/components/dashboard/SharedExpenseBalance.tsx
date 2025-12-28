@@ -133,7 +133,10 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
           Gedeelde Kosten Balans
         </CardTitle>
         <CardDescription>
-          Overzicht van wie wat heeft betaald voor gedeelde uitgaven (50/50 verdeling)
+          Overzicht van wie wat heeft betaald voor gedeelde uitgaven (50/50 verdeling).{' '}
+          <a href="/gedeelde-kosten" className="text-primary hover:underline">
+            Bekijk details →
+          </a>
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
