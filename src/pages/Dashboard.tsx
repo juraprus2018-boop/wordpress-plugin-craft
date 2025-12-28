@@ -9,6 +9,7 @@ import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
+import { SharedExpenseBalance } from '@/components/dashboard/SharedExpenseBalance';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users } from 'lucide-react';
@@ -118,6 +119,11 @@ export default function Dashboard() {
           <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
           <ExpenseChart transactions={filteredTransactions} />
         </div>
+
+        {/* Shared expense balance - only show when there are household members */}
+        {householdMembers.length > 0 && (
+          <SharedExpenseBalance transactions={transactions} householdMembers={householdMembers} />
+        )}
 
         <RecentTransactions transactions={filteredTransactions} />
 
