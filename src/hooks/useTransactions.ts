@@ -229,11 +229,19 @@ export function useTransactions() {
     return amount / freq;
   };
   
-  // Calculate totals normalized to monthly amounts
-  const totalIncome = incomeTransactions.reduce((sum, t) => 
-    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
-  const totalExpenses = expenseTransactions.reduce((sum, t) => 
-    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  // Calculate member count for shared expense division
+  const memberCount = householdMembers.length > 0 ? householdMembers.length : 1;
+  
+  // Calculate totals normalized to monthly amounts, with shared expenses divided by member count
+  const totalIncome = incomeTransactions.reduce((sum, t) => {
+    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
+  }, 0);
+  
+  const totalExpenses = expenseTransactions.reduce((sum, t) => {
+    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
+  }, 0);
   
   // Raw totals (not normalized) for other uses
   const rawTotalIncome = incomeTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
