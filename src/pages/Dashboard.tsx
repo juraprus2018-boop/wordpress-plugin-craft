@@ -45,13 +45,23 @@ export default function Dashboard() {
   };
 
   // Calculate totals based on filtered data
+  // For shared expenses: divide by number of household members (or 2 if members exist)
+  const memberCount = householdMembers.length > 0 ? householdMembers.length : 1;
+  
   const incomeTransactions = filteredTransactions.filter(t => t.type === 'income');
   const expenseTransactions = filteredTransactions.filter(t => t.type === 'expense');
   
-  const totalIncome = incomeTransactions.reduce((sum, t) => 
-    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
-  const totalExpenses = expenseTransactions.reduce((sum, t) => 
-    sum + normalizeToMonthly(Number(t.amount), t.frequency), 0);
+  const totalIncome = incomeTransactions.reduce((sum, t) => {
+    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+    // If shared, divide by number of members
+    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
+  }, 0);
+  
+  const totalExpenses = expenseTransactions.reduce((sum, t) => {
+    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+    // If shared, divide by number of members
+    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
+  }, 0);
   
   const netResult = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;

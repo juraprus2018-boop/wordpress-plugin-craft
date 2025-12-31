@@ -115,6 +115,7 @@ export function TransactionForm({
   const daysOfMonth = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const frequencyOptions = [
+    { value: '0.923', label: 'Elke 4 weken (13x per jaar)' },
     { value: '1', label: 'Elke maand' },
     { value: '2', label: 'Elke 2 maanden' },
     { value: '3', label: 'Elk kwartaal (3 maanden)' },
