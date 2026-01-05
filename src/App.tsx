@@ -27,6 +27,7 @@ import VasteLastenOverzicht from "./pages/VasteLastenOverzicht";
 import InkomenBeheren from "./pages/InkomenBeheren";
 import FAQ from "./pages/FAQ";
 import SharedExpenses from "./pages/SharedExpenses";
+import Install from "./pages/Install";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="/inkomen-beheren" element={<InkomenBeheren />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/gedeelde-kosten" element={<SharedExpenses />} />
+            <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
