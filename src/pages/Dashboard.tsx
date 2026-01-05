@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useDebts } from '@/hooks/useDebts';
+import { useNotifications } from '@/hooks/useNotifications';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
@@ -10,6 +11,7 @@ import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
 import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
 import { SharedExpenseBalance } from '@/components/dashboard/SharedExpenseBalance';
+import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users } from 'lucide-react';
@@ -19,11 +21,19 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { transactions, householdMembers, isLoading } = useTransactions();
   const { debts, isLoading: debtsLoading } = useDebts();
+  const { checkAndNotifyPayments, permission } = useNotifications();
   const [selectedMember, setSelectedMember] = useState<string>('all');
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
   }, [user, loading, navigate]);
+
+  // Check for payment reminders when data loads
+  useEffect(() => {
+    if (!isLoading && !debtsLoading && permission === 'granted') {
+      checkAndNotifyPayments(transactions, debts);
+    }
+  }, [isLoading, debtsLoading, transactions, debts, permission, checkAndNotifyPayments]);
 
   // Filter transactions and debts by selected member
   const filteredTransactions = useMemo(() => {
@@ -77,6 +87,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
+      <NotificationPrompt />
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="font-heading text-2xl lg:text-3xl font-bold">Dashboard</h1>
