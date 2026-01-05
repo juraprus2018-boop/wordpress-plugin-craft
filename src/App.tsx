@@ -28,6 +28,7 @@ import InkomenBeheren from "./pages/InkomenBeheren";
 import FAQ from "./pages/FAQ";
 import SharedExpenses from "./pages/SharedExpenses";
 import Install from "./pages/Install";
+import { InstallBanner } from "./components/pwa/InstallBanner";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
             <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <InstallBanner />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
