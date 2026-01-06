@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createArticleSchema, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -23,7 +23,19 @@ const GeldBesparen = () => {
   useSEO({
     title: 'Geld Besparen - Tips om Honderden Euro\'s te Besparen | FinOverzicht',
     description: 'Praktische bespaartips die direct resultaat opleveren. Bespaar €400-900 per maand met slimme keuzes. Ontdek tips per categorie.',
-    canonical: 'https://www.finoverzicht.nl/geld-besparen'
+    canonical: 'https://www.finoverzicht.nl/geld-besparen',
+    jsonLd: [
+      createArticleSchema(
+        'Geld Besparen - Praktische Tips om Honderden Euro\'s te Besparen',
+        'Praktische bespaartips die direct resultaat opleveren. Bespaar €400-900 per maand met slimme keuzes.',
+        'https://www.finoverzicht.nl/geld-besparen',
+        '2024-01-15'
+      ),
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Geld Besparen', url: 'https://www.finoverzicht.nl/geld-besparen' }
+      ])
+    ]
   });
 
   const besparingCategories = [

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createArticleSchema, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -23,7 +23,19 @@ const SparenTips = () => {
   useSEO({
     title: 'Spaartips - Slim Sparen voor Financiële Vrijheid | FinOverzicht',
     description: 'Slimme spaartips voor meer financiële vrijheid. Van dagelijkse besparingen tot spaardoelen en de 10% regel. Start vandaag.',
-    canonical: 'https://www.finoverzicht.nl/sparen-tips'
+    canonical: 'https://www.finoverzicht.nl/sparen-tips',
+    jsonLd: [
+      createArticleSchema(
+        'Slim Sparen voor Financiële Vrijheid',
+        'Slimme spaartips voor meer financiële vrijheid. Van dagelijkse besparingen tot spaardoelen en de 10% regel.',
+        'https://www.finoverzicht.nl/sparen-tips',
+        '2024-01-12'
+      ),
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Spaartips', url: 'https://www.finoverzicht.nl/sparen-tips' }
+      ])
+    ]
   });
 
   const sparenCategories = [

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
@@ -9,7 +9,27 @@ export default function OverOns() {
   useSEO({
     title: 'Over Ons - FinOverzicht | Onze Missie',
     description: 'Leer meer over FinOverzicht en onze missie om financieel overzicht toegankelijk te maken voor iedereen. Gratis, eenvoudig en privacyvriendelijk.',
-    canonical: 'https://www.finoverzicht.nl/over-ons'
+    canonical: 'https://www.finoverzicht.nl/over-ons',
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "Over FinOverzicht",
+        "description": "Leer meer over FinOverzicht en onze missie om financieel overzicht toegankelijk te maken voor iedereen.",
+        "url": "https://www.finoverzicht.nl/over-ons",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "FinOverzicht",
+          "description": "Gratis huishoudboekje voor financieel overzicht",
+          "foundingDate": "2024",
+          "url": "https://www.finoverzicht.nl"
+        }
+      },
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Over Ons', url: 'https://www.finoverzicht.nl/over-ons' }
+      ])
+    ]
   });
 
   return (
