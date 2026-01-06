@@ -9,6 +9,7 @@ import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
+import { YearlyProjectionChart } from '@/components/dashboard/YearlyProjectionChart';
 import { SharedExpenseBalance } from '@/components/dashboard/SharedExpenseBalance';
 import { TransactionBreakdown } from '@/components/dashboard/TransactionBreakdown';
 import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
@@ -145,6 +146,8 @@ export default function Dashboard() {
         </div>
 
         <BalanceFlowChart transactions={statsTransactions} />
+
+        <YearlyProjectionChart transactions={statsTransactions} debts={filteredDebts} />
 
         <div className="grid lg:grid-cols-2 gap-6">
           <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
