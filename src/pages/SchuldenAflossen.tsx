@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createArticleSchema, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -21,7 +21,19 @@ const SchuldenAflossen = () => {
   useSEO({
     title: 'Schulden Aflossen - Effectieve Strategieën | FinOverzicht',
     description: 'Van schulden naar financiële vrijheid. Leer over de sneeuwbal- en avalanchemethode om effectief schulden af te lossen.',
-    canonical: 'https://www.finoverzicht.nl/schulden-aflossen'
+    canonical: 'https://www.finoverzicht.nl/schulden-aflossen',
+    jsonLd: [
+      createArticleSchema(
+        'Schulden Aflossen - Effectieve Strategieën',
+        'Van schulden naar financiële vrijheid. Leer over de sneeuwbal- en avalanchemethode om effectief schulden af te lossen.',
+        'https://www.finoverzicht.nl/schulden-aflossen',
+        '2024-01-20'
+      ),
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Schulden Aflossen', url: 'https://www.finoverzicht.nl/schulden-aflossen' }
+      ])
+    ]
   });
 
   const aflosMethods = [

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createWebPageSchema, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
@@ -79,7 +79,18 @@ export default function Functies() {
   useSEO({
     title: 'Functies - FinOverzicht | Alle Mogelijkheden',
     description: 'Ontdek alle functies van FinOverzicht: dashboard, categorieën, schulden beheren, grafieken, export naar PDF/Excel en meer. 100% gratis.',
-    canonical: 'https://www.finoverzicht.nl/functies'
+    canonical: 'https://www.finoverzicht.nl/functies',
+    jsonLd: [
+      createWebPageSchema(
+        'Functies - FinOverzicht',
+        'Ontdek alle functies van FinOverzicht: dashboard, categorieën, schulden beheren, grafieken, export naar PDF/Excel en meer.',
+        'https://www.finoverzicht.nl/functies'
+      ),
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Functies', url: 'https://www.finoverzicht.nl/functies' }
+      ])
+    ]
   });
 
   return (

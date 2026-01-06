@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,26 @@ export default function Contact() {
   useSEO({
     title: 'Contact - FinOverzicht | Neem Contact Op',
     description: 'Heb je een vraag over FinOverzicht? Neem contact met ons op via het contactformulier of e-mail. We helpen je graag verder.',
-    canonical: 'https://www.finoverzicht.nl/contact'
+    canonical: 'https://www.finoverzicht.nl/contact',
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Contact - FinOverzicht",
+        "description": "Neem contact op met FinOverzicht",
+        "url": "https://www.finoverzicht.nl/contact",
+        "mainEntity": {
+          "@type": "Organization",
+          "name": "FinOverzicht",
+          "email": "info@finoverzicht.nl",
+          "url": "https://www.finoverzicht.nl"
+        }
+      },
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Contact', url: 'https://www.finoverzicht.nl/contact' }
+      ])
+    ]
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);

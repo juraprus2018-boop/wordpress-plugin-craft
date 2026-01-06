@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSEO } from '@/hooks/useSEO';
+import { useSEO, createArticleSchema, createBreadcrumbSchema } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -21,7 +21,19 @@ const Huishoudboekje = () => {
   useSEO({
     title: 'Digitaal Huishoudboekje - Gratis Online Huishoudboekje | FinOverzicht',
     description: 'Het moderne digitale huishoudboekje. Houd je inkomsten en uitgaven bij, categoriseer transacties en krijg inzicht in je financiën. 100% gratis.',
-    canonical: 'https://www.finoverzicht.nl/huishoudboekje'
+    canonical: 'https://www.finoverzicht.nl/huishoudboekje',
+    jsonLd: [
+      createArticleSchema(
+        'Het Moderne Digitale Huishoudboekje',
+        'Houd je inkomsten en uitgaven bij, categoriseer transacties en krijg inzicht in je financiën met FinOverzicht.',
+        'https://www.finoverzicht.nl/huishoudboekje',
+        '2024-01-10'
+      ),
+      createBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.finoverzicht.nl/' },
+        { name: 'Huishoudboekje', url: 'https://www.finoverzicht.nl/huishoudboekje' }
+      ])
+    ]
   });
 
   const features = [
