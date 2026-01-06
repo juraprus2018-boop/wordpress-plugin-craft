@@ -58,6 +58,7 @@ interface TransactionListProps {
     is_shared?: boolean;
   }) => void;
   onDelete: (id: string) => void;
+  onAddMember?: (data: { name: string; color?: string }) => void;
 }
 
 export function TransactionList({
@@ -68,6 +69,7 @@ export function TransactionList({
   onAdd,
   onUpdate,
   onDelete,
+  onAddMember,
 }: TransactionListProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
@@ -268,6 +270,7 @@ export function TransactionList({
         categories={categories}
         householdMembers={householdMembers}
         onSubmit={onAdd}
+        onAddMember={onAddMember}
       />
 
       <TransactionForm
@@ -293,6 +296,7 @@ export function TransactionList({
             setEditTransaction(null);
           }
         }}
+        onAddMember={onAddMember}
       />
 
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
