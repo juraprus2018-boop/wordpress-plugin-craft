@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useDebts } from '@/hooks/useDebts';
@@ -6,6 +7,11 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DebtList } from '@/components/debts/DebtList';
 
 export default function Debts() {
+  useSEO({
+    title: 'Schulden - FinOverzicht',
+    description: 'Beheer je schulden in FinOverzicht. Houd aflossingen bij en volg je voortgang naar schuldenvrij.',
+  });
+
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { debts, householdMembers, totalDebt, totalMonthlyPayments, addDebt, updateDebt, deleteDebt, makePayment } = useDebts();

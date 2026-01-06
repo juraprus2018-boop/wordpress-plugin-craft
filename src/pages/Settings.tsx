@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -14,6 +15,11 @@ import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function Settings() {
+  useSEO({
+    title: 'Instellingen - FinOverzicht',
+    description: 'Pas je FinOverzicht instellingen aan. Beheer categorieën, gezinsleden en thema-voorkeuren.',
+  });
+
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();

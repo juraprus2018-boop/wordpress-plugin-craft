@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -16,6 +17,12 @@ import {
 } from "lucide-react";
 
 const BudgetBeheren = () => {
+  useSEO({
+    title: 'Budget Beheren - Tips voor Budgetteren | FinOverzicht',
+    description: 'Leer hoe je een budget opstelt en beheert. De 50/30/20 regel, veelgemaakte fouten en praktische tips voor financieel succes.',
+    canonical: 'https://www.finoverzicht.nl/budget-beheren'
+  });
+
   const budgetTips = [
     {
       icon: Calculator,

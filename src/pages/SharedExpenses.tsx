@@ -1,3 +1,4 @@
+import { useSEO } from '@/hooks/useSEO';
 import { useTransactions } from "@/hooks/useTransactions";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Users, TrendingDown } from "lucide-react";
 
 const SharedExpenses = () => {
+  useSEO({
+    title: 'Gedeelde Uitgaven - FinOverzicht',
+    description: 'Bekijk en beheer gedeelde uitgaven per gezinslid. Zie wie wat heeft betaald en bereken de verdeling.',
+  });
+
   const { transactions, categories, householdMembers, isLoading } = useTransactions();
 
   if (isLoading) {

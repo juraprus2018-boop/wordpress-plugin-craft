@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -18,6 +19,12 @@ import {
 } from "lucide-react";
 
 const InkomenBeheren = () => {
+  useSEO({
+    title: 'Inkomen Beheren - Tips voor Meer Verdienen | FinOverzicht',
+    description: 'Leer hoe je je inkomen maximaliseert en beheert. Van salarisonderhandeling tot meerdere inkomstenbronnen en toeslagen.',
+    canonical: 'https://www.finoverzicht.nl/inkomen-beheren'
+  });
+
   const incomeTypes = [
     {
       icon: Briefcase,

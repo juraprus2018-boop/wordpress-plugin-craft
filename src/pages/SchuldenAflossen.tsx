@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -17,6 +18,12 @@ import {
 } from "lucide-react";
 
 const SchuldenAflossen = () => {
+  useSEO({
+    title: 'Schulden Aflossen - Effectieve Strategieën | FinOverzicht',
+    description: 'Van schulden naar financiële vrijheid. Leer over de sneeuwbal- en avalanchemethode om effectief schulden af te lossen.',
+    canonical: 'https://www.finoverzicht.nl/schulden-aflossen'
+  });
+
   const aflosMethods = [
     {
       title: "Sneeuwbalmethode",

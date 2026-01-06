@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -6,6 +7,11 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { TransactionList } from '@/components/transactions/TransactionList';
 
 export default function Expenses() {
+  useSEO({
+    title: 'Uitgaven - FinOverzicht',
+    description: 'Beheer je uitgaven in FinOverzicht. Houd je vaste lasten en variabele kosten bij per categorie.',
+  });
+
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { expenseTransactions, expenseCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember } = useTransactions();
