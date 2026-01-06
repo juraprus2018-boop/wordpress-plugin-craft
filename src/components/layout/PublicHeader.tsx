@@ -141,7 +141,7 @@ export function PublicHeader() {
         {/* Mobile Menu */}
         <div 
           className={cn(
-            "md:hidden absolute top-full left-0 right-0 glass-card border-b border-border/50 overflow-hidden transition-all duration-300",
+            "md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-xl overflow-hidden transition-all duration-300",
             mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           )}
         >
