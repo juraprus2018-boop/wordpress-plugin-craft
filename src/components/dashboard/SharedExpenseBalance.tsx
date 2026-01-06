@@ -21,33 +21,53 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
   const balanceData = useMemo(() => {
     // Only consider shared expenses
     const sharedExpenses = transactions.filter(t => t.type === 'expense' && t.is_shared);
-    
+
     // Helper function to normalize amounts to monthly basis
     const normalizeToMonthly = (amount: number, frequency: number | null) => {
       const freq = frequency || 1;
       return amount / freq;
     };
-    
+
     // Calculate total shared expenses (monthly normalized)
     const totalSharedExpenses = sharedExpenses.reduce(
-      (sum, t) => sum + normalizeToMonthly(Number(t.amount), t.frequency), 
+      (sum, t) => sum + normalizeToMonthly(Number(t.amount), t.frequency),
       0
     );
-    
+
     // Calculate how much each member paid for shared expenses
     const memberPayments: Record<string, number> = {};
-    
+
     sharedExpenses.forEach(t => {
       if (t.member_id) {
         const normalizedAmount = normalizeToMonthly(Number(t.amount), t.frequency);
         memberPayments[t.member_id] = (memberPayments[t.member_id] || 0) + normalizedAmount;
       }
     });
-    
+
     // Calculate fair share per member
     const memberCount = householdMembers.length;
     const fairShare = memberCount > 0 ? totalSharedExpenses / memberCount : 0;
-    
+
+    const sharedExpenseItems = sharedExpenses
+      .map((t) => {
+        const monthlyTotal = normalizeToMonthly(Number(t.amount), t.frequency);
+        const payer = t.member_id ? householdMembers.find(m => m.id === t.member_id) : null;
+
+        return {
+          id: t.id,
+          name: t.name,
+          category: t.categories?.name || 'Geen categorie',
+          dayOfMonth: t.day_of_month,
+          frequency: t.frequency,
+          monthlyTotal,
+          perPerson: memberCount > 0 ? monthlyTotal / memberCount : monthlyTotal,
+          payerName: payer?.name || null,
+          payerColor: payer?.color || null,
+        };
+      })
+      .sort((a, b) => b.monthlyTotal - a.monthlyTotal)
+      .slice(0, 6);
+
     // Calculate balance for each member
     const balances: MemberBalance[] = householdMembers.map(member => {
       const paidForShared = memberPayments[member.id] || 0;
@@ -58,15 +78,16 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
         balance: paidForShared - fairShare, // Positive = paid more, should receive. Negative = paid less, should pay
       };
     });
-    
+
     // Sort by balance (who paid most first)
     balances.sort((a, b) => b.balance - a.balance);
-    
+
     return {
       balances,
       totalSharedExpenses,
       fairShare,
       memberCount,
+      sharedExpenseItems,
     };
   }, [transactions, householdMembers]);
 
@@ -130,13 +151,12 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Users className="h-5 w-5 text-primary" />
-          Gedeelde Kosten Balans
+          Gedeelde kosten (50/50)
         </CardTitle>
         <CardDescription>
-          Overzicht van wie wat heeft betaald voor gedeelde uitgaven (50/50 verdeling).{' '}
-          <a href="/gedeelde-kosten" className="text-primary hover:underline">
-            Bekijk details →
-          </a>
+          Duidelijk overzicht: <span className="font-medium text-foreground">totaal</span>,{' '}
+          <span className="font-medium text-foreground">jouw deel</span> en{' '}
+          <span className="font-medium text-foreground">wie heeft betaald</span>.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -148,55 +168,96 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
             <p className="text-xs text-muted-foreground">/maand</p>
           </div>
           <div className="bg-muted/50 rounded-lg p-4">
-            <p className="text-xs text-muted-foreground mb-1">Eerlijke verdeling p.p.</p>
+            <p className="text-xs text-muted-foreground mb-1">Jouw deel (per persoon)</p>
             <p className="text-lg font-semibold">{formatCurrency(balanceData.fairShare)}</p>
             <p className="text-xs text-muted-foreground">/maand</p>
           </div>
         </div>
 
+        {/* Shared expenses list */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium">Gedeelde uitgaven (top {balanceData.sharedExpenseItems.length})</p>
+            <p className="text-xs text-muted-foreground">totaal → jouw deel</p>
+          </div>
+
+          <div className="space-y-2">
+            {balanceData.sharedExpenseItems.map((item) => (
+              <div key={item.id} className="flex items-center justify-between gap-4 rounded-lg bg-muted/50 p-3">
+                <div className="min-w-0">
+                  <p className="font-medium truncate">{item.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {item.category}
+                    {item.dayOfMonth ? ` • ${item.dayOfMonth}e` : ''}
+                    {item.frequency && item.frequency !== 1 ? ` • elke ${item.frequency} mnd` : ''}
+                    {item.payerName ? (
+                      <>
+                        {' '}• betaald door{' '}
+                        <span className="font-medium" style={{ color: item.payerColor || undefined }}>
+                          {item.payerName}
+                        </span>
+                      </>
+                    ) : null}
+                  </p>
+                </div>
+
+                <div className="shrink-0 text-right">
+                  <p className="text-sm font-semibold">{formatCurrency(item.monthlyTotal)}</p>
+                  <p className="text-xs text-muted-foreground">→ {formatCurrency(item.perPerson)} /maand</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Per member breakdown */}
         <div className="space-y-4">
+          <p className="text-sm font-medium">Per persoon</p>
+
           {balanceData.balances.map(({ member, paidForShared, shouldPay, balance }) => {
             const percentage = shouldPay > 0 ? (paidForShared / shouldPay) * 100 : 0;
             const isOverpaying = balance > 0;
             const isUnderpaying = balance < 0;
-            
+
             return (
-              <div key={member.id} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: member.color || '#6B7280' }}
-                    />
-                    <span className="font-medium">{member.name}</span>
+              <div key={member.id} className="space-y-2 rounded-lg border border-border p-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: member.color || 'hsl(var(--muted-foreground))' }} />
+                  <span className="font-medium">{member.name}</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Betaald</p>
+                    <p className="font-semibold">{formatCurrency(paidForShared)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Jouw deel</p>
+                    <p className="font-semibold">{formatCurrency(shouldPay)}</p>
                   </div>
                   <div className="text-right">
-                    <span className="font-semibold">{formatCurrency(paidForShared)}</span>
-                    <span className="text-muted-foreground text-sm"> / {formatCurrency(shouldPay)}</span>
+                    <p className="text-xs text-muted-foreground">Saldo</p>
+                    <p className={cn(
+                      "font-semibold",
+                      isOverpaying && "text-success",
+                      isUnderpaying && "text-warning",
+                      !isOverpaying && !isUnderpaying && "text-muted-foreground"
+                    )}>
+                      {isOverpaying ? 'Te ontvangen ' : isUnderpaying ? 'Te betalen ' : ''}
+                      {formatCurrency(Math.abs(balance))}
+                    </p>
                   </div>
                 </div>
-                <Progress 
-                  value={Math.min(percentage, 100)} 
+
+                <Progress
+                  value={Math.min(percentage, 100)}
                   className={cn(
                     "h-2",
-                    isOverpaying && "[&>div]:bg-green-500",
-                    isUnderpaying && "[&>div]:bg-orange-500"
+                    isOverpaying && "[&>div]:bg-success",
+                    isUnderpaying && "[&>div]:bg-warning"
                   )}
                 />
-                <div className="flex justify-between text-xs">
-                  <span className="text-muted-foreground">
-                    {percentage.toFixed(0)}% van eerlijk deel betaald
-                  </span>
-                  <span className={cn(
-                    "font-medium",
-                    isOverpaying && "text-green-600 dark:text-green-400",
-                    isUnderpaying && "text-orange-600 dark:text-orange-400",
-                    !isOverpaying && !isUnderpaying && "text-muted-foreground"
-                  )}>
-                    {isOverpaying ? '+' : ''}{formatCurrency(balance)}
-                  </span>
-                </div>
+                <p className="text-xs text-muted-foreground">{percentage.toFixed(0)}% van jouw deel is betaald (door jou).</p>
               </div>
             );
           })}
@@ -208,37 +269,31 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
             <div className="flex items-center gap-3">
               <Wallet className="h-5 w-5 text-primary" />
               <div className="flex-1">
-                <p className="font-medium text-sm">Verrekening nodig</p>
+                <p className="font-medium text-sm">Verrekening voorstel</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   <span className="font-medium" style={{ color: settlement.payer.member.color || undefined }}>
                     {settlement.payer.member.name}
-                  </span>
-                  {' '}betaalt{' '}
-                  <span className="font-semibold text-foreground">
-                    {formatCurrency(settlement.amount)}
-                  </span>
-                  {' '}aan{' '}
+                  </span>{' '}
+                  betaalt{' '}
+                  <span className="font-semibold text-foreground">{formatCurrency(settlement.amount)}</span>{' '}
+                  aan{' '}
                   <span className="font-medium" style={{ color: settlement.receiver.member.color || undefined }}>
                     {settlement.receiver.member.name}
                   </span>
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-primary">
-                <ArrowRight className="h-4 w-4" />
-              </div>
+              <ArrowRight className="h-4 w-4 text-primary" />
             </div>
           </div>
         )}
 
         {settlement === null && balanceData.balances.length === 2 && (
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+          <div className="bg-success/10 border border-success/20 rounded-lg p-4">
             <div className="flex items-center gap-3">
-              <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <Check className="h-5 w-5 text-success" />
               <div>
-                <p className="font-medium text-sm text-green-600 dark:text-green-400">Alles in balans!</p>
-                <p className="text-sm text-muted-foreground">
-                  Jullie hebben gelijk betaald voor de gedeelde kosten.
-                </p>
+                <p className="font-medium text-sm text-success">Alles in balans!</p>
+                <p className="text-sm text-muted-foreground">Jullie hebben gelijk betaald voor de gedeelde kosten.</p>
               </div>
             </div>
           </div>

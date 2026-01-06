@@ -9,8 +9,8 @@ import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
 import { IncomeExpenseChart } from '@/components/dashboard/IncomeExpenseChart';
 import { BalanceFlowChart } from '@/components/dashboard/BalanceFlowChart';
-import { RecentTransactions } from '@/components/dashboard/RecentTransactions';
 import { SharedExpenseBalance } from '@/components/dashboard/SharedExpenseBalance';
+import { TransactionBreakdown } from '@/components/dashboard/TransactionBreakdown';
 import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -35,12 +35,15 @@ export default function Dashboard() {
     }
   }, [isLoading, debtsLoading, transactions, debts, permission, checkAndNotifyPayments]);
 
-  // Filter transactions and debts by selected member
+  const view: 'all' | 'personal' | 'member' =
+    selectedMember === 'all' ? 'all' : selectedMember === 'personal' ? 'personal' : 'member';
+
+  // Filter transactions by selected view
   const filteredTransactions = useMemo(() => {
-    if (selectedMember === 'all') return transactions;
-    if (selectedMember === 'personal') return transactions.filter(t => !t.member_id);
+    if (view === 'all') return transactions;
+    if (view === 'personal') return transactions.filter(t => !t.is_shared);
     return transactions.filter(t => t.member_id === selectedMember || t.is_shared);
-  }, [transactions, selectedMember]);
+  }, [transactions, selectedMember, view]);
 
   const filteredDebts = useMemo(() => {
     if (selectedMember === 'all') return debts;
@@ -54,25 +57,24 @@ export default function Dashboard() {
     return amount / freq;
   };
 
-  // Calculate totals based on filtered data
-  // For shared expenses: divide by number of household members (or 2 if members exist)
-  const memberCount = householdMembers.length > 0 ? householdMembers.length : 1;
-  
-  const incomeTransactions = filteredTransactions.filter(t => t.type === 'income');
-  const expenseTransactions = filteredTransactions.filter(t => t.type === 'expense');
-  
-  const totalIncome = incomeTransactions.reduce((sum, t) => {
-    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-    // If shared, divide by number of members
-    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
-  }, 0);
-  
-  const totalExpenses = expenseTransactions.reduce((sum, t) => {
-    const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-    // If shared, divide by number of members
-    return sum + (t.is_shared ? monthlyAmount / memberCount : monthlyAmount);
-  }, 0);
-  
+  const memberCount = Math.max(householdMembers.length, 1);
+
+  // For dashboard statistics we show monthly amounts.
+  // In "per lid" view, shared transactions are shown as the per-person share.
+  const statsTransactions = useMemo(() => {
+    return filteredTransactions.map((t) => {
+      const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+      const effectiveAmount = t.is_shared && view === 'member' ? monthlyAmount / memberCount : monthlyAmount;
+      return { ...t, amount: effectiveAmount };
+    });
+  }, [filteredTransactions, memberCount, view]);
+
+  const incomeTransactions = statsTransactions.filter(t => t.type === 'income');
+  const expenseTransactions = statsTransactions.filter(t => t.type === 'expense');
+
+  const totalIncome = incomeTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+
   const netResult = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
 
@@ -111,7 +113,7 @@ export default function Dashboard() {
                     <span className="flex items-center gap-2">
                       <span 
                         className="w-2 h-2 rounded-full" 
-                        style={{ backgroundColor: member.color || '#6B7280' }}
+                        style={{ backgroundColor: member.color || 'hsl(var(--muted-foreground))' }}
                       />
                       {member.name}
                     </span>
@@ -134,11 +136,11 @@ export default function Dashboard() {
           <KPICard title="Spaarquote" value={`${savingsRate.toFixed(1)}%`} icon={<PiggyBank className="h-6 w-6" />} />
         </div>
 
-        <BalanceFlowChart transactions={filteredTransactions} />
+        <BalanceFlowChart transactions={statsTransactions} />
 
         <div className="grid lg:grid-cols-2 gap-6">
           <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
-          <ExpenseChart transactions={filteredTransactions} />
+          <ExpenseChart transactions={statsTransactions} />
         </div>
 
         {/* Shared expense balance - only show when there are household members */}
@@ -146,8 +148,7 @@ export default function Dashboard() {
           <SharedExpenseBalance transactions={transactions} householdMembers={householdMembers} />
         )}
 
-        <RecentTransactions transactions={filteredTransactions} />
-
+        <TransactionBreakdown transactions={filteredTransactions} memberCount={memberCount} view={view} />
         {/* Donatie Card */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
