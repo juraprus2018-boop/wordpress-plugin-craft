@@ -63,14 +63,14 @@ export default function Dashboard() {
     return amount / freq;
   };
 
-  const memberCount = Math.max(householdMembers.length, 1);
+  // Household members list typically contains "others"; include yourself as an implicit participant.
+  const memberCount = Math.max(householdMembers.length + 1, 1);
 
   // For dashboard statistics we show monthly amounts.
-  // When NOT in "all" view, shared expenses are divided by member count.
+  // When NOT in "all" view, shared expenses are divided by participant count.
   const statsTransactions = useMemo(() => {
     return filteredTransactions.map((t) => {
       const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-      // Divide shared expenses when viewing personal or member
       const shouldDivide = t.is_shared && view !== 'all' && memberCount > 1;
       const effectiveAmount = shouldDivide ? monthlyAmount / memberCount : monthlyAmount;
       return { ...t, amount: effectiveAmount };

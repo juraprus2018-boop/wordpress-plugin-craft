@@ -19,6 +19,19 @@ interface MemberBalance {
 
 export function SharedExpenseBalance({ transactions, householdMembers }: SharedExpenseBalanceProps) {
   const balanceData = useMemo(() => {
+    const SELF_ID = '__self__';
+
+    const selfMember: HouseholdMember = {
+      id: SELF_ID,
+      name: 'Jij',
+      color: 'hsl(var(--primary))',
+      created_at: '',
+      user_id: '',
+    };
+
+    // Include yourself as an implicit participant (household members list usually contains "others").
+    const membersWithSelf = [selfMember, ...householdMembers];
+
     // Only consider shared expenses
     const sharedExpenses = transactions.filter(t => t.type === 'expense' && t.is_shared);
 
@@ -34,24 +47,27 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
       0
     );
 
-    // Calculate how much each member paid for shared expenses
+    // Calculate how much each participant paid for shared expenses
     const memberPayments: Record<string, number> = {};
 
     sharedExpenses.forEach(t => {
-      if (t.member_id) {
-        const normalizedAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-        memberPayments[t.member_id] = (memberPayments[t.member_id] || 0) + normalizedAmount;
-      }
+      const normalizedAmount = normalizeToMonthly(Number(t.amount), t.frequency);
+
+      // If no member_id is set, treat it as "paid by you".
+      const payerId = t.member_id || SELF_ID;
+      memberPayments[payerId] = (memberPayments[payerId] || 0) + normalizedAmount;
     });
 
-    // Calculate fair share per member
-    const memberCount = householdMembers.length;
+    // Calculate fair share per participant
+    const memberCount = membersWithSelf.length;
     const fairShare = memberCount > 0 ? totalSharedExpenses / memberCount : 0;
 
     const sharedExpenseItems = sharedExpenses
       .map((t) => {
         const monthlyTotal = normalizeToMonthly(Number(t.amount), t.frequency);
-        const payer = t.member_id ? householdMembers.find(m => m.id === t.member_id) : null;
+        const payer = t.member_id
+          ? householdMembers.find(m => m.id === t.member_id) || null
+          : selfMember;
 
         return {
           id: t.id,
@@ -68,8 +84,8 @@ export function SharedExpenseBalance({ transactions, householdMembers }: SharedE
       .sort((a, b) => b.monthlyTotal - a.monthlyTotal)
       .slice(0, 6);
 
-    // Calculate balance for each member
-    const balances: MemberBalance[] = householdMembers.map(member => {
+    // Calculate balance for each participant
+    const balances: MemberBalance[] = membersWithSelf.map(member => {
       const paidForShared = memberPayments[member.id] || 0;
       return {
         member,
