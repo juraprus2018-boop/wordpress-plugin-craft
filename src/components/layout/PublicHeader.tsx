@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Menu, X, ChevronDown } from 'lucide-react';
+import { Wallet, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -45,40 +45,37 @@ export function PublicHeader() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled 
-          ? "bg-background/80 backdrop-blur-xl border-b border-border/50 py-3" 
+          ? "glass-card border-b border-border/50 py-3" 
           : "bg-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full group-hover:bg-primary/30 transition-colors" />
-              <div className="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-primary-foreground" />
+              <div className="absolute inset-0 bg-primary/30 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-glow transition-transform group-hover:scale-105">
+                <Wallet className="h-5 w-5 text-primary-foreground" />
               </div>
             </div>
             <span className="font-heading font-bold text-xl tracking-tight">FinOverzicht</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 bg-muted/50 rounded-full px-2 py-1.5">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "relative px-4 py-2 text-sm font-medium transition-colors rounded-full",
+                  "relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full",
                   location.pathname === item.href
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-primary-foreground bg-primary shadow-glow"
+                    : "text-muted-foreground hover:text-foreground hover:bg-background/80"
                 )}
               >
                 {item.label}
-                {location.pathname === item.href && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                )}
               </Link>
             ))}
             
@@ -87,27 +84,24 @@ export function PublicHeader() {
               <DropdownMenuTrigger asChild>
                 <button
                   className={cn(
-                    "relative px-4 py-2 text-sm font-medium transition-colors rounded-full flex items-center gap-1",
+                    "relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-full flex items-center gap-1",
                     seoPages.some(page => location.pathname === page.href)
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-primary-foreground bg-primary shadow-glow"
+                      : "text-muted-foreground hover:text-foreground hover:bg-background/80"
                   )}
                 >
                   Tips & Gidsen
-                  <ChevronDown className="h-4 w-4" />
-                  {seoPages.some(page => location.pathname === page.href) && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                  )}
+                  <ChevronDown className="h-3.5 w-3.5" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-56 bg-background border border-border shadow-lg z-50">
+              <DropdownMenuContent align="center" className="w-56 glass-card border-border/50 shadow-xl mt-2">
                 {seoPages.map((page) => (
                   <DropdownMenuItem key={page.href} asChild>
                     <Link
                       to={page.href}
                       className={cn(
-                        "w-full cursor-pointer",
-                        location.pathname === page.href && "text-primary font-medium"
+                        "w-full cursor-pointer rounded-lg transition-colors",
+                        location.pathname === page.href && "text-primary font-medium bg-primary/10"
                       )}
                     >
                       {page.label}
@@ -121,12 +115,13 @@ export function PublicHeader() {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link to="/auth">
-              <Button variant="ghost" className="rounded-full">
+              <Button variant="ghost" className="rounded-full font-medium">
                 Inloggen
               </Button>
             </Link>
             <Link to="/auth?mode=signup">
-              <Button className="rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold">
+              <Button className="rounded-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-glow transition-all duration-200 text-primary-foreground font-semibold gap-2">
+                <Sparkles className="h-4 w-4" />
                 Gratis starten
               </Button>
             </Link>
@@ -136,7 +131,7 @@ export function PublicHeader() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden rounded-full"
+            className="md:hidden rounded-xl hover:bg-primary/10"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -146,8 +141,8 @@ export function PublicHeader() {
         {/* Mobile Menu */}
         <div 
           className={cn(
-            "md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden transition-all duration-300",
-            mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+            "md:hidden absolute top-full left-0 right-0 glass-card border-b border-border/50 overflow-hidden transition-all duration-300",
+            mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
           )}
         >
           <nav className="flex flex-col p-4 gap-1">
@@ -157,9 +152,9 @@ export function PublicHeader() {
                 to={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                  "px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                   location.pathname === item.href
-                    ? "bg-primary/10 text-primary"
+                    ? "bg-primary text-primary-foreground shadow-glow"
                     : "text-muted-foreground hover:bg-muted"
                 )}
               >
@@ -168,31 +163,39 @@ export function PublicHeader() {
             ))}
             
             {/* SEO Pages in mobile */}
-            <div className="mt-2 pt-2 border-t border-border">
-              <span className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tips & Gidsen</span>
-              {seoPages.map((page) => (
-                <Link
-                  key={page.href}
-                  to={page.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "px-4 py-3 rounded-lg text-sm font-medium transition-colors block",
-                    location.pathname === page.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted"
-                  )}
-                >
-                  {page.label}
-                </Link>
-              ))}
+            <div className="mt-3 pt-3 border-t border-border/50">
+              <span className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                <Sparkles className="h-3 w-3" />
+                Tips & Gidsen
+              </span>
+              <div className="grid grid-cols-2 gap-1 mt-2">
+                {seoPages.map((page) => (
+                  <Link
+                    key={page.href}
+                    to={page.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                      location.pathname === page.href
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted"
+                    )}
+                  >
+                    {page.label}
+                  </Link>
+                ))}
+              </div>
             </div>
             
-            <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
+            <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
               <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full">Inloggen</Button>
+                <Button variant="outline" className="w-full rounded-xl border-border/50">
+                  Inloggen
+                </Button>
               </Link>
               <Link to="/auth?mode=signup" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button className="w-full rounded-xl bg-gradient-to-r from-primary to-primary/90 shadow-glow text-primary-foreground font-semibold gap-2">
+                  <Sparkles className="h-4 w-4" />
                   Gratis starten
                 </Button>
               </Link>
