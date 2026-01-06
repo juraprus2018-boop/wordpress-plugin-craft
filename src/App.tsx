@@ -3,8 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "@/lib/auth";
-import Landing from "./pages/Landing";
+import { AuthProvider } from "@/lib/auth";
+import { SmartLanding } from "./components/SmartLanding";
 import Functies from "./pages/Functies";
 import OverOns from "./pages/OverOns";
 import Contact from "./pages/Contact";
@@ -32,23 +32,6 @@ import { InstallBanner } from "./components/pwa/InstallBanner";
 import { ScrollToTop } from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
-
-// Smart landing that redirects PWA users who are logged in to dashboard
-const SmartLanding = () => {
-  const { user, loading } = useAuth();
-  const isPWA = window.matchMedia('(display-mode: standalone)').matches;
-  
-  if (loading) {
-    return null; // Or a loading spinner
-  }
-  
-  // If user is logged in and using PWA, go directly to dashboard
-  if (user && isPWA) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  return <Landing />;
-};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
