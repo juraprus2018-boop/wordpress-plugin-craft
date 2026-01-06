@@ -10,6 +10,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Category, Transaction, HouseholdMember } from '@/hooks/useTransactions';
+import { Plus, UserPlus } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+
+const MEMBER_COLORS = [
+  '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#EF4444', '#6366F1', '#14B8A6',
+];
 
 const transactionSchema = z.object({
   name: z.string().min(1, 'Naam is verplicht').max(100, 'Naam mag maximaal 100 karakters zijn'),
@@ -45,6 +51,7 @@ interface TransactionFormProps {
     member_id?: string | null;
     is_shared?: boolean;
   }) => void;
+  onAddMember?: (data: { name: string; color?: string }) => void;
 }
 
 export function TransactionForm({
@@ -55,8 +62,12 @@ export function TransactionForm({
   householdMembers,
   transaction,
   onSubmit,
+  onAddMember,
 }: TransactionFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showAddMember, setShowAddMember] = useState(false);
+  const [newMemberName, setNewMemberName] = useState('');
+  const [selectedColor, setSelectedColor] = useState(MEMBER_COLORS[0]);
 
   const form = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
@@ -236,61 +247,128 @@ export function TransactionForm({
               )}
             />
 
-            {householdMembers.length > 0 && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="member_id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Gezinslid</FormLabel>
-                      <Select onValueChange={(val) => field.onChange(val === 'none' ? '' : val)} value={field.value || 'none'}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecteer gezinslid (optioneel)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="none">Geen specifiek lid</SelectItem>
-                          {householdMembers.map((member) => (
-                            <SelectItem key={member.id} value={member.id}>
-                              <span className="flex items-center gap-2">
-                                <span 
-                                  className="w-3 h-3 rounded-full" 
-                                  style={{ backgroundColor: member.color || '#6B7280' }}
-                                />
-                                {member.name}
-                              </span>
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            {/* Gezinsleden sectie - altijd zichtbaar */}
+            <div className="space-y-3 p-3 rounded-lg bg-muted/30 border border-border/50">
+              <div className="flex items-center justify-between">
+                <FormLabel className="text-sm font-medium flex items-center gap-2">
+                  <UserPlus className="h-4 w-4" />
+                  Gezinslid
+                </FormLabel>
+                {onAddMember && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAddMember(!showAddMember)}
+                    className="text-xs h-7"
+                  >
+                    <Plus className="h-3 w-3 mr-1" />
+                    Nieuw lid
+                  </Button>
+                )}
+              </div>
 
-                <FormField
-                  control={form.control}
-                  name="is_shared"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
+              {/* Add new member inline */}
+              <Collapsible open={showAddMember} onOpenChange={setShowAddMember}>
+                <CollapsibleContent className="space-y-2">
+                  <div className="flex gap-2 items-center">
+                    <Input
+                      placeholder="Naam nieuw gezinslid"
+                      value={newMemberName}
+                      onChange={(e) => setNewMemberName(e.target.value)}
+                      className="flex-1 h-8 text-sm"
+                    />
+                    <div className="flex gap-1">
+                      {MEMBER_COLORS.slice(0, 4).map((color) => (
+                        <button
+                          key={color}
+                          type="button"
+                          className={`w-5 h-5 rounded-full transition-all ${
+                            selectedColor === color ? 'ring-2 ring-offset-1 ring-primary' : ''
+                          }`}
+                          style={{ backgroundColor: color }}
+                          onClick={() => setSelectedColor(color)}
                         />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>
-                          Gezamenlijke {type === 'income' ? 'inkomst' : 'uitgave'}
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
+                      ))}
+                    </div>
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="h-8"
+                      onClick={() => {
+                        if (newMemberName.trim() && onAddMember) {
+                          onAddMember({ name: newMemberName.trim(), color: selectedColor });
+                          setNewMemberName('');
+                          setShowAddMember(false);
+                          setSelectedColor(MEMBER_COLORS[(householdMembers.length + 1) % MEMBER_COLORS.length]);
+                        }
+                      }}
+                    >
+                      Toevoegen
+                    </Button>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+
+              {householdMembers.length === 0 ? (
+                <p className="text-xs text-muted-foreground">
+                  Nog geen gezinsleden. Voeg een lid toe om transacties per persoon bij te houden.
+                </p>
+              ) : (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="member_id"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Select onValueChange={(val) => field.onChange(val === 'none' ? '' : val)} value={field.value || 'none'}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecteer gezinslid" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="none">Geen specifiek lid</SelectItem>
+                            {householdMembers.map((member) => (
+                              <SelectItem key={member.id} value={member.id}>
+                                <span className="flex items-center gap-2">
+                                  <span 
+                                    className="w-3 h-3 rounded-full" 
+                                    style={{ backgroundColor: member.color || '#6B7280' }}
+                                  />
+                                  {member.name}
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="is_shared"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm">
+                            Gezamenlijke {type === 'income' ? 'inkomst' : 'uitgave'}
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+            </div>
 
             <FormField
               control={form.control}
