@@ -15,7 +15,7 @@ import { TransactionBreakdown } from '@/components/dashboard/TransactionBreakdow
 import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2 } from 'lucide-react';
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
@@ -29,7 +29,6 @@ export default function Dashboard() {
     if (!loading && !user) navigate('/auth');
   }, [user, loading, navigate]);
 
-  // Check for payment reminders when data loads
   useEffect(() => {
     if (!isLoading && !debtsLoading && permission === 'granted') {
       checkAndNotifyPayments(transactions, debts);
@@ -39,14 +38,9 @@ export default function Dashboard() {
   const view: 'all' | 'personal' | 'member' =
     selectedMember === 'all' ? 'all' : selectedMember === 'personal' ? 'personal' : 'member';
 
-  // Filter transactions by selected view
-  // - "all": show everything (totals)
-  // - "personal": show transactions without member_id + shared expenses (user's share)
-  // - "member": show that member's transactions + shared expenses (member's share)
   const filteredTransactions = useMemo(() => {
     if (view === 'all') return transactions;
     if (view === 'personal') {
-      // Show non-assigned transactions + shared expenses (which belong to everyone)
       return transactions.filter(t => !t.member_id || t.is_shared);
     }
     return transactions.filter(t => t.member_id === selectedMember || t.is_shared);
@@ -58,17 +52,13 @@ export default function Dashboard() {
     return debts.filter(d => d.member_id === selectedMember);
   }, [debts, selectedMember]);
 
-  // Helper function to normalize amounts to monthly basis
   const normalizeToMonthly = (amount: number, frequency: number | null) => {
     const freq = frequency || 1;
     return amount / freq;
   };
 
-  // Household members list typically contains "others"; include yourself as an implicit participant.
   const memberCount = Math.max(householdMembers.length + 1, 1);
 
-  // For dashboard statistics we show monthly amounts.
-  // When NOT in "all" view, shared expenses are divided by participant count.
   const statsTransactions = useMemo(() => {
     return filteredTransactions.map((t) => {
       const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
@@ -91,7 +81,12 @@ export default function Dashboard() {
   const totalMonthlyPayments = filteredDebts.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
 
   if (loading || isLoading || debtsLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Laden...</div>;
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <p className="text-muted-foreground font-medium">Laden...</p>
+      </div>
+    );
   }
 
   const formatCurrency = (value: number) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(value);
@@ -99,89 +94,136 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <NotificationPrompt />
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h1 className="font-heading text-2xl lg:text-3xl font-bold">Dashboard</h1>
-          
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-muted-foreground" />
-            <Select value={selectedMember} onValueChange={setSelectedMember}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter op lid" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Samen (iedereen)</SelectItem>
-                <SelectItem value="personal">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-primary" />
-                    Alleen mijn eigen
-                  </span>
-                </SelectItem>
-                {householdMembers.map((member) => (
-                  <SelectItem key={member.id} value={member.id}>
+      <div className="space-y-4 sm:space-y-6 pb-6">
+        {/* Header */}
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold tracking-tight">
+                Dashboard
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1 hidden sm:block">
+                Jouw financiële overzicht op één plek
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-2 bg-card border border-border/50 rounded-xl p-1">
+              <div className="p-2 rounded-lg bg-muted/50">
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <Select value={selectedMember} onValueChange={setSelectedMember}>
+                <SelectTrigger className="w-[160px] sm:w-[180px] border-0 bg-transparent focus:ring-0">
+                  <SelectValue placeholder="Filter op lid" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Samen (iedereen)</SelectItem>
+                  <SelectItem value="personal">
                     <span className="flex items-center gap-2">
-                      <span 
-                        className="w-2 h-2 rounded-full" 
-                        style={{ backgroundColor: member.color || 'hsl(var(--muted-foreground))' }}
-                      />
-                      {member.name}
+                      <span className="w-2 h-2 rounded-full bg-primary" />
+                      Alleen mijn eigen
                     </span>
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                  {householdMembers.map((member) => (
+                    <SelectItem key={member.id} value={member.id}>
+                      <span className="flex items-center gap-2">
+                        <span 
+                          className="w-2 h-2 rounded-full" 
+                          style={{ backgroundColor: member.color || 'hsl(var(--muted-foreground))' }}
+                        />
+                        {member.name}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <KPICard title="Totale Inkomsten" value={formatCurrency(totalIncome)} icon={<TrendingUp className="h-6 w-6" />} />
-          <KPICard title="Totale Uitgaven" value={formatCurrency(totalExpenses)} icon={<TrendingDown className="h-6 w-6" />} />
-          <KPICard title="Netto Resultaat" value={formatCurrency(netResult)} icon={<Wallet className="h-6 w-6" />} trend={netResult >= 0 ? 'up' : 'down'} />
+        {/* Main KPIs - Mobile optimized 2x3 grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <KPICard 
+            title="Inkomsten" 
+            value={formatCurrency(totalIncome)} 
+            icon={<TrendingUp className="w-full h-full" />} 
+            variant="success"
+          />
+          <KPICard 
+            title="Uitgaven" 
+            value={formatCurrency(totalExpenses)} 
+            icon={<TrendingDown className="w-full h-full" />} 
+            variant="accent"
+          />
+          <KPICard 
+            title="Netto" 
+            value={formatCurrency(netResult)} 
+            icon={<Wallet className="w-full h-full" />} 
+            trend={netResult >= 0 ? 'up' : 'down'}
+          />
+          <KPICard 
+            title="Schulden" 
+            value={formatCurrency(totalDebt)} 
+            icon={<CreditCard className="w-full h-full" />} 
+            variant="warning"
+          />
+          <KPICard 
+            title="Aflossing/mnd" 
+            value={formatCurrency(totalMonthlyPayments)} 
+            icon={<Receipt className="w-full h-full" />} 
+          />
+          <KPICard 
+            title="Spaarquote" 
+            value={`${savingsRate.toFixed(1)}%`} 
+            icon={<PiggyBank className="w-full h-full" />} 
+            variant="success"
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <KPICard title="Openstaande Schulden" value={formatCurrency(totalDebt)} icon={<CreditCard className="h-6 w-6" />} />
-          <KPICard title="Maandelijkse Aflossing" value={formatCurrency(totalMonthlyPayments)} icon={<Receipt className="h-6 w-6" />} />
-          <KPICard title="Spaarquote" value={`${savingsRate.toFixed(1)}%`} icon={<PiggyBank className="h-6 w-6" />} />
-        </div>
+        {/* Charts */}
+        <div className="space-y-4 sm:space-y-6">
+          <BalanceFlowChart transactions={statsTransactions} />
 
-        <BalanceFlowChart transactions={statsTransactions} />
+          <YearlyProjectionChart transactions={statsTransactions} debts={filteredDebts} />
 
-        <YearlyProjectionChart transactions={statsTransactions} debts={filteredDebts} />
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
+            <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
+            <ExpenseChart transactions={statsTransactions} />
+          </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
-          <ExpenseChart transactions={statsTransactions} />
-        </div>
+          {householdMembers.length > 0 && (
+            <SharedExpenseBalance transactions={transactions} householdMembers={householdMembers} />
+          )}
 
-        {/* Shared expense balance - only show when there are household members */}
-        {householdMembers.length > 0 && (
-          <SharedExpenseBalance transactions={transactions} householdMembers={householdMembers} />
-        )}
-
-        <TransactionBreakdown transactions={filteredTransactions} memberCount={memberCount} view={view} />
-        {/* Donatie Card */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-              <span className="text-2xl">☕</span>
+          <TransactionBreakdown transactions={filteredTransactions} memberCount={memberCount} view={view} />
+          
+          {/* Donation Card */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-card via-card to-primary/5 border border-border/50 p-5 sm:p-6">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+            <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0">
+                <Coffee className="w-7 h-7 text-primary" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="font-heading font-bold text-lg sm:text-xl mb-1">
+                  Vind je FinOverzicht handig?
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  FinOverzicht is gratis. Wil je ons steunen? Doneer een klein bedrag!
+                </p>
+              </div>
+              <a 
+                href="https://tikkie.me/pay/JOUW-TIKKIE-LINK" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button 
+                  className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-6"
+                >
+                  <span className="mr-2">💚</span>
+                  Doneer via Tikkie
+                </Button>
+              </a>
             </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h3 className="font-heading font-semibold text-lg mb-1">Heeft FinOverzicht je geholpen?</h3>
-              <p className="text-sm text-muted-foreground">
-                FinOverzicht is gratis. Wil je ons steunen? Doneer een klein bedrag via Tikkie!
-              </p>
-            </div>
-            <a 
-              href="https://tikkie.me/pay/JOUW-TIKKIE-LINK" 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <Button variant="outline" className="shrink-0 border-primary/30 hover:bg-primary/10 hover:border-primary/50">
-                <span className="mr-2">💚</span>
-                Doneer via Tikkie
-              </Button>
-            </a>
           </div>
         </div>
       </div>
