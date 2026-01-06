@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -19,6 +20,12 @@ import {
 } from "lucide-react";
 
 const VasteLastenOverzicht = () => {
+  useSEO({
+    title: 'Vaste Lasten Overzicht - Alle Kosten op een Rij | FinOverzicht',
+    description: 'Compleet overzicht van vaste lasten in Nederland. Ontdek welke kosten normaal zijn en waar je kunt besparen op huur, energie en verzekeringen.',
+    canonical: 'https://www.finoverzicht.nl/vaste-lasten-overzicht'
+  });
+
   const vasteLasten = [
     {
       icon: Home,

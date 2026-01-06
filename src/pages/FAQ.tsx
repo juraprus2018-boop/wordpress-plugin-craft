@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -21,6 +22,12 @@ import {
 } from "@/components/ui/accordion";
 
 const FAQ = () => {
+  useSEO({
+    title: 'Veelgestelde Vragen (FAQ) - FinOverzicht',
+    description: 'Antwoorden op veelgestelde vragen over FinOverzicht. Leer meer over functies, privacy, kosten en hoe je begint met je gratis huishoudboekje.',
+    canonical: 'https://www.finoverzicht.nl/faq'
+  });
+
   const faqCategories = [
     {
       title: "Algemeen",

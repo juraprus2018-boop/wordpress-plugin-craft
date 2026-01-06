@@ -1,7 +1,14 @@
+import { useSEO } from '@/hooks/useSEO';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
 
 export default function Voorwaarden() {
+  useSEO({
+    title: 'Algemene Voorwaarden - FinOverzicht',
+    description: 'Lees de algemene voorwaarden van FinOverzicht. Informatie over het gebruik van onze gratis huishoudboekje dienst.',
+    canonical: 'https://www.finoverzicht.nl/voorwaarden'
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicHeader />

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,12 @@ import { Mail, MessageSquare, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Contact() {
+  useSEO({
+    title: 'Contact - FinOverzicht | Neem Contact Op',
+    description: 'Heb je een vraag over FinOverzicht? Neem contact met ons op via het contactformulier of e-mail. We helpen je graag verder.',
+    canonical: 'https://www.finoverzicht.nl/contact'
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',

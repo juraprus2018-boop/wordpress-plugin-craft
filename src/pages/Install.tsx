@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, Smartphone, Check, Share, Plus, MoreVertical, Chrome, ArrowLeft, ExternalLink } from 'lucide-react';
@@ -11,6 +12,12 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 const Install = () => {
+  useSEO({
+    title: 'App Installeren - FinOverzicht',
+    description: 'Installeer FinOverzicht als app op je telefoon of computer. Krijg snelle toegang tot je financieel overzicht vanaf je startscherm.',
+    canonical: 'https://www.finoverzicht.nl/install'
+  });
+
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);

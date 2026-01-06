@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
@@ -20,6 +21,12 @@ import {
 } from 'lucide-react';
 
 export default function Landing() {
+  useSEO({
+    title: 'FinOverzicht - Gratis Huishoudboekje voor Financieel Overzicht',
+    description: 'Krijg grip op je financiën met FinOverzicht. Gratis huishoudboekje om inkomsten, uitgaven en schulden bij te houden. Start vandaag nog!',
+    canonical: 'https://www.finoverzicht.nl/'
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicHeader />

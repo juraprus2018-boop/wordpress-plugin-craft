@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
@@ -75,6 +76,12 @@ const features = [
 ];
 
 export default function Functies() {
+  useSEO({
+    title: 'Functies - FinOverzicht | Alle Mogelijkheden',
+    description: 'Ontdek alle functies van FinOverzicht: dashboard, categorieën, schulden beheren, grafieken, export naar PDF/Excel en meer. 100% gratis.',
+    canonical: 'https://www.finoverzicht.nl/functies'
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicHeader />

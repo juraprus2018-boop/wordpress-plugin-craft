@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
 import { Heart, Target, Users, ArrowRight } from 'lucide-react';
 
 export default function OverOns() {
+  useSEO({
+    title: 'Over Ons - FinOverzicht | Onze Missie',
+    description: 'Leer meer over FinOverzicht en onze missie om financieel overzicht toegankelijk te maken voor iedereen. Gratis, eenvoudig en privacyvriendelijk.',
+    canonical: 'https://www.finoverzicht.nl/over-ons'
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicHeader />

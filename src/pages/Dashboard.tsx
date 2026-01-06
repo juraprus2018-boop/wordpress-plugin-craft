@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -18,6 +19,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2 } from 'lucide-react';
 
 export default function Dashboard() {
+  useSEO({
+    title: 'Dashboard - FinOverzicht',
+    description: 'Bekijk je financieel overzicht in het dashboard. Inkomsten, uitgaven, schulden en spaarpercentage in één oogopslag.',
+  });
+
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { transactions, householdMembers, isLoading } = useTransactions();

@@ -1,7 +1,14 @@
+import { useSEO } from '@/hooks/useSEO';
 import { PublicHeader } from '@/components/layout/PublicHeader';
 import { PublicFooter } from '@/components/layout/PublicFooter';
 
 export default function Privacy() {
+  useSEO({
+    title: 'Privacybeleid - FinOverzicht',
+    description: 'Lees ons privacybeleid. Bij FinOverzicht nemen we je privacy serieus. Je gegevens zijn veilig en worden nooit gedeeld met derden.',
+    canonical: 'https://www.finoverzicht.nl/privacy'
+  });
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <PublicHeader />

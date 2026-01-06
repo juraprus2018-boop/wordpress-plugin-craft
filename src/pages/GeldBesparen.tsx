@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -19,6 +20,12 @@ import {
 } from "lucide-react";
 
 const GeldBesparen = () => {
+  useSEO({
+    title: 'Geld Besparen - Tips om Honderden Euro\'s te Besparen | FinOverzicht',
+    description: 'Praktische bespaartips die direct resultaat opleveren. Bespaar €400-900 per maand met slimme keuzes. Ontdek tips per categorie.',
+    canonical: 'https://www.finoverzicht.nl/geld-besparen'
+  });
+
   const besparingCategories = [
     {
       icon: Home,

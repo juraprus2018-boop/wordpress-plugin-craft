@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -6,6 +7,11 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { TransactionList } from '@/components/transactions/TransactionList';
 
 export default function Income() {
+  useSEO({
+    title: 'Inkomsten - FinOverzicht',
+    description: 'Beheer je inkomsten in FinOverzicht. Voeg salaris, bijverdiensten en andere inkomstenbronnen toe.',
+  });
+
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { incomeTransactions, incomeCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember } = useTransactions();

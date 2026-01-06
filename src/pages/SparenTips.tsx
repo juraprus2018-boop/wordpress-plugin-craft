@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -19,6 +20,12 @@ import {
 } from "lucide-react";
 
 const SparenTips = () => {
+  useSEO({
+    title: 'Spaartips - Slim Sparen voor Financiële Vrijheid | FinOverzicht',
+    description: 'Slimme spaartips voor meer financiële vrijheid. Van dagelijkse besparingen tot spaardoelen en de 10% regel. Start vandaag.',
+    canonical: 'https://www.finoverzicht.nl/sparen-tips'
+  });
+
   const sparenCategories = [
     {
       icon: Coffee,

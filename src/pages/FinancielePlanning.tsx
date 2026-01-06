@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -19,6 +20,12 @@ import {
 } from "lucide-react";
 
 const FinancielePlanning = () => {
+  useSEO({
+    title: 'Financiële Planning - Stappenplan voor je Toekomst | FinOverzicht',
+    description: 'Maak een financieel plan voor je toekomst. Van huis kopen tot pensioen, met SMART doelen en planning per tijdshorizon.',
+    canonical: 'https://www.finoverzicht.nl/financiele-planning'
+  });
+
   const lifeGoals = [
     {
       icon: Home,
