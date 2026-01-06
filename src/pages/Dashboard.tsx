@@ -39,9 +39,15 @@ export default function Dashboard() {
     selectedMember === 'all' ? 'all' : selectedMember === 'personal' ? 'personal' : 'member';
 
   // Filter transactions by selected view
+  // - "all": show everything (totals)
+  // - "personal": show transactions without member_id + shared expenses (user's share)
+  // - "member": show that member's transactions + shared expenses (member's share)
   const filteredTransactions = useMemo(() => {
     if (view === 'all') return transactions;
-    if (view === 'personal') return transactions.filter(t => !t.is_shared);
+    if (view === 'personal') {
+      // Show non-assigned transactions + shared expenses (which belong to everyone)
+      return transactions.filter(t => !t.member_id || t.is_shared);
+    }
     return transactions.filter(t => t.member_id === selectedMember || t.is_shared);
   }, [transactions, selectedMember, view]);
 
@@ -60,11 +66,13 @@ export default function Dashboard() {
   const memberCount = Math.max(householdMembers.length, 1);
 
   // For dashboard statistics we show monthly amounts.
-  // In "per lid" view, shared transactions are shown as the per-person share.
+  // When NOT in "all" view, shared expenses are divided by member count.
   const statsTransactions = useMemo(() => {
     return filteredTransactions.map((t) => {
       const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-      const effectiveAmount = t.is_shared && view === 'member' ? monthlyAmount / memberCount : monthlyAmount;
+      // Divide shared expenses when viewing personal or member
+      const shouldDivide = t.is_shared && view !== 'all' && memberCount > 1;
+      const effectiveAmount = shouldDivide ? monthlyAmount / memberCount : monthlyAmount;
       return { ...t, amount: effectiveAmount };
     });
   }, [filteredTransactions, memberCount, view]);
