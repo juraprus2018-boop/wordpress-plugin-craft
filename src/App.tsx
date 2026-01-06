@@ -29,6 +29,7 @@ import FAQ from "./pages/FAQ";
 import SharedExpenses from "./pages/SharedExpenses";
 import Install from "./pages/Install";
 import { InstallBanner } from "./components/pwa/InstallBanner";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<SmartLanding />} />
             <Route path="/functies" element={<Functies />} />
