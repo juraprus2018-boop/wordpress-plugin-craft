@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail, MessageSquare, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function Contact() {
   useSEO({
@@ -48,12 +49,33 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast.success('Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setIsSubmitting(false);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-email', {
+        body: {
+          to: 'info@finoverzicht.nl',
+          subject: `Contact: ${formData.subject}`,
+          html: `
+            <h2>Nieuw contactbericht via FinOverzicht</h2>
+            <p><strong>Van:</strong> ${formData.name} (${formData.email})</p>
+            <p><strong>Onderwerp:</strong> ${formData.subject}</p>
+            <hr />
+            <p><strong>Bericht:</strong></p>
+            <p>${formData.message.replace(/\n/g, '<br />')}</p>
+          `,
+          text: `Van: ${formData.name} (${formData.email})\nOnderwerp: ${formData.subject}\n\nBericht:\n${formData.message}`,
+        },
+      });
+
+      if (error) throw error;
+
+      toast.success('Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Error sending contact email:', error);
+      toast.error('Er ging iets mis bij het versturen. Probeer het later opnieuw of mail direct naar info@finoverzicht.nl');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
