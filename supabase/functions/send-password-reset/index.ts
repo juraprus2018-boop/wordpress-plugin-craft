@@ -76,19 +76,13 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    let resetLink = data.properties?.action_link;
+    const resetLink = data.properties?.action_link;
 
     if (!resetLink) {
       throw new Error("Failed to generate reset link");
     }
 
-    // Replace Supabase domain with finoverzicht.nl domain
-    // The Supabase link format: https://[project].supabase.co/auth/v1/verify?token=...&type=recovery&redirect_to=...
-    // We need to redirect through finoverzicht.nl instead
-    resetLink = resetLink.replace(
-      /https:\/\/[^\/]+\.supabase\.co/,
-      "https://www.finoverzicht.nl"
-    );
+    console.log(`Generated reset link for: ${email}`);
 
     console.log(`Sending password reset email to: ${email}`);
 
