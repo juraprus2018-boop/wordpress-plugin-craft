@@ -371,7 +371,7 @@ export default function Auth() {
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success('Als er een account met dit e-mailadres bestaat, ontvang je een e-mail met instructies.');
+        toast.success('Als er een account met dit e-mailadres bestaat, ontvang je een e-mail met instructies. Controleer ook je spam/ongewenste map!');
         setMode('signin');
       }
     } finally {
@@ -406,7 +406,7 @@ export default function Auth() {
   const getDescription = () => {
     switch (mode) {
       case 'signup': return 'Maak een gratis account aan';
-      case 'forgot': return 'Vul je e-mailadres in om je wachtwoord te herstellen';
+      case 'forgot': return 'Vul je e-mailadres in om je wachtwoord te herstellen. Controleer ook je spam/ongewenste map.';
       case 'reset': return 'Kies een nieuw wachtwoord';
       default: return 'Log in op je account';
     }
