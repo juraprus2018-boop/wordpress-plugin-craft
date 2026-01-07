@@ -17,7 +17,8 @@ import {
   Clock,
   Sparkles,
   Zap,
-  LineChart
+  LineChart,
+  Smartphone
 } from 'lucide-react';
 
 export default function Landing() {
@@ -85,23 +86,54 @@ export default function Landing() {
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
         </section>
 
-        {/* Stats Section */}
+        {/* How to use Section */}
         <section className="py-16 relative">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                { value: "100%", label: "Gratis" },
-                { value: "< 2min", label: "Account aanmaken" },
-                { value: "∞", label: "Transacties" },
-                { value: "24/7", label: "Toegang" },
-              ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="font-heading text-3xl md:text-4xl font-bold text-gradient mb-2">
-                    {stat.value}
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-10">
+                <h2 className="font-heading text-2xl md:text-3xl font-bold mb-4">
+                  Gebruik het zoals jij wilt
+                </h2>
+                <p className="text-muted-foreground">
+                  FinOverzicht werkt op twee manieren — kies wat bij jou past.
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* App Option */}
+                <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <Smartphone className="h-7 w-7" />
                   </div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <h3 className="font-heading font-semibold text-xl mb-2">📱 Als app op je telefoon</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Installeer FinOverzicht als app op je startscherm. Opent snel, werkt offline en je blijft automatisch ingelogd.
+                  </p>
+                  <Link to="/install">
+                    <Button variant="outline" className="rounded-full">
+                      App installeren
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
-              ))}
+                
+                {/* Website Option */}
+                <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all">
+                  <div className="w-14 h-14 rounded-xl bg-info/10 text-info flex items-center justify-center mb-4">
+                    <BarChart3 className="h-7 w-7" />
+                  </div>
+                  <h3 className="font-heading font-semibold text-xl mb-2">💻 Via de website</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Log gewoon in via de browser op je computer, tablet of telefoon. Geen installatie nodig.
+                  </p>
+                  <Link to="/auth">
+                    <Button variant="outline" className="rounded-full">
+                      Inloggen / Aanmelden
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>

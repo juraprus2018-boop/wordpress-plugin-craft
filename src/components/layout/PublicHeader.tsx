@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Wallet, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
+import { Wallet, Menu, X, ChevronDown, Sparkles, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/functies', label: 'Functies' },
+  { href: '/install', label: 'Download App' },
   { href: '/faq', label: 'FAQ' },
 ];
 

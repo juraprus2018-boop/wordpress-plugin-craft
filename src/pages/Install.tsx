@@ -14,7 +14,7 @@ interface BeforeInstallPromptEvent extends Event {
 const Install = () => {
   useSEO({
     title: 'App Installeren - FinOverzicht',
-    description: 'Installeer FinOverzicht als app op je telefoon of computer. Krijg snelle toegang tot je financieel overzicht vanaf je startscherm.',
+    description: 'Installeer FinOverzicht als app op je telefoon voor snelle toegang. Of gebruik gewoon de website - beide opties werken prima!',
     canonical: 'https://www.finoverzicht.nl/install'
   });
 
@@ -125,14 +125,24 @@ const Install = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8 max-w-lg">
+        {/* Info Banner */}
+        <div className="mb-6 p-4 rounded-xl bg-info/10 border border-info/20">
+          <p className="text-sm text-center">
+            <strong>💡 Tip:</strong> Je kunt FinOverzicht ook gewoon via de website gebruiken.{' '}
+            <Link to="/auth" className="text-primary underline hover:no-underline">
+              Inloggen via browser
+            </Link>
+          </p>
+        </div>
+
         {/* App Preview Card */}
         <Card className="mb-8 overflow-hidden border-0 shadow-xl">
           <div className="bg-gradient-to-br from-primary to-primary/80 p-8 text-center text-primary-foreground">
             <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Smartphone className="h-10 w-10" />
             </div>
-            <h2 className="text-2xl font-bold mb-2">FinOverzicht</h2>
-            <p className="text-primary-foreground/80">Jouw financiën, altijd bij de hand</p>
+            <h2 className="text-2xl font-bold mb-2">FinOverzicht App</h2>
+            <p className="text-primary-foreground/80">Snelle toegang vanaf je startscherm</p>
           </div>
           
           {deferredPrompt && (
@@ -324,7 +334,6 @@ const Install = () => {
                 {[
                   { icon: "🚀", title: "Snelle toegang", desc: "Direct openen vanaf je startscherm" },
                   { icon: "📱", title: "Volledig scherm", desc: "Geen browser-interface, meer ruimte" },
-                  { icon: "🔔", title: "Notificaties", desc: "Ontvang herinneringen voor betalingen" },
                   { icon: "🔒", title: "Blijf ingelogd", desc: "Automatisch ingelogd in de app" },
                 ].map((benefit, i) => (
                   <li key={i} className="flex items-start gap-3">
@@ -336,6 +345,23 @@ const Install = () => {
                   </li>
                 ))}
               </ul>
+            </CardContent>
+          </Card>
+
+          {/* Website Alternative */}
+          <Card className="border-info/20 bg-info/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Liever via de website?</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-sm mb-4">
+                Geen zin om te installeren? Geen probleem! Je kunt FinOverzicht ook gewoon via de browser gebruiken op je computer, tablet of telefoon.
+              </p>
+              <Link to="/auth">
+                <Button variant="outline" className="w-full">
+                  Inloggen via browser
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
