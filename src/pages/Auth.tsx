@@ -318,13 +318,17 @@ export default function Auth() {
     setIsVerifyingResetLink(true);
     supabase.auth
       .verifyOtp({ type, token_hash })
-      .then(({ error }) => {
-        if (error) {
+      .then(({ data, error }) => {
+        if (error || !data.session) {
           toast.error('Resetlink is ongeldig of verlopen. Vraag een nieuwe aan.');
           setMode('forgot');
           return;
         }
-        setResetLinkVerified(true);
+        // Session is now established by verifyOtp - the auth listener will pick it up
+        // Give it a moment to propagate
+        setTimeout(() => {
+          setResetLinkVerified(true);
+        }, 100);
       })
       .finally(() => setIsVerifyingResetLink(false));
   }, [mode, searchParams, resetLinkVerified, isVerifyingResetLink]);
