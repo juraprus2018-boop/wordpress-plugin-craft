@@ -10,6 +10,7 @@ import { HouseholdMembersCard } from '@/components/settings/HouseholdMembersCard
 import { CategoriesCard } from '@/components/settings/CategoriesCard';
 import { ThemeToggle } from '@/components/settings/ThemeToggle';
 import { NotificationSettingsCard } from '@/components/settings/NotificationSettingsCard';
+import { ResetDataCard } from '@/components/settings/ResetDataCard';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
@@ -104,6 +105,8 @@ export default function Settings() {
           onUpdate={handleUpdateCategory}
           onDelete={handleDeleteCategory}
         />
+
+        <ResetDataCard />
       </div>
     </DashboardLayout>
   );
