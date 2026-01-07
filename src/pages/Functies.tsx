@@ -21,69 +21,69 @@ import {
 const features = [
   {
     icon: BarChart3,
-    title: 'Dashboard met KPIs',
-    description: 'Bekijk in één oogopslag je totale inkomsten, uitgaven, netto resultaat en spaarpercentage. Alle bedragen worden automatisch genormaliseerd naar maandbedragen.',
+    title: 'Dashboard',
+    description: 'Zie in één oogopslag je totale inkomsten, uitgaven en wat je overhoudt. Alle bedragen worden automatisch omgerekend naar maandbedragen.',
     color: 'primary',
   },
   {
     icon: TrendingUp,
     title: 'Inkomsten bijhouden',
-    description: 'Registreer al je inkomstenbronnen zoals salaris, freelance werk, uitkeringen of andere inkomsten. Stel de frequentie in van maandelijks tot jaarlijks.',
+    description: 'Houd al je inkomstenbronnen bij: salaris, bijverdiensten, toeslagen of andere inkomsten. Stel de frequentie in van maandelijks tot jaarlijks.',
     color: 'success',
   },
   {
     icon: TrendingDown,
-    title: 'Uitgaven beheren',
-    description: 'Houd al je vaste lasten en uitgaven bij. Categoriseer ze voor beter inzicht en zie precies waar je geld naartoe gaat.',
+    title: 'Uitgaven bijhouden',
+    description: 'Houd al je uitgaven bij en categoriseer ze. Zie precies waar je geld naartoe gaat.',
     color: 'destructive',
   },
   {
     icon: CreditCard,
-    title: 'Schulden volgen',
-    description: 'Beheer je schulden en leningen. Zie de voortgang van je aflossing met een visuele voortgangsbalk en registreer betalingen.',
+    title: 'Schulden bijhouden (optioneel)',
+    description: 'Heb je schulden? Houd ze bij en registreer aflossingen om je voortgang te zien.',
     color: 'warning',
   },
   {
     icon: Tag,
     title: 'Categorieën',
-    description: 'Organiseer je inkomsten en uitgaven met aanpasbare categorieën. Maak je eigen categorieën aan met kleuren naar keuze.',
+    description: 'Organiseer je inkomsten en uitgaven met categorieën. Maak je eigen categorieën aan met kleuren naar keuze.',
     color: 'info',
   },
   {
     icon: Users,
     title: 'Gezinsleden',
-    description: 'Voeg gezinsleden toe en koppel transacties aan specifieke personen. Ideaal voor huishoudens om overzicht te houden.',
+    description: 'Voeg gezinsleden toe en koppel transacties aan specifieke personen. Handig voor huishoudens.',
     color: 'primary',
   },
   {
     icon: Calendar,
     title: 'Frequenties',
-    description: 'Stel in hoe vaak een inkomst of uitgave voorkomt: maandelijks, per kwartaal, halfjaarlijks of jaarlijks. Alles wordt automatisch omgerekend.',
+    description: 'Maandelijks, per kwartaal, halfjaarlijks of jaarlijks - alles wordt automatisch omgerekend naar maandbedragen.',
     color: 'success',
   },
   {
     icon: Download,
     title: 'Exporteren',
-    description: 'Download je gegevens als PDF of Excel bestand. Handig voor je administratie of om te delen met anderen.',
+    description: 'Download je gegevens als PDF of Excel bestand voor je eigen administratie.',
     color: 'info',
   },
   {
     icon: Moon,
     title: 'Donker thema',
-    description: 'Werk je liever in donkere modus? Schakel eenvoudig tussen licht, donker of systeemvoorkeur.',
+    description: 'Schakel eenvoudig tussen licht, donker of systeemvoorkeur.',
     color: 'primary',
   },
 ];
 
 export default function Functies() {
   useSEO({
-    title: 'Functies - FinOverzicht | Alle Mogelijkheden',
-    description: 'Ontdek alle functies van FinOverzicht: dashboard, categorieën, schulden beheren, grafieken, export naar PDF/Excel en meer. 100% gratis.',
+    title: 'Functies - FinOverzicht | Inzicht in je Financiën',
+    description: 'Ontdek de functies van FinOverzicht: houd je inkomsten en uitgaven bij, volg eventueel je schulden en zie wat je kunt sparen. 100% gratis.',
     canonical: 'https://www.finoverzicht.nl/functies',
     jsonLd: [
       createWebPageSchema(
         'Functies - FinOverzicht',
-        'Ontdek alle functies van FinOverzicht: dashboard, categorieën, schulden beheren, grafieken, export naar PDF/Excel en meer.',
+        'Ontdek de functies van FinOverzicht: houd je inkomsten en uitgaven bij, volg eventueel je schulden en zie wat je kunt sparen.',
         'https://www.finoverzicht.nl/functies'
       ),
       createBreadcrumbSchema([
@@ -102,10 +102,10 @@ export default function Functies() {
         <section className="py-20 bg-gradient-to-br from-primary/5 via-transparent to-info/5">
           <div className="container mx-auto px-4 text-center">
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6">
-              Alle functies van FinOverzicht
+              Functies van FinOverzicht
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Ontdek alle mogelijkheden om je financiën overzichtelijk te beheren. Volledig gratis, zonder verborgen kosten.
+              Maak je inkomsten en uitgaven inzichtelijk. Houd eventueel schulden bij en ontdek wat je kunt sparen.
             </p>
             <Link to="/auth?mode=signup">
               <Button size="lg" className="text-lg px-8">

@@ -7,20 +7,20 @@ import { Heart, Target, Users, ArrowRight } from 'lucide-react';
 
 export default function OverOns() {
   useSEO({
-    title: 'Over Ons - FinOverzicht | Onze Missie',
-    description: 'Leer meer over FinOverzicht en onze missie om financieel overzicht toegankelijk te maken voor iedereen. Gratis, eenvoudig en privacyvriendelijk.',
+    title: 'Over Ons - FinOverzicht | Inzicht in je Financiën',
+    description: 'FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Gratis, eenvoudig en privacyvriendelijk.',
     canonical: 'https://www.finoverzicht.nl/over-ons',
     jsonLd: [
       {
         "@context": "https://schema.org",
         "@type": "AboutPage",
         "name": "Over FinOverzicht",
-        "description": "Leer meer over FinOverzicht en onze missie om financieel overzicht toegankelijk te maken voor iedereen.",
+        "description": "FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Gratis, eenvoudig en privacyvriendelijk.",
         "url": "https://www.finoverzicht.nl/over-ons",
         "mainEntity": {
           "@type": "Organization",
           "name": "FinOverzicht",
-          "description": "Gratis huishoudboekje voor financieel overzicht",
+          "description": "Gratis tool om je inkomsten en uitgaven inzichtelijk te maken",
           "foundingDate": "2024",
           "url": "https://www.finoverzicht.nl"
         }
@@ -44,7 +44,7 @@ export default function OverOns() {
               Over FinOverzicht
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Wij geloven dat iedereen recht heeft op financieel overzicht, zonder ingewikkelde tools of dure abonnementen.
+              FinOverzicht maakt je inkomsten en uitgaven inzichtelijk, zodat je weet wat je kunt sparen.
             </p>
           </div>
         </section>
@@ -54,19 +54,17 @@ export default function OverOns() {
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
               <div>
-                <h2 className="font-heading text-3xl font-bold mb-6">Onze missie</h2>
+                <h2 className="font-heading text-3xl font-bold mb-6">Waarom FinOverzicht?</h2>
                 <p className="text-muted-foreground mb-4">
-                  FinOverzicht is ontstaan uit een simpele gedachte: financieel overzicht hoeft niet ingewikkeld te zijn. 
-                  Veel mensen worstelen met het bijhouden van hun inkomsten en uitgaven, niet omdat het moeilijk is, 
-                  maar omdat de bestaande tools te complex zijn of geld kosten.
+                  FinOverzicht is ontstaan uit een simpele gedachte: inzicht in je financiën hoeft niet ingewikkeld te zijn. 
+                  Hoeveel komt er binnen? Waar gaat het naartoe? En wat blijft er over om te sparen?
                 </p>
                 <p className="text-muted-foreground mb-4">
-                  Daarom hebben we FinOverzicht gemaakt: een eenvoudige, gratis tool waarmee iedereen 
-                  grip kan krijgen op zijn of haar financiën. Of je nu student bent met je eerste bijbaantje, 
-                  of een gezin dat de maandelijkse kosten wil bijhouden.
+                  Met FinOverzicht maak je dit inzichtelijk. Houd je inkomsten en uitgaven bij, en eventueel 
+                  je schulden als je die hebt. Zo zie je precies waar je staat.
                 </p>
                 <p className="text-muted-foreground">
-                  Geen ingewikkelde grafieken, geen onnodige functies, geen abonnementskosten. 
+                  Geen ingewikkelde functies, geen abonnementskosten. 
                   Gewoon een helder overzicht van wat er binnenkomt en wat er uitgaat.
                 </p>
               </div>
@@ -77,7 +75,7 @@ export default function OverOns() {
                   </div>
                   <h3 className="font-heading font-semibold text-lg mb-2">Eenvoud</h3>
                   <p className="text-muted-foreground text-sm">
-                    Geen overbodige functies. Alleen wat je echt nodig hebt voor financieel overzicht.
+                    Alleen wat je nodig hebt: inkomsten, uitgaven en optioneel schulden bijhouden.
                   </p>
                 </div>
                 <div className="p-6 rounded-2xl bg-card border border-border">
@@ -110,7 +108,7 @@ export default function OverOns() {
               Probeer het zelf
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-              Ontdek hoe eenvoudig het is om overzicht te krijgen over je financiën.
+              Maak je inkomsten en uitgaven inzichtelijk en ontdek wat je kunt sparen.
             </p>
             <Link to="/auth?mode=signup">
               <Button size="lg" className="text-lg px-8">
