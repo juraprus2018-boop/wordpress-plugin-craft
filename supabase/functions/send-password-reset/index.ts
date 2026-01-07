@@ -55,10 +55,11 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
 
-    // Generate password reset link using Supabase
+    // Generate password reset link
     const { data, error: resetError } = await supabase.auth.admin.generateLink({
       type: "recovery",
-      email: email,
+      email,
+      // We'll send a FinOverzicht URL ourselves; this `redirectTo` is still set as a safe default.
       options: {
         redirectTo: "https://www.finoverzicht.nl/auth?mode=reset",
       },
@@ -76,11 +77,18 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const resetLink = data.properties?.action_link;
+    const actionLink = data.properties?.action_link;
+    if (!actionLink) throw new Error("Failed to generate reset link");
 
-    if (!resetLink) {
-      throw new Error("Failed to generate reset link");
-    }
+    // We do NOT email the auth verify URL (which would open /auth/v1/verify in the PWA and 404).
+    // Instead, extract token + type and let the app verify via supabase.auth.verifyOtp.
+    const url = new URL(actionLink);
+    const tokenHash = url.searchParams.get("token_hash") ?? url.searchParams.get("token");
+    const type = url.searchParams.get("type") ?? "recovery";
+
+    if (!tokenHash) throw new Error("Failed to extract reset token from action link");
+
+    const resetLink = `https://www.finoverzicht.nl/auth?mode=reset&type=${encodeURIComponent(type)}&token_hash=${encodeURIComponent(tokenHash)}`;
 
     console.log(`Generated reset link for: ${email}`);
 
