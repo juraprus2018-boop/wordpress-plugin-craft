@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { Wallet, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -298,8 +299,35 @@ export default function Auth() {
                       searchParams.get('mode') === 'reset' ? 'reset' : 'signin';
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifyingResetLink, setIsVerifyingResetLink] = useState(false);
+  const [resetLinkVerified, setResetLinkVerified] = useState(false);
+
   const { signIn, signUp, resetPassword, updatePassword, user } = useAuth();
   const navigate = useNavigate();
+
+  // When opening the reset link from email (including inside the PWA), verify it in-app
+  // so the user never has to hit the /auth/v1/verify endpoint URL.
+  useEffect(() => {
+    if (mode !== 'reset') return;
+
+    const token_hash = searchParams.get('token_hash') ?? searchParams.get('token');
+    const type = (searchParams.get('type') ?? 'recovery') as any;
+
+    if (!token_hash || resetLinkVerified || isVerifyingResetLink) return;
+
+    setIsVerifyingResetLink(true);
+    supabase.auth
+      .verifyOtp({ type, token_hash })
+      .then(({ error }) => {
+        if (error) {
+          toast.error('Resetlink is ongeldig of verlopen. Vraag een nieuwe aan.');
+          setMode('forgot');
+          return;
+        }
+        setResetLinkVerified(true);
+      })
+      .finally(() => setIsVerifyingResetLink(false));
+  }, [mode, searchParams, resetLinkVerified, isVerifyingResetLink]);
 
   useEffect(() => {
     const title = mode === 'signup' ? 'Account aanmaken | FinOverzicht' : 
@@ -438,10 +466,16 @@ export default function Auth() {
               onBack={() => setMode('signin')}
             />
           ) : mode === 'reset' ? (
-            <NewPasswordForm
-              isLoading={isLoading}
-              onSubmit={onNewPasswordSubmit}
-            />
+            isVerifyingResetLink ? (
+              <div className="text-sm text-muted-foreground">
+                Resetlink controleren...
+              </div>
+            ) : (
+              <NewPasswordForm
+                isLoading={isLoading}
+                onSubmit={onNewPasswordSubmit}
+              />
+            )
           ) : (
             <AuthForm
               key={mode}
