@@ -110,21 +110,78 @@ export function TransactionList({
   return (
     <>
       <Card className="animate-fade-in">
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <CardTitle className="font-heading">{title}</CardTitle>
-            <p className={cn(
-              "text-2xl font-bold mt-2",
-              type === 'income' ? "text-success" : "text-destructive"
-            )}>
-              {formatCurrency(total)}
-            </p>
+        <CardHeader className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <CardTitle className="font-heading">{title}</CardTitle>
+              <p className={cn(
+                "text-2xl font-bold mt-2",
+                type === 'income' ? "text-success" : "text-destructive"
+              )}>
+                {formatCurrency(total)}
+              </p>
+            </div>
+            {/* Desktop: all buttons in a row */}
+            <div className="hidden sm:flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={memberFilter} onValueChange={setMemberFilter}>
+                  <SelectTrigger className="w-[160px]">
+                    <SelectValue placeholder="Filter op lid" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Iedereen</SelectItem>
+                    <SelectItem value="shared">Gezamenlijk</SelectItem>
+                    <SelectItem value="none">Niet toegewezen</SelectItem>
+                    {householdMembers.map((member) => (
+                      <SelectItem key={member.id} value={member.id}>
+                        <span className="flex items-center gap-2">
+                          <span 
+                            className="w-2 h-2 rounded-full" 
+                            style={{ backgroundColor: member.color || '#6B7280' }}
+                          />
+                          {member.name}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem 
+                    onClick={() => exportToPDF({ transactions: filteredTransactions, type, title })}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download als PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => exportToExcel({ transactions: filteredTransactions, type, title })}
+                  >
+                    <FileSpreadsheet className="h-4 w-4 mr-2" />
+                    Download als Excel
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button onClick={() => setFormOpen(true)} size="sm">
+                <Plus className="h-4 w-4 mr-2" />
+                Toevoegen
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
+          
+          {/* Mobile: stacked layout */}
+          <div className="flex sm:hidden flex-col gap-3">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
               <Select value={memberFilter} onValueChange={setMemberFilter}>
-                <SelectTrigger className="w-[160px]">
+                <SelectTrigger className="flex-1">
                   <SelectValue placeholder="Filter op lid" />
                 </SelectTrigger>
                 <SelectContent>
@@ -145,32 +202,34 @@ export function TransactionList({
                 </SelectContent>
               </Select>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem 
-                  onClick={() => exportToPDF({ transactions: filteredTransactions, type, title })}
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Download als PDF
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => exportToExcel({ transactions: filteredTransactions, type, title })}
-                >
-                  <FileSpreadsheet className="h-4 w-4 mr-2" />
-                  Download als Excel
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button onClick={() => setFormOpen(true)} size="sm">
-              <Plus className="h-4 w-4 mr-2" />
-              Toevoegen
-            </Button>
+            <div className="flex gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem 
+                    onClick={() => exportToPDF({ transactions: filteredTransactions, type, title })}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Download als PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => exportToExcel({ transactions: filteredTransactions, type, title })}
+                  >
+                    <FileSpreadsheet className="h-4 w-4 mr-2" />
+                    Download als Excel
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button onClick={() => setFormOpen(true)} size="sm" className="flex-1">
+                <Plus className="h-4 w-4 mr-2" />
+                Toevoegen
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
