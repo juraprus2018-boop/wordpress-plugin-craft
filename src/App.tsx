@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/lib/auth";
 import { SmartLanding } from "./components/SmartLanding";
+import AuthCallback from "./pages/AuthCallback";
 import Functies from "./pages/Functies";
 import OverOns from "./pages/OverOns";
 import Contact from "./pages/Contact";
@@ -50,6 +51,7 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/voorwaarden" element={<Voorwaarden />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/income" element={<Income />} />
             <Route path="/expenses" element={<Expenses />} />
