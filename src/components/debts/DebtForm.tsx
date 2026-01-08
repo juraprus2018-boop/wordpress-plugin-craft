@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
   const [creditor, setCreditor] = useState('');
   const [originalAmount, setOriginalAmount] = useState('');
   const [remainingAmount, setRemainingAmount] = useState('');
+  const [hasPaymentPlan, setHasPaymentPlan] = useState(false);
   const [monthlyPayment, setMonthlyPayment] = useState('');
   const [dayOfMonth, setDayOfMonth] = useState<string>('');
   const [memberId, setMemberId] = useState<string>('');
@@ -52,6 +54,8 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
       setCreditor(debt.creditor || '');
       setOriginalAmount(debt.original_amount.toString());
       setRemainingAmount(debt.remaining_amount.toString());
+      const hasPlan = debt.monthly_payment > 0;
+      setHasPaymentPlan(hasPlan);
       setMonthlyPayment(debt.monthly_payment.toString());
       setDayOfMonth(debt.day_of_month?.toString() || '');
       setMemberId(debt.member_id || '');
@@ -66,6 +70,7 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
     setCreditor('');
     setOriginalAmount('');
     setRemainingAmount('');
+    setHasPaymentPlan(false);
     setMonthlyPayment('');
     setDayOfMonth('');
     setMemberId('');
@@ -80,8 +85,8 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
       creditor: creditor || undefined,
       original_amount: parseFloat(originalAmount),
       remaining_amount: parseFloat(remainingAmount || originalAmount),
-      monthly_payment: parseFloat(monthlyPayment) || 0,
-      day_of_month: dayOfMonth ? parseInt(dayOfMonth) : null,
+      monthly_payment: hasPaymentPlan ? (parseFloat(monthlyPayment) || 0) : 0,
+      day_of_month: hasPaymentPlan && dayOfMonth ? parseInt(dayOfMonth) : null,
       member_id: memberId && memberId !== 'none' ? memberId : null,
       description: description || undefined,
     });
@@ -149,36 +154,49 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="monthlyPayment">Maandelijkse aflossing *</Label>
-              <Input
-                id="monthlyPayment"
-                type="number"
-                step="0.01"
-                min="0"
-                value={monthlyPayment}
-                onChange={(e) => setMonthlyPayment(e.target.value)}
-                placeholder="0.00"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="dayOfMonth">Dag van de maand</Label>
-              <Select value={dayOfMonth} onValueChange={setDayOfMonth}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Kies dag" />
-                </SelectTrigger>
-                <SelectContent>
-                  {days.map((day) => (
-                    <SelectItem key={day} value={day.toString()}>
-                      {day}e
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="flex items-center justify-between py-2 border-y">
+            <Label htmlFor="hasPaymentPlan" className="cursor-pointer">
+              Heb je een betalingsregeling?
+            </Label>
+            <Switch
+              id="hasPaymentPlan"
+              checked={hasPaymentPlan}
+              onCheckedChange={setHasPaymentPlan}
+            />
           </div>
+
+          {hasPaymentPlan && (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="monthlyPayment">Maandelijkse aflossing *</Label>
+                <Input
+                  id="monthlyPayment"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={monthlyPayment}
+                  onChange={(e) => setMonthlyPayment(e.target.value)}
+                  placeholder="0.00"
+                  required={hasPaymentPlan}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dayOfMonth">Dag van de maand</Label>
+                <Select value={dayOfMonth} onValueChange={setDayOfMonth}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Kies dag" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {days.map((day) => (
+                      <SelectItem key={day} value={day.toString()}>
+                        {day}e
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="member">Gezinslid</Label>
