@@ -18,7 +18,13 @@ import {
   Sparkles,
   Zap,
   LineChart,
-  Smartphone
+  Smartphone,
+  Eye,
+  Receipt,
+  PiggyBank,
+  TrendingDown,
+  FileText,
+  RefreshCw
 } from 'lucide-react';
 
 export default function Landing() {
@@ -54,15 +60,15 @@ export default function Landing() {
             <div className="max-w-4xl mx-auto text-center">
               {/* Main heading */}
               <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.1] tracking-tight animate-fade-in">
-                Inzicht in je
+                Grip op je
                 <br />
-                <span className="text-gradient">financiën</span>
+                <span className="text-gradient">geld</span>
               </h1>
               
               {/* Subtitle */}
               <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                Maak je inkomsten en uitgaven inzichtelijk. Houd eventueel je schulden bij 
-                en ontdek hoeveel je kunt sparen.
+                Zolang alles in je hoofd zit, blijft de vraag: waar is mijn geld gebleven? 
+                FinOverzicht brengt rust door je inkomsten en uitgaven overzichtelijk te maken.
               </p>
               
               {/* CTA Buttons */}
@@ -148,18 +154,61 @@ export default function Landing() {
                     Waarom is FinOverzicht gratis?
                   </h2>
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Veel mensen hebben geen duidelijk beeld van hun financiële situatie. Hoeveel komt er binnen? Waar gaat het naartoe? En wat blijft er over?
+                    Veel mensen denken dat ze hun financiën wel ongeveer kennen. Maar zolang alles in je hoofd zit, 
+                    ontstaat er onrust. Kleine uitgaven worden vergeten en abonnementen lopen ongemerkt door.
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    FinOverzicht maakt dit inzichtelijk. Door je inkomsten en uitgaven bij te houden, zie je precies waar je staat. En dat inzicht is de eerste stap naar beter sparen.
+                    FinOverzicht maakt dit inzichtelijk — zonder ingewikkelde termen, verborgen kosten of onnodige functies. 
+                    Gewoon duidelijk inzicht, zodat je weet waar je staat.
                   </p>
                 </div>
                 <div className="bg-card rounded-2xl p-8 border border-border">
                   <div className="text-6xl font-heading font-bold text-primary mb-4">€0</div>
-                  <p className="text-lg font-medium text-foreground mb-2">Volledig gratis</p>
-                  <p className="text-muted-foreground">Geen verborgen kosten, geen premium versie. Gewoon gratis inzicht in je financiën.</p>
+                  <p className="text-lg font-medium text-foreground mb-2">Volledig gratis, altijd</p>
+                  <p className="text-muted-foreground">Geen abonnementen, geen verborgen kosten en geen verplichtingen. Het doel is simpel: jou helpen grip te krijgen op je geld.</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Het probleem Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-warning/10 text-warning text-sm font-medium mb-4">
+                  <Eye className="h-3.5 w-3.5" />
+                  Het probleem
+                </div>
+                <h2 className="font-heading text-3xl md:text-4xl font-bold mb-6">
+                  Zonder overzicht wordt geld een bron van stress
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Je weet niet precies wat je per maand kunt uitgeven, hoeveel ruimte er is om te sparen 
+                  of waar je moet bijsturen. Beslissingen worden gemaakt op gevoel.
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { icon: Eye, text: "Hoeveel geld er binnenkomt", color: "primary" },
+                  { icon: Receipt, text: "Waar je geld naartoe gaat", color: "info" },
+                  { icon: TrendingDown, text: "Welke lasten zwaar drukken", color: "warning" },
+                  { icon: CheckCircle2, text: "Wat je kunt besparen", color: "success" }
+                ].map((item, i) => (
+                  <div key={i} className="p-6 rounded-2xl bg-card border border-border text-center hover:border-primary/30 transition-all">
+                    <div className={`w-12 h-12 rounded-xl bg-${item.color}/10 text-${item.color} flex items-center justify-center mx-auto mb-4`}>
+                      <item.icon className="h-6 w-6" />
+                    </div>
+                    <p className="text-foreground font-medium text-sm">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-center text-muted-foreground mt-8">
+                Met FinOverzicht zie je dit alles in één oogopslag. Je hoeft niet meer te gokken — je weet hoe je ervoor staat.
+              </p>
             </div>
           </div>
         </section>
@@ -182,7 +231,7 @@ export default function Landing() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
               {[
                 {
                   icon: Wallet,
@@ -192,12 +241,27 @@ export default function Landing() {
                 {
                   icon: Users,
                   title: "Gezinnen",
-                  description: "Maak de financiën van het hele huishouden inzichtelijk. Koppel transacties aan gezinsleden."
+                  description: "Werk samen in één overzicht. Voeg je partner of gezinsleden toe zonder apart account."
                 },
                 {
                   icon: Target,
                   title: "Spaarders",
                   description: "Wil je weten hoeveel je kunt sparen? Zie precies wat er binnenkomt en uitgaat."
+                },
+                {
+                  icon: TrendingDown,
+                  title: "Mensen met schulden",
+                  description: "Maak openstaande bedragen inzichtelijk en zie wat er beschikbaar blijft om te betalen."
+                },
+                {
+                  icon: PiggyBank,
+                  title: "Bespaarders",
+                  description: "Ontdek welke abonnementen te duur zijn en welke kosten je kunt schrappen."
+                },
+                {
+                  icon: Receipt,
+                  title: "Administratie",
+                  description: "Exporteer je overzicht naar PDF voor hulpverlening, budgetcoaches of je eigen archief."
                 }
               ].map((item, i) => (
                 <div 
@@ -214,6 +278,10 @@ export default function Landing() {
                 </div>
               ))}
             </div>
+            
+            <p className="text-center text-muted-foreground">
+              Of je nu moeite hebt om rond te komen, wilt besparen of meer grip wilt op je geld — FinOverzicht past zich aan jouw situatie aan.
+            </p>
           </div>
         </section>
 
@@ -235,7 +303,7 @@ export default function Landing() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   icon: BarChart3,
@@ -263,9 +331,14 @@ export default function Landing() {
                   description: "Maandelijks, per kwartaal of jaarlijks - alles wordt omgerekend naar maandbedragen."
                 },
                 {
-                  icon: LineChart,
-                  title: "Grafieken",
-                  description: "Bekijk je inkomsten en uitgaven in overzichtelijke grafieken."
+                  icon: FileText,
+                  title: "PDF Export",
+                  description: "Exporteer je overzicht naar PDF voor gesprekken of je eigen administratie."
+                },
+                {
+                  icon: RefreshCw,
+                  title: "Opnieuw beginnen",
+                  description: "Reset je account wanneer je wilt voor een frisse start met nieuwe doelen."
                 }
               ].map((feature, i) => (
                 <div 
@@ -435,12 +508,14 @@ export default function Landing() {
           <div className="container mx-auto px-4 relative">
             <div className="max-w-3xl mx-auto">
               <div className="relative rounded-2xl p-12 text-center bg-primary/5 border border-primary/20">
-                <Sparkles className="h-8 w-8 text-primary mx-auto mb-6" />
-                <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-                  Klaar voor inzicht?
+                <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
+                  FinOverzicht
                 </h2>
-                <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto">
-                  Maak je financiën inzichtelijk. Gratis en in een paar minuten.
+                <p className="text-lg text-muted-foreground mb-2">
+                  Overzicht voor jezelf. Duidelijkheid voor het gezin. Rust in je hoofd.
+                </p>
+                <p className="text-primary font-semibold mb-8">
+                  Helemaal gratis. Altijd.
                 </p>
                 <Link to="/auth?mode=signup">
                   <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold shadow-lg shadow-primary/25">
