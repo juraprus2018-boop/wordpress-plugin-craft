@@ -45,10 +45,10 @@ export function PublicHeader() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background",
         scrolled 
-          ? "glass-card border-b border-border/50 py-3" 
-          : "bg-transparent py-5"
+          ? "border-b border-border/50 py-3 shadow-sm" 
+          : "py-5"
       )}
     >
       <div className="container mx-auto px-4">
@@ -124,7 +124,7 @@ export function PublicHeader() {
             <Link to="/auth?mode=signup">
               <Button className="rounded-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-glow transition-all duration-200 text-primary-foreground font-semibold gap-2">
                 <Sparkles className="h-4 w-4" />
-                Gratis starten
+                Registreren
               </Button>
             </Link>
           </div>
@@ -189,16 +189,16 @@ export function PublicHeader() {
               </div>
             </div>
             
-            <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
-              <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-border/50 pb-2">
+              <Link to="/auth" onClick={() => setMobileMenuOpen(false)} className="w-full">
                 <Button variant="outline" className="w-full rounded-xl border-border/50">
                   Inloggen
                 </Button>
               </Link>
-              <Link to="/auth?mode=signup" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/auth?mode=signup" onClick={() => setMobileMenuOpen(false)} className="w-full">
                 <Button className="w-full rounded-xl bg-gradient-to-r from-primary to-primary/90 shadow-glow text-primary-foreground font-semibold gap-2">
                   <Sparkles className="h-4 w-4" />
-                  Gratis starten
+                  Registreren
                 </Button>
               </Link>
             </div>
