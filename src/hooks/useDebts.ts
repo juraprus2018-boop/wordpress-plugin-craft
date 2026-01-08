@@ -4,6 +4,8 @@ import { useAuth } from '@/lib/auth';
 import { toast } from 'sonner';
 import { HouseholdMember } from './useTransactions';
 
+export type DebtType = 'debt' | 'loan';
+
 export interface Debt {
   id: string;
   user_id: string;
@@ -15,6 +17,7 @@ export interface Debt {
   day_of_month: number | null;
   member_id: string | null;
   description: string | null;
+  type: DebtType;
   created_at: string;
   updated_at: string;
   household_members?: {
@@ -70,6 +73,7 @@ export function useDebts() {
       day_of_month?: number | null;
       member_id?: string | null;
       description?: string;
+      type?: DebtType;
     }) => {
       if (!user) throw new Error('User not authenticated');
       
@@ -159,13 +163,27 @@ export function useDebts() {
     },
   });
 
-  const totalDebt = debts.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
-  const totalMonthlyPayments = debts.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
+  const debtItems = debts.filter(d => d.type === 'debt');
+  const loanItems = debts.filter(d => d.type === 'loan');
+  
+  const totalDebt = debtItems.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
+  const totalDebtMonthlyPayments = debtItems.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
+  
+  const totalLoans = loanItems.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
+  const totalLoanMonthlyPayments = loanItems.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
+  
+  const totalAll = totalDebt + totalLoans;
+  const totalMonthlyPayments = totalDebtMonthlyPayments + totalLoanMonthlyPayments;
 
   return {
-    debts,
+    debts: debtItems,
+    loans: loanItems,
     householdMembers,
     totalDebt,
+    totalDebtMonthlyPayments,
+    totalLoans,
+    totalLoanMonthlyPayments,
+    totalAll,
     totalMonthlyPayments,
     isLoading,
     addDebt,

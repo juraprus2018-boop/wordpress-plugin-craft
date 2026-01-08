@@ -14,7 +14,7 @@ export default function Debts() {
 
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { debts, householdMembers, totalDebt, totalMonthlyPayments, addDebt, updateDebt, deleteDebt, makePayment } = useDebts();
+  const { debts, loans, householdMembers, totalDebt, totalDebtMonthlyPayments, totalLoans, totalLoanMonthlyPayments, addDebt, updateDebt, deleteDebt, makePayment } = useDebts();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -25,12 +25,15 @@ export default function Debts() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="font-heading text-2xl lg:text-3xl font-bold">Schulden</h1>
+        <h1 className="font-heading text-2xl lg:text-3xl font-bold">Schulden & Leningen</h1>
         <DebtList
           debts={debts}
+          loans={loans}
           householdMembers={householdMembers}
           totalDebt={totalDebt}
-          totalMonthlyPayments={totalMonthlyPayments}
+          totalDebtMonthlyPayments={totalDebtMonthlyPayments}
+          totalLoans={totalLoans}
+          totalLoanMonthlyPayments={totalLoanMonthlyPayments}
           onAdd={(data) => addDebt.mutate(data)}
           onUpdate={(data) => updateDebt.mutate({ id: data.id, ...data })}
           onDelete={(id) => deleteDebt.mutate(id)}

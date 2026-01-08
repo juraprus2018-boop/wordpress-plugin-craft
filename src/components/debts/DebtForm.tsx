@@ -18,13 +18,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { HouseholdMember } from '@/hooks/useTransactions';
-import { Debt } from '@/hooks/useDebts';
+import { Debt, DebtType } from '@/hooks/useDebts';
 
 interface DebtFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   householdMembers: HouseholdMember[];
   debt?: Debt;
+  debtType: DebtType;
   onSubmit: (data: {
     name: string;
     creditor?: string;
@@ -34,10 +35,11 @@ interface DebtFormProps {
     day_of_month?: number | null;
     member_id?: string | null;
     description?: string;
+    type: DebtType;
   }) => void;
 }
 
-export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit }: DebtFormProps) {
+export function DebtForm({ open, onOpenChange, householdMembers, debt, debtType, onSubmit }: DebtFormProps) {
   const [name, setName] = useState('');
   const [creditor, setCreditor] = useState('');
   const [originalAmount, setOriginalAmount] = useState('');
@@ -89,6 +91,7 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
       day_of_month: hasPaymentPlan && dayOfMonth ? parseInt(dayOfMonth) : null,
       member_id: memberId && memberId !== 'none' ? memberId : null,
       description: description || undefined,
+      type: debtType,
     });
 
     resetForm();
@@ -96,7 +99,9 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
   };
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
-  const title = debt ? 'Schuld bewerken' : 'Schuld toevoegen';
+  const isLoan = debtType === 'loan';
+  const typeLabel = isLoan ? 'Lening' : 'Schuld';
+  const title = debt ? `${typeLabel} bewerken` : `${typeLabel} toevoegen`;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -117,12 +122,12 @@ export function DebtForm({ open, onOpenChange, householdMembers, debt, onSubmit 
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="creditor">Schuldeiser</Label>
+            <Label htmlFor="creditor">{isLoan ? 'Verstrekker' : 'Schuldeiser'}</Label>
             <Input
               id="creditor"
               value={creditor}
               onChange={(e) => setCreditor(e.target.value)}
-              placeholder="Bijv. Giro, Bank"
+              placeholder={isLoan ? 'Bijv. Bank, Financiering' : 'Bijv. Giro, Bank'}
             />
           </div>
 

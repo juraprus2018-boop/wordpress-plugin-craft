@@ -59,6 +59,7 @@ export type Database = {
           name: string
           original_amount: number
           remaining_amount: number
+          type: string
           updated_at: string
           user_id: string
         }
@@ -73,6 +74,7 @@ export type Database = {
           name: string
           original_amount: number
           remaining_amount: number
+          type?: string
           updated_at?: string
           user_id: string
         }
@@ -87,6 +89,7 @@ export type Database = {
           name?: string
           original_amount?: number
           remaining_amount?: number
+          type?: string
           updated_at?: string
           user_id?: string
         }
