@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useDebts } from '@/hooks/useDebts';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { ExpenseChart } from '@/components/dashboard/ExpenseChart';
@@ -14,6 +15,8 @@ import { YearlyProjectionChart } from '@/components/dashboard/YearlyProjectionCh
 import { SharedExpenseBalance } from '@/components/dashboard/SharedExpenseBalance';
 import { TransactionBreakdown } from '@/components/dashboard/TransactionBreakdown';
 import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { TourTrigger } from '@/components/onboarding/TourTrigger';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2, Landmark } from 'lucide-react';
@@ -29,6 +32,7 @@ export default function Dashboard() {
   const { transactions, householdMembers, isLoading } = useTransactions();
   const { debts, loans, totalAll, totalMonthlyPayments, isLoading: debtsLoading } = useDebts();
   const { checkAndNotifyPayments, permission } = useNotifications();
+  const tour = useOnboardingTour();
   const [selectedMember, setSelectedMember] = useState<string>('all');
 
   const allDebtsAndLoans = useMemo(() => [...debts, ...loans], [debts, loans]);
@@ -112,11 +116,25 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <NotificationPrompt />
+      
+      {/* Onboarding Tour */}
+      <OnboardingTour
+        isActive={tour.isActive}
+        currentStep={tour.currentStep}
+        totalSteps={tour.totalSteps}
+        stepData={tour.currentStepData}
+        onNext={tour.nextStep}
+        onPrev={tour.prevStep}
+        onSkip={tour.skipTour}
+        onComplete={tour.completeTour}
+      />
+      <TourTrigger onStartTour={tour.startTour} hasCompleted={tour.hasCompleted} />
+      
       <div className="space-y-4 sm:space-y-6 pb-6">
         {/* Header */}
         <div className="flex flex-col gap-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
+            <div data-tour="dashboard-title">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold tracking-tight">
                 Dashboard
               </h1>
@@ -125,7 +143,7 @@ export default function Dashboard() {
               </p>
             </div>
             
-            <div className="flex items-center gap-2 bg-card border border-border/50 rounded-xl p-1">
+            <div data-tour="member-filter" className="flex items-center gap-2 bg-card border border-border/50 rounded-xl p-1">
               <div className="p-2 rounded-lg bg-muted/50">
                 <Users className="h-4 w-4 text-muted-foreground" />
               </div>
@@ -159,7 +177,7 @@ export default function Dashboard() {
         </div>
         
         {/* Main KPIs - Mobile optimized 2x3 grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div data-tour="kpi-cards" className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <KPICard 
             title="Inkomsten" 
             value={formatCurrency(totalIncome)} 

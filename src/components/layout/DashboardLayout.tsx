@@ -23,12 +23,12 @@ interface DashboardLayoutProps {
 }
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', color: 'text-primary' },
-  { href: '/income', icon: TrendingUp, label: 'Inkomsten', color: 'text-emerald-500' },
-  { href: '/expenses', icon: TrendingDown, label: 'Uitgaven', color: 'text-coral' },
-  { href: '/debts', icon: CreditCard, label: 'Schulden', color: 'text-amber-500' },
-  { href: '/handleiding', icon: HelpCircle, label: 'Handleiding', color: 'text-blue-500' },
-  { href: '/settings', icon: Settings, label: 'Instellingen', color: 'text-muted-foreground' },
+  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', color: 'text-primary', tourId: 'nav-dashboard' },
+  { href: '/income', icon: TrendingUp, label: 'Inkomsten', color: 'text-emerald-500', tourId: 'nav-income' },
+  { href: '/expenses', icon: TrendingDown, label: 'Uitgaven', color: 'text-coral', tourId: 'nav-expenses' },
+  { href: '/debts', icon: CreditCard, label: 'Schulden', color: 'text-amber-500', tourId: 'nav-debts' },
+  { href: '/handleiding', icon: HelpCircle, label: 'Handleiding', color: 'text-blue-500', tourId: 'nav-handleiding' },
+  { href: '/settings', icon: Settings, label: 'Instellingen', color: 'text-muted-foreground', tourId: 'nav-settings' },
 ];
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -93,6 +93,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Link
                     key={item.href}
                     to={item.href}
+                    data-tour={item.tourId}
                     onClick={() => setSidebarOpen(false)}
                     className={cn(
                       "group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
