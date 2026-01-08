@@ -14,6 +14,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/wat-is-finoverzicht', label: 'Wat is FinOverzicht?' },
   { href: '/functies', label: 'Functies' },
+  { href: '/handleiding-app', label: 'Handleiding' },
   { href: '/install', label: 'Download App' },
   { href: '/faq', label: 'FAQ' },
 ];
