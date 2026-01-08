@@ -16,7 +16,7 @@ import { TransactionBreakdown } from '@/components/dashboard/TransactionBreakdow
 import { NotificationPrompt } from '@/components/notifications/NotificationPrompt';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2 } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2, Landmark } from 'lucide-react';
 
 export default function Dashboard() {
   useSEO({
@@ -27,9 +27,11 @@ export default function Dashboard() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const { transactions, householdMembers, isLoading } = useTransactions();
-  const { debts, isLoading: debtsLoading } = useDebts();
+  const { debts, loans, totalAll, totalMonthlyPayments, isLoading: debtsLoading } = useDebts();
   const { checkAndNotifyPayments, permission } = useNotifications();
   const [selectedMember, setSelectedMember] = useState<string>('all');
+
+  const allDebtsAndLoans = useMemo(() => [...debts, ...loans], [debts, loans]);
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -37,9 +39,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!isLoading && !debtsLoading && permission === 'granted') {
-      checkAndNotifyPayments(transactions, debts);
+      checkAndNotifyPayments(transactions, allDebtsAndLoans);
     }
-  }, [isLoading, debtsLoading, transactions, debts, permission, checkAndNotifyPayments]);
+  }, [isLoading, debtsLoading, transactions, allDebtsAndLoans, permission, checkAndNotifyPayments]);
 
   const view: 'all' | 'personal' | 'member' =
     selectedMember === 'all' ? 'all' : selectedMember === 'personal' ? 'personal' : 'member';
@@ -57,6 +59,12 @@ export default function Dashboard() {
     if (selectedMember === 'personal') return debts.filter(d => !d.member_id);
     return debts.filter(d => d.member_id === selectedMember);
   }, [debts, selectedMember]);
+
+  const filteredLoans = useMemo(() => {
+    if (selectedMember === 'all') return loans;
+    if (selectedMember === 'personal') return loans.filter(l => !l.member_id);
+    return loans.filter(l => l.member_id === selectedMember);
+  }, [loans, selectedMember]);
 
   const normalizeToMonthly = (amount: number, frequency: number | null) => {
     const freq = frequency || 1;
@@ -83,8 +91,12 @@ export default function Dashboard() {
   const netResult = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
 
-  const totalDebt = filteredDebts.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
-  const totalMonthlyPayments = filteredDebts.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
+  const totalDebtAmount = filteredDebts.reduce((sum, d) => sum + Number(d.remaining_amount), 0);
+  const totalDebtPayments = filteredDebts.reduce((sum, d) => sum + Number(d.monthly_payment), 0);
+  const totalLoanAmount = filteredLoans.reduce((sum, l) => sum + Number(l.remaining_amount), 0);
+  const totalLoanPayments = filteredLoans.reduce((sum, l) => sum + Number(l.monthly_payment), 0);
+  const totalDebtAndLoans = totalDebtAmount + totalLoanAmount;
+  const totalAllPayments = totalDebtPayments + totalLoanPayments;
 
   if (loading || isLoading || debtsLoading) {
     return (
@@ -168,13 +180,18 @@ export default function Dashboard() {
           />
           <KPICard 
             title="Schulden" 
-            value={formatCurrency(totalDebt)} 
+            value={formatCurrency(totalDebtAmount)} 
             icon={<CreditCard className="w-full h-full" />} 
             variant="warning"
           />
           <KPICard 
+            title="Leningen" 
+            value={formatCurrency(totalLoanAmount)} 
+            icon={<Landmark className="w-full h-full" />} 
+          />
+          <KPICard 
             title="Aflossing/mnd" 
-            value={formatCurrency(totalMonthlyPayments)} 
+            value={formatCurrency(totalAllPayments)} 
             icon={<Receipt className="w-full h-full" />} 
           />
           <KPICard 
@@ -189,7 +206,7 @@ export default function Dashboard() {
         <div className="space-y-4 sm:space-y-6">
           <BalanceFlowChart transactions={statsTransactions} />
 
-          <YearlyProjectionChart transactions={statsTransactions} debts={filteredDebts} />
+          <YearlyProjectionChart transactions={statsTransactions} debts={[...filteredDebts, ...filteredLoans]} />
 
           <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
             <IncomeExpenseChart totalIncome={totalIncome} totalExpenses={totalExpenses} />
