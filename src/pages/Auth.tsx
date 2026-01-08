@@ -445,53 +445,98 @@ export default function Auth() {
   };
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <Link to="/" className="flex items-center justify-center gap-2 mb-4" aria-label="Terug naar home">
-            <Wallet className="h-8 w-8 text-primary" aria-hidden="true" />
-            <span className="font-heading font-bold text-2xl">FinOverzicht</span>
+    <main className="min-h-screen bg-background flex flex-col lg:flex-row">
+      {/* Left Hero Section - hidden on mobile */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary/90 to-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.08%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-30"></div>
+        
+        <div className="relative z-10 flex flex-col items-center justify-center w-full p-12 text-white">
+          <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+            Gratis & Eenvoudig
+          </div>
+          
+          <h2 className="font-heading text-4xl lg:text-5xl font-bold text-center mb-4 leading-tight">
+            Alles op één plek.
+            <br />
+            <span className="text-white/90">Inclusief je financiën.</span>
+          </h2>
+          
+          <div className="mt-12 relative">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              <div className="space-y-3">
+                <div className="h-4 bg-white/20 rounded w-3/4"></div>
+                <div className="h-4 bg-white/20 rounded w-1/2"></div>
+                <div className="h-8 bg-white/30 rounded w-full mt-4"></div>
+                <div className="flex gap-2 mt-2">
+                  <div className="h-16 bg-white/20 rounded flex-1"></div>
+                  <div className="h-16 bg-white/20 rounded flex-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <p className="mt-12 text-lg text-white/80 text-center max-w-md">
+            FinOverzicht is je persoonlijke assistent voor al je financiële overzichten.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Login Section */}
+      <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 mb-8 lg:absolute lg:top-8 lg:right-8" aria-label="Terug naar home">
+            <Wallet className="h-7 w-7 text-primary" aria-hidden="true" />
+            <span className="font-heading font-bold text-xl">FinOverzicht</span>
           </Link>
 
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">
-            {getTitle()}
-          </h1>
+          {/* Form Header */}
+          <div className="mb-8">
+            <h1 className="font-heading text-2xl lg:text-3xl font-bold tracking-tight mb-2">
+              {getTitle()}
+            </h1>
+            <p className="text-muted-foreground">
+              {getDescription()}
+            </p>
+          </div>
 
-          <CardDescription>
-            {getDescription()}
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          {mode === 'forgot' ? (
-            <ForgotPasswordForm
-              isLoading={isLoading}
-              onSubmit={onForgotPasswordSubmit}
-              onBack={() => setMode('signin')}
-            />
-          ) : mode === 'reset' ? (
-            isVerifyingResetLink ? (
-              <div className="text-sm text-muted-foreground">
-                Resetlink controleren...
-              </div>
-            ) : (
-              <NewPasswordForm
+          {/* Form Content */}
+          <div className="space-y-6">
+            {mode === 'forgot' ? (
+              <ForgotPasswordForm
                 isLoading={isLoading}
-                onSubmit={onNewPasswordSubmit}
+                onSubmit={onForgotPasswordSubmit}
+                onBack={() => setMode('signin')}
               />
-            )
-          ) : (
-            <AuthForm
-              key={mode}
-              isSignUp={mode === 'signup'}
-              isLoading={isLoading}
-              onSubmit={onSubmit}
-              onToggleMode={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
-              onForgotPassword={() => setMode('forgot')}
-            />
-          )}
-        </CardContent>
-      </Card>
+            ) : mode === 'reset' ? (
+              isVerifyingResetLink ? (
+                <div className="text-sm text-muted-foreground">
+                  Resetlink controleren...
+                </div>
+              ) : (
+                <NewPasswordForm
+                  isLoading={isLoading}
+                  onSubmit={onNewPasswordSubmit}
+                />
+              )
+            ) : (
+              <AuthForm
+                key={mode}
+                isSignUp={mode === 'signup'}
+                isLoading={isLoading}
+                onSubmit={onSubmit}
+                onToggleMode={() => setMode(mode === 'signup' ? 'signin' : 'signup')}
+                onForgotPassword={() => setMode('forgot')}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
