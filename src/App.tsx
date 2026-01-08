@@ -2,10 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/lib/auth";
 import { SmartLanding } from "./components/SmartLanding";
 import { PrimaryDomainGate } from "./components/PrimaryDomainGate";
+import { OAuthHashHandler } from "./components/OAuthHashHandler";
 import AuthCallback from "./pages/AuthCallback";
 import Functies from "./pages/Functies";
 import OverOns from "./pages/OverOns";
@@ -43,6 +44,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <OAuthHashHandler />
           <PrimaryDomainGate />
           <ScrollToTop />
           <Routes>
