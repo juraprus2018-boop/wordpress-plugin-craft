@@ -12,6 +12,7 @@ import {
 
 const navItems = [
   { href: '/', label: 'Home' },
+  { href: '/wat-is-finoverzicht', label: 'Wat is FinOverzicht?' },
   { href: '/functies', label: 'Functies' },
   { href: '/install', label: 'Download App' },
   { href: '/faq', label: 'FAQ' },

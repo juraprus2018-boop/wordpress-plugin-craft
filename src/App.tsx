@@ -26,6 +26,7 @@ import GeldBesparen from "./pages/GeldBesparen";
 import VasteLastenOverzicht from "./pages/VasteLastenOverzicht";
 import InkomenBeheren from "./pages/InkomenBeheren";
 import FAQ from "./pages/FAQ";
+import WatIsFinOverzicht from "./pages/WatIsFinOverzicht";
 import SharedExpenses from "./pages/SharedExpenses";
 import Install from "./pages/Install";
 import { InstallBanner } from "./components/pwa/InstallBanner";
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/vaste-lasten" element={<VasteLastenOverzicht />} />
             <Route path="/inkomen-beheren" element={<InkomenBeheren />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/wat-is-finoverzicht" element={<WatIsFinOverzicht />} />
             <Route path="/gedeelde-kosten" element={<SharedExpenses />} />
             <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
