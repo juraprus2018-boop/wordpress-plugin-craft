@@ -13,7 +13,8 @@ import {
   X,
   Wallet,
   CreditCard,
-  ChevronRight
+  ChevronRight,
+  HelpCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -26,6 +27,7 @@ const navItems = [
   { href: '/income', icon: TrendingUp, label: 'Inkomsten', color: 'text-emerald-500' },
   { href: '/expenses', icon: TrendingDown, label: 'Uitgaven', color: 'text-coral' },
   { href: '/debts', icon: CreditCard, label: 'Schulden', color: 'text-amber-500' },
+  { href: '/handleiding', icon: HelpCircle, label: 'Handleiding', color: 'text-blue-500' },
   { href: '/settings', icon: Settings, label: 'Instellingen', color: 'text-muted-foreground' },
 ];
 

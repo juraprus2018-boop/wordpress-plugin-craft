@@ -32,6 +32,7 @@ import FAQ from "./pages/FAQ";
 import WatIsFinOverzicht from "./pages/WatIsFinOverzicht";
 import SharedExpenses from "./pages/SharedExpenses";
 import Install from "./pages/Install";
+import Handleiding from "./pages/Handleiding";
 import { InstallBanner } from "./components/pwa/InstallBanner";
 import { ScrollToTop } from "./components/ScrollToTop";
 
@@ -73,6 +74,7 @@ const App = () => (
             <Route path="/wat-is-finoverzicht" element={<WatIsFinOverzicht />} />
             <Route path="/gedeelde-kosten" element={<SharedExpenses />} />
             <Route path="/install" element={<Install />} />
+            <Route path="/handleiding" element={<Handleiding />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <InstallBanner />
