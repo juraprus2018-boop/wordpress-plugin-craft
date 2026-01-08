@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/lib/auth";
 import { SmartLanding } from "./components/SmartLanding";
+import { PrimaryDomainGate } from "./components/PrimaryDomainGate";
 import AuthCallback from "./pages/AuthCallback";
 import Functies from "./pages/Functies";
 import OverOns from "./pages/OverOns";
@@ -42,6 +43,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <PrimaryDomainGate />
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<SmartLanding />} />
