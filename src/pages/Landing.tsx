@@ -379,6 +379,27 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* Meer weten Section */}
+        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="font-heading text-3xl md:text-4xl font-bold mb-6">
+                Meer weten over FinOverzicht?
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                Ontdek hoe FinOverzicht je helpt met overzicht, besparen, schulden beheren en meer. 
+                Lees alles over onze gratis app en hoe het werkt.
+              </p>
+              <Link to="/wat-is-finoverzicht">
+                <Button size="lg" variant="outline" className="rounded-full px-8 h-12 border-primary/30 hover:bg-primary/10 hover:border-primary/50">
+                  Lees meer over FinOverzicht
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Donatie Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">

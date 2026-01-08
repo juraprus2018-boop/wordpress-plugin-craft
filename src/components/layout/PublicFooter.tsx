@@ -122,6 +122,15 @@ export function PublicFooter() {
               <ul className="space-y-3">
                 <li>
                   <Link 
+                    to="/wat-is-finoverzicht" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Wat is FinOverzicht?
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
                     to="/functies" 
                     className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
                   >
