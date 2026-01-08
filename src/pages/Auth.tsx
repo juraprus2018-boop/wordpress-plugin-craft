@@ -359,6 +359,20 @@ export default function Auth() {
   const { signIn, signUp, resetPassword, updatePassword, user } = useAuth();
   const navigate = useNavigate();
 
+  // Handle OAuth callback with hash fragment (e.g., #access_token=...)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      // Supabase will automatically pick up the session from the hash
+      // Just wait for the auth state to update and redirect
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          navigate('/dashboard');
+        }
+      });
+    }
+  }, [navigate]);
+
   // When opening the reset link from email (including inside the PWA), verify it in-app
   // so the user never has to hit the /auth/v1/verify endpoint URL.
   useEffect(() => {
@@ -486,7 +500,7 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}/auth`,
         },
       });
       if (error) {
