@@ -140,6 +140,15 @@ export function PublicFooter() {
                 </li>
                 <li>
                   <Link 
+                    to="/handleiding-app" 
+                    className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    Handleiding
+                    <ArrowUpRight className="h-3 w-3 opacity-0 -translate-y-0.5 translate-x-0.5 group-hover:opacity-100 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link 
                     to="/faq" 
                     className="group text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
                   >
