@@ -497,10 +497,15 @@ export default function Auth() {
   const onGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     try {
+      const PROD_ORIGIN = "https://finoverzicht.nl";
+      const redirectTo = window.location.origin.includes("localhost")
+        ? `${window.location.origin}/auth/callback`
+        : `${PROD_ORIGIN}/auth/callback`;
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth`,
+          redirectTo,
         },
       });
       if (error) {
