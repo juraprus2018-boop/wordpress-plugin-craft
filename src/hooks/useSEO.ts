@@ -206,7 +206,7 @@ export function useSEO({ title, description, canonical, jsonLd }: SEOProps) {
 
     // Cleanup function to reset to defaults when component unmounts
     return () => {
-      document.title = 'FinOverzicht - Financieel Overzicht';
+      document.title = 'FinOverzicht - Huishoudboekje inzicht in je inkomen en uitgaven';
       // Remove JSON-LD scripts on unmount
       const scripts = document.querySelectorAll('script[data-seo-jsonld]');
       scripts.forEach(script => script.remove());
