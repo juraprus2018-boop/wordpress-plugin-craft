@@ -236,36 +236,6 @@ export default function Dashboard() {
           )}
 
           <TransactionBreakdown transactions={filteredTransactions} memberCount={memberCount} view={view} />
-          
-          {/* Donation Card */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-card via-card to-primary/5 border border-border/50 p-5 sm:p-6">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0">
-                <Coffee className="w-7 h-7 text-primary" />
-              </div>
-              <div className="flex-1 text-center sm:text-left">
-                <h3 className="font-heading font-bold text-lg sm:text-xl mb-1">
-                  Vind je FinOverzicht handig?
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  FinOverzicht is gratis. Wil je ons steunen? Doneer een klein bedrag!
-                </p>
-              </div>
-              <a 
-                href="https://tikkie.me/pay/JOUW-TIKKIE-LINK" 
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <Button 
-                  className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-6"
-                >
-                  <span className="mr-2">💚</span>
-                  Doneer via Tikkie
-                </Button>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </DashboardLayout>
