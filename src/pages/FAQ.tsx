@@ -102,15 +102,11 @@ const FAQ = () => {
         },
         {
           q: "Waarom is het gratis?",
-          a: "We willen bijdragen aan financiële gezondheid in Nederland. FinOverzicht wordt ondersteund door vrijwillige donaties van tevreden gebruikers."
+          a: "We willen bijdragen aan financiële gezondheid in Nederland. FinOverzicht is gemaakt om iedereen toegang te geven tot goed financieel overzicht."
         },
         {
           q: "Moet ik mijn bankgegevens invoeren?",
           a: "Nee, FinOverzicht verbindt niet met je bank. Je voert zelf je transacties in, wat betekent dat je bankgegevens veilig blijven."
-        },
-        {
-          q: "Kan ik doneren?",
-          a: "Ja! Als je FinOverzicht waardevol vindt, kun je een vrijwillige donatie doen. Dit helpt ons de service gratis te houden voor iedereen."
         }
       ]
     },
