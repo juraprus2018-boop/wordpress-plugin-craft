@@ -145,8 +145,8 @@ export function PublicHeader() {
         {/* Mobile Menu */}
         <div 
           className={cn(
-            "md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-xl overflow-hidden transition-all duration-300",
-            mobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+            "md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-xl transition-all duration-300",
+            mobileMenuOpen ? "max-h-[calc(100vh-80px)] opacity-100 overflow-y-auto" : "max-h-0 opacity-0 overflow-hidden pointer-events-none"
           )}
         >
           <nav className="flex flex-col p-4 gap-1">
