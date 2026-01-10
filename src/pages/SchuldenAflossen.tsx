@@ -100,7 +100,9 @@ const SchuldenAflossen = () => {
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Leer effectieve strategieën om schulden af te lossen. Van sneeuwbal tot avalanche - 
-                ontdek welke methode het beste bij jou past.
+                ontdek welke methode het beste bij jou past. Combineer met{" "}
+                <Link to="/uitgaven-beheren" className="text-primary hover:underline">slim uitgavenbeheer</Link>{" "}
+                voor sneller resultaat.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="text-lg">

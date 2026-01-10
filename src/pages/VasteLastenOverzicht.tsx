@@ -156,7 +156,10 @@ const VasteLastenOverzicht = () => {
               <div className="prose prose-lg max-w-none text-muted-foreground mb-8">
                 <p className="text-lg leading-relaxed">
                   Vaste lasten zijn terugkerende kosten die je elke maand (of elk jaar) betaalt. 
-                  Ze vormen de basis van je budget en zijn vaak moeilijk te vermijden.
+                  Ze vormen de basis van je{" "}
+                  <Link to="/budget-beheren" className="text-primary hover:underline">budget</Link>{" "}
+                  en zijn vaak moeilijk te vermijden. Leer ook hoe je je{" "}
+                  <Link to="/uitgaven-beheren" className="text-primary hover:underline">variabele uitgaven beheert</Link>.
                 </p>
               </div>
               <div className="grid md:grid-cols-3 gap-6">

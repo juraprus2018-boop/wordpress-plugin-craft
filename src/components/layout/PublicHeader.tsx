@@ -22,6 +22,7 @@ const navItems = [
 const seoPages = [
   { href: '/huishoudboekje', label: 'Huishoudboekje' },
   { href: '/budget-beheren', label: 'Budget beheren' },
+  { href: '/uitgaven-beheren', label: 'Uitgaven beheren' },
   { href: '/sparen-tips', label: 'Sparen tips' },
   { href: '/geld-besparen', label: 'Geld besparen' },
   { href: '/schulden-aflossen', label: 'Schulden aflossen' },

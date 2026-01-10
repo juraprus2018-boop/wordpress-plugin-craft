@@ -147,6 +147,10 @@ const BudgetBeheren = () => {
                 <p className="text-lg leading-relaxed">
                   Met FinOverzicht maak je budgetteren eenvoudig. Onze gratis tool helpt je om je 
                   inkomsten en uitgaven bij te houden, categorieën te maken en je voortgang te monitoren.
+                  Bekijk ook onze tips over{" "}
+                  <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
+                  en{" "}
+                  <Link to="/geld-besparen" className="text-primary hover:underline">geld besparen</Link>.
                 </p>
               </div>
             </div>

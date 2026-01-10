@@ -174,8 +174,10 @@ const FinancielePlanning = () => {
               <div className="prose prose-lg max-w-none text-muted-foreground">
                 <p className="text-lg leading-relaxed mb-6">
                   Financiële planning is het proces van het stellen van financiële doelen en het 
-                  maken van een plan om deze te bereiken. Het gaat verder dan alleen budgetteren - 
-                  het is een roadmap voor je financiële toekomst.
+                  maken van een plan om deze te bereiken. Het gaat verder dan alleen{" "}
+                  <Link to="/budget-beheren" className="text-primary hover:underline">budgetteren</Link>{" "}
+                  - het is een roadmap voor je financiële toekomst. Begin met{" "}
+                  <Link to="/uitgaven-beheren" className="text-primary hover:underline">je uitgaven in kaart te brengen</Link>.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   <Card className="bg-card">

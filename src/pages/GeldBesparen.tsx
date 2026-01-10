@@ -309,7 +309,10 @@ const GeldBesparen = () => {
                     </p>
                     <div className="bg-muted/50 rounded-lg p-4">
                       <p className="text-sm text-muted-foreground">
-                        Gebruik FinOverzicht - het is gratis!
+                        Gebruik{" "}
+                        <Link to="/huishoudboekje" className="text-primary hover:underline">FinOverzicht</Link>{" "}
+                        - het is gratis! Bekijk ook onze{" "}
+                        <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven tips</Link>.
                       </p>
                     </div>
                   </CardContent>
