@@ -167,7 +167,11 @@ const Huishoudboekje = () => {
                 </div>
                 <p className="text-lg leading-relaxed">
                   Vroeger deed men dit met pen en papier, later met Excel. Nu is er FinOverzicht: 
-                  een gratis, gebruiksvriendelijke app die alles automatisch doet.
+                  een gratis, gebruiksvriendelijke app die alles automatisch doet. Ontdek ook onze tips voor{" "}
+                  <Link to="/budget-beheren" className="text-primary hover:underline">budget beheren</Link>,{" "}
+                  <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
+                  en{" "}
+                  <Link to="/sparen-tips" className="text-primary hover:underline">slim sparen</Link>.
                 </p>
               </div>
             </div>

@@ -110,7 +110,9 @@ const InkomenBeheren = () => {
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Van salarisonderhandeling tot meerdere inkomstenbronnen. Leer hoe je meer 
-                verdient en slim omgaat met wat je binnenkomt.
+                verdient en slim omgaat met wat je binnenkomt. Combineer met{" "}
+                <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
+                voor maximaal resultaat.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="text-lg">

@@ -323,9 +323,14 @@ const SparenTips = () => {
               </p>
               <div className="bg-card border border-border rounded-lg p-8 max-w-xl mx-auto">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Tip: De 10% Regel</h3>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   Begin met minimaal 10% van je netto inkomen te sparen. Verdien je €2.500 netto? 
                   Zet dan €250 per maand automatisch opzij. Na een jaar heb je al €3.000 gespaard!
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Leer meer over{" "}
+                  <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
+                  om je spaarruimte te vergroten.
                 </p>
               </div>
             </div>
