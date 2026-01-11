@@ -151,6 +151,83 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          amount: number
+          auto_renewal: boolean | null
+          billing_cycle: Database["public"]["Enums"]["billing_cycle"]
+          billing_day: number | null
+          cancellation_period_days: number | null
+          category: Database["public"]["Enums"]["subscription_category"]
+          contract_end_date: string | null
+          contract_start_date: string | null
+          created_at: string
+          id: string
+          is_shared: boolean | null
+          member_id: string | null
+          name: string
+          next_billing_date: string | null
+          notes: string | null
+          provider: string | null
+          status: Database["public"]["Enums"]["subscription_status"]
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          amount: number
+          auto_renewal?: boolean | null
+          billing_cycle?: Database["public"]["Enums"]["billing_cycle"]
+          billing_day?: number | null
+          cancellation_period_days?: number | null
+          category?: Database["public"]["Enums"]["subscription_category"]
+          contract_end_date?: string | null
+          contract_start_date?: string | null
+          created_at?: string
+          id?: string
+          is_shared?: boolean | null
+          member_id?: string | null
+          name: string
+          next_billing_date?: string | null
+          notes?: string | null
+          provider?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          amount?: number
+          auto_renewal?: boolean | null
+          billing_cycle?: Database["public"]["Enums"]["billing_cycle"]
+          billing_day?: number | null
+          cancellation_period_days?: number | null
+          category?: Database["public"]["Enums"]["subscription_category"]
+          contract_end_date?: string | null
+          contract_start_date?: string | null
+          created_at?: string
+          id?: string
+          is_shared?: boolean | null
+          member_id?: string | null
+          name?: string
+          next_billing_date?: string | null
+          notes?: string | null
+          provider?: string | null
+          status?: Database["public"]["Enums"]["subscription_status"]
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "household_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number
@@ -225,6 +302,29 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      billing_cycle:
+        | "weekly"
+        | "monthly"
+        | "quarterly"
+        | "half_yearly"
+        | "yearly"
+      subscription_category:
+        | "streaming"
+        | "internet_telecom"
+        | "energy"
+        | "water"
+        | "insurance"
+        | "sports_fitness"
+        | "software"
+        | "news_magazines"
+        | "music"
+        | "gaming"
+        | "cloud_storage"
+        | "food_delivery"
+        | "transportation"
+        | "education"
+        | "other"
+      subscription_status: "active" | "cancelled" | "paused" | "expired"
       transaction_type: "income" | "expense"
     }
     CompositeTypes: {
@@ -353,6 +453,31 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      billing_cycle: [
+        "weekly",
+        "monthly",
+        "quarterly",
+        "half_yearly",
+        "yearly",
+      ],
+      subscription_category: [
+        "streaming",
+        "internet_telecom",
+        "energy",
+        "water",
+        "insurance",
+        "sports_fitness",
+        "software",
+        "news_magazines",
+        "music",
+        "gaming",
+        "cloud_storage",
+        "food_delivery",
+        "transportation",
+        "education",
+        "other",
+      ],
+      subscription_status: ["active", "cancelled", "paused", "expired"],
       transaction_type: ["income", "expense"],
     },
   },
