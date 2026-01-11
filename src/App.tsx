@@ -35,6 +35,7 @@ import Install from "./pages/Install";
 import Handleiding from "./pages/Handleiding";
 import HandleidingPublic from "./pages/HandleidingPublic";
 import UitgavenBeheren from "./pages/UitgavenBeheren";
+import Subscriptions from "./pages/Subscriptions";
 import { InstallBanner } from "./components/pwa/InstallBanner";
 import { ScrollToTop } from "./components/ScrollToTop";
 
@@ -79,6 +80,7 @@ const App = () => (
             <Route path="/handleiding" element={<Handleiding />} />
             <Route path="/handleiding-app" element={<HandleidingPublic />} />
             <Route path="/uitgaven-beheren" element={<UitgavenBeheren />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <InstallBanner />

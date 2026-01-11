@@ -14,7 +14,8 @@ import {
   Wallet,
   CreditCard,
   ChevronRight,
-  HelpCircle
+  HelpCircle,
+  Receipt
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -26,6 +27,7 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', color: 'text-primary', tourId: 'nav-dashboard' },
   { href: '/income', icon: TrendingUp, label: 'Inkomsten', color: 'text-emerald-500', tourId: 'nav-income' },
   { href: '/expenses', icon: TrendingDown, label: 'Uitgaven', color: 'text-coral', tourId: 'nav-expenses' },
+  { href: '/subscriptions', icon: Receipt, label: 'Abonnementen', color: 'text-purple-500', tourId: 'nav-subscriptions' },
   { href: '/debts', icon: CreditCard, label: 'Schulden', color: 'text-amber-500', tourId: 'nav-debts' },
   { href: '/handleiding', icon: HelpCircle, label: 'Handleiding', color: 'text-blue-500', tourId: 'nav-handleiding' },
   { href: '/settings', icon: Settings, label: 'Instellingen', color: 'text-muted-foreground', tourId: 'nav-settings' },
