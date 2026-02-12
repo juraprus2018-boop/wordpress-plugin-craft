@@ -36,6 +36,7 @@ import Handleiding from "./pages/Handleiding";
 import HandleidingPublic from "./pages/HandleidingPublic";
 import UitgavenBeheren from "./pages/UitgavenBeheren";
 import Subscriptions from "./pages/Subscriptions";
+import Insurance from "./pages/Insurance";
 import Community from "./pages/Community";
 import CommunityPost from "./pages/CommunityPost";
 import { InstallBanner } from "./components/pwa/InstallBanner";
@@ -83,6 +84,7 @@ const App = () => (
             <Route path="/handleiding-app" element={<HandleidingPublic />} />
             <Route path="/uitgaven-beheren" element={<UitgavenBeheren />} />
             <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/insurance" element={<Insurance />} />
             <Route path="/community" element={<Community />} />
             <Route path="/community/:postId" element={<CommunityPost />} />
             <Route path="*" element={<NotFound />} />

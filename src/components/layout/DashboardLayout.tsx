@@ -16,7 +16,8 @@ import {
   ChevronRight,
   HelpCircle,
   Receipt,
-  Users
+  Users,
+  Shield
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,6 +30,7 @@ const navItems = [
   { href: '/income', icon: TrendingUp, label: 'Inkomsten', color: 'text-emerald-500', tourId: 'nav-income' },
   { href: '/expenses', icon: TrendingDown, label: 'Uitgaven', color: 'text-coral', tourId: 'nav-expenses' },
   { href: '/subscriptions', icon: Receipt, label: 'Abonnementen', color: 'text-purple-500', tourId: 'nav-subscriptions' },
+  { href: '/insurance', icon: Shield, label: 'Verzekeringen', color: 'text-emerald-500', tourId: 'nav-insurance' },
   { href: '/debts', icon: CreditCard, label: 'Schulden', color: 'text-amber-500', tourId: 'nav-debts' },
   { href: '/community', icon: Users, label: 'Community', color: 'text-pink-500', tourId: 'nav-community' },
   { href: '/handleiding', icon: HelpCircle, label: 'Handleiding', color: 'text-blue-500', tourId: 'nav-handleiding' },
