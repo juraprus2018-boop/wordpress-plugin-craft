@@ -4,6 +4,7 @@ import { Transaction } from '@/hooks/useTransactions';
 
 interface ExpenseChartProps {
   transactions: Transaction[];
+  memberCount?: number;
 }
 
 const COLORS = [
@@ -16,12 +17,15 @@ const COLORS = [
   'hsl(var(--chart-7))',
 ];
 
-export function ExpenseChart({ transactions }: ExpenseChartProps) {
+export function ExpenseChart({ transactions, memberCount = 1 }: ExpenseChartProps) {
   const expensesByCategory = transactions
     .filter(t => t.type === 'expense')
     .reduce((acc, t) => {
       const categoryName = t.categories?.name || 'Overig';
-      acc[categoryName] = (acc[categoryName] || 0) + Number(t.amount);
+      const freq = t.frequency || 1;
+      const monthly = Number(t.amount) / freq;
+      const effective = t.is_shared && memberCount > 1 ? monthly / memberCount : monthly;
+      acc[categoryName] = (acc[categoryName] || 0) + effective;
       return acc;
     }, {} as Record<string, number>);
 

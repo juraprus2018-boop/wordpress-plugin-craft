@@ -5,10 +5,18 @@ import { cn } from '@/lib/utils';
 
 interface RecentTransactionsProps {
   transactions: Transaction[];
+  memberCount?: number;
 }
 
-export function RecentTransactions({ transactions }: RecentTransactionsProps) {
+export function RecentTransactions({ transactions, memberCount = 1 }: RecentTransactionsProps) {
   const recentTransactions = transactions.slice(0, 5);
+
+  const getEffectiveAmount = (t: Transaction) => {
+    const amount = Number(t.amount);
+    const freq = t.frequency || 1;
+    const monthly = amount / freq;
+    return t.is_shared && memberCount > 1 ? monthly / memberCount : monthly;
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('nl-NL', {
@@ -75,7 +83,7 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
                 "font-semibold",
                 transaction.type === 'income' ? "text-success" : "text-destructive"
               )}>
-                {transaction.type === 'income' ? '+' : '-'}{formatCurrency(Number(transaction.amount))}
+                {transaction.type === 'income' ? '+' : '-'}{formatCurrency(getEffectiveAmount(transaction))}
               </p>
             </div>
           ))}

@@ -230,7 +230,7 @@ export function useTransactions() {
   };
   
   // Calculate member count for shared expense division
-  const memberCount = householdMembers.length > 0 ? householdMembers.length : 1;
+  const memberCount = householdMembers.length > 0 ? householdMembers.length + 1 : 1;
   
   // Calculate totals normalized to monthly amounts, with shared expenses divided by member count
   const totalIncome = incomeTransactions.reduce((sum, t) => {
@@ -267,6 +267,7 @@ export function useTransactions() {
     rawTotalExpenses,
     netResult,
     savingsRate,
+    memberCount,
     isLoading,
     addTransaction,
     updateTransaction,

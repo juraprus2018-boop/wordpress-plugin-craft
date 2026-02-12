@@ -9,27 +9,30 @@ import { nl } from 'date-fns/locale';
 interface YearlyProjectionChartProps {
   transactions: Transaction[];
   debts: Debt[];
+  memberCount?: number;
 }
 
-export function YearlyProjectionChart({ transactions, debts }: YearlyProjectionChartProps) {
+export function YearlyProjectionChart({ transactions, debts, memberCount = 1 }: YearlyProjectionChartProps) {
   const chartData = useMemo(() => {
     const today = new Date();
     const months: { month: string; monthIndex: number; income: number; expenses: number; debtPayments: number; netResult: number }[] = [];
 
-    // Calculate base monthly income (normalized)
+    // Calculate base monthly income (normalized, shared divided)
     const monthlyIncome = transactions
       .filter(t => t.type === 'income')
       .reduce((sum, t) => {
         const freq = t.frequency || 1;
-        return sum + Number(t.amount) / freq;
+        const monthly = Number(t.amount) / freq;
+        return sum + (t.is_shared && memberCount > 1 ? monthly / memberCount : monthly);
       }, 0);
 
-    // Calculate base monthly expenses (excluding debt payments, normalized)
+    // Calculate base monthly expenses (excluding debt payments, normalized, shared divided)
     const monthlyExpenses = transactions
       .filter(t => t.type === 'expense')
       .reduce((sum, t) => {
         const freq = t.frequency || 1;
-        return sum + Number(t.amount) / freq;
+        const monthly = Number(t.amount) / freq;
+        return sum + (t.is_shared && memberCount > 1 ? monthly / memberCount : monthly);
       }, 0);
 
     // For each of the next 12 months
