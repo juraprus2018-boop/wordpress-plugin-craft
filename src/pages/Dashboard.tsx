@@ -3,6 +3,7 @@ import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
+import { useSubscriptions } from '@/hooks/useSubscriptions';
 import { useDebts } from '@/hooks/useDebts';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
@@ -19,7 +20,7 @@ import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { TourTrigger } from '@/components/onboarding/TourTrigger';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2, Landmark } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, PiggyBank, CreditCard, Receipt, Users, Coffee, Loader2, Landmark, CalendarCheck } from 'lucide-react';
 
 export default function Dashboard() {
   useSEO({
@@ -31,6 +32,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { transactions, householdMembers, isLoading } = useTransactions();
   const { debts, loans, totalAll, totalMonthlyPayments, isLoading: debtsLoading } = useDebts();
+  const { activeSubscriptions, totalMonthly: subscriptionMonthly, isLoading: subsLoading, calculateMonthlyCost } = useSubscriptions();
   const { checkAndNotifyPayments, permission } = useNotifications();
   const tour = useOnboardingTour();
   const [selectedMember, setSelectedMember] = useState<string>('all');
@@ -90,7 +92,11 @@ export default function Dashboard() {
   const expenseTransactions = statsTransactions.filter(t => t.type === 'expense');
 
   const totalIncome = incomeTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
-  const totalExpenses = expenseTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const totalTransactionExpenses = expenseTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  
+  // Include active subscriptions as monthly expenses
+  const totalSubscriptionExpenses = subscriptionMonthly;
+  const totalExpenses = totalTransactionExpenses + totalSubscriptionExpenses;
 
   const netResult = totalIncome - totalExpenses;
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
@@ -102,7 +108,7 @@ export default function Dashboard() {
   const totalDebtAndLoans = totalDebtAmount + totalLoanAmount;
   const totalAllPayments = totalDebtPayments + totalLoanPayments;
 
-  if (loading || isLoading || debtsLoading) {
+  if (loading || isLoading || debtsLoading || subsLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-background">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -177,7 +183,7 @@ export default function Dashboard() {
         </div>
         
         {/* Main KPIs - Mobile optimized 2x3 grid */}
-        <div data-tour="kpi-cards" className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div data-tour="kpi-cards" className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <KPICard 
             title="Inkomsten" 
             value={formatCurrency(totalIncome)} 
@@ -189,6 +195,11 @@ export default function Dashboard() {
             value={formatCurrency(totalExpenses)} 
             icon={<TrendingDown className="w-full h-full" />} 
             variant="accent"
+          />
+          <KPICard 
+            title="Abonnementen" 
+            value={formatCurrency(totalSubscriptionExpenses)} 
+            icon={<CalendarCheck className="w-full h-full" />} 
           />
           <KPICard 
             title="Netto" 
