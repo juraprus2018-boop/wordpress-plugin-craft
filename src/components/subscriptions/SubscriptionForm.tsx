@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
+import { useTransactions } from "@/hooks/useTransactions";
 import { nl } from "date-fns/locale";
 import { CalendarIcon, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -69,6 +70,7 @@ const formSchema = z.object({
   website: z.string().url("Voer een geldige URL in").optional().or(z.literal("")),
   notes: z.string().optional(),
   is_shared: z.boolean(),
+  member_id: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -81,6 +83,7 @@ interface SubscriptionFormProps {
 export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormProps) => {
   const [open, setOpen] = useState(false);
   const { createSubscription, updateSubscription } = useSubscriptions();
+  const { householdMembers, addHouseholdMember } = useTransactions();
 
   const isEditing = !!subscription;
 
@@ -107,8 +110,11 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
       website: subscription?.website || "",
       notes: subscription?.notes || "",
       is_shared: subscription?.is_shared ?? false,
+      member_id: subscription?.member_id || undefined,
     },
   });
+
+  const isShared = form.watch("is_shared");
 
   const onSubmit = async (values: FormValues) => {
     const data: SubscriptionInsert = {
@@ -132,6 +138,7 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
       website: values.website || null,
       notes: values.notes || null,
       is_shared: values.is_shared,
+      member_id: values.is_shared ? (values.member_id || null) : null,
     };
 
     if (isEditing && subscription) {
@@ -490,6 +497,42 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
             )}
           />
         </div>
+
+        {isShared && (
+          <FormField
+            control={form.control}
+            name="member_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gezinslid</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecteer gezinslid" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {householdMembers.map((member) => (
+                      <SelectItem key={member.id} value={member.id}>
+                        <span className="flex items-center gap-2">
+                          <span
+                            className="inline-block w-3 h-3 rounded-full"
+                            style={{ backgroundColor: member.color || '#6B7280' }}
+                          />
+                          {member.name}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Aan wie is dit abonnement gekoppeld?
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <Button type="submit" className="w-full" disabled={createSubscription.isPending || updateSubscription.isPending}>
           {isEditing ? "Opslaan" : "Toevoegen"}
