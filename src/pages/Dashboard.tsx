@@ -3,7 +3,7 @@ import { useSEO } from '@/hooks/useSEO';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { useTransactions } from '@/hooks/useTransactions';
-import { useSubscriptions, BILLING_CYCLE_MONTHS, CATEGORY_LABELS, CATEGORY_ICONS } from '@/hooks/useSubscriptions';
+import { useSubscriptions, CATEGORY_LABELS, CATEGORY_ICONS } from '@/hooks/useSubscriptions';
 import { useDebts } from '@/hooks/useDebts';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
