@@ -105,7 +105,12 @@ const Insurance = () => {
               Beheer al je verzekeringen en polissen op één plek.
             </p>
           </div>
-          <SubscriptionForm />
+          <SubscriptionForm
+            defaultCategory="insurance"
+            buttonLabel="Verzekering toevoegen"
+            dialogTitle="Nieuwe verzekering"
+            namePlaceholder="bijv. Zorgverzekering"
+          />
         </div>
 
         {/* KPI Cards */}

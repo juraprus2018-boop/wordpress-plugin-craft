@@ -78,9 +78,13 @@ type FormValues = z.infer<typeof formSchema>;
 interface SubscriptionFormProps {
   subscription?: Subscription;
   onSuccess?: () => void;
+  defaultCategory?: SubscriptionCategory;
+  buttonLabel?: string;
+  dialogTitle?: string;
+  namePlaceholder?: string;
 }
 
-export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormProps) => {
+export const SubscriptionForm = ({ subscription, onSuccess, defaultCategory, buttonLabel, dialogTitle, namePlaceholder }: SubscriptionFormProps) => {
   const [open, setOpen] = useState(false);
   const { createSubscription, updateSubscription } = useSubscriptions();
   const { householdMembers, addHouseholdMember } = useTransactions();
@@ -92,7 +96,7 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
     defaultValues: {
       name: subscription?.name || "",
       provider: subscription?.provider || "",
-      category: subscription?.category || "other",
+      category: subscription?.category || defaultCategory || "other",
       amount: subscription?.amount || 0,
       billing_cycle: subscription?.billing_cycle || "monthly",
       billing_day: subscription?.billing_day || undefined,
@@ -163,7 +167,7 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
               <FormItem>
                 <FormLabel>Naam *</FormLabel>
                 <FormControl>
-                  <Input placeholder="bijv. Netflix" {...field} />
+                  <Input placeholder={namePlaceholder || "bijv. Netflix"} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -550,12 +554,12 @@ export const SubscriptionForm = ({ subscription, onSuccess }: SubscriptionFormPr
       <DialogTrigger asChild>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
-          Abonnement toevoegen
+          {buttonLabel || "Abonnement toevoegen"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Nieuw abonnement</DialogTitle>
+          <DialogTitle>{dialogTitle || "Nieuw abonnement"}</DialogTitle>
         </DialogHeader>
         {formContent}
       </DialogContent>
