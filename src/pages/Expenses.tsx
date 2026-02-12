@@ -14,7 +14,7 @@ export default function Expenses() {
 
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { expenseTransactions, expenseCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember } = useTransactions();
+  const { expenseTransactions, expenseCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember, memberCount } = useTransactions();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -35,6 +35,7 @@ export default function Expenses() {
           onUpdate={(data) => updateTransaction.mutate(data)}
           onDelete={(id) => deleteTransaction.mutate(id)}
           onAddMember={(data) => addHouseholdMember.mutate(data)}
+          memberCount={memberCount}
         />
       </div>
     </DashboardLayout>

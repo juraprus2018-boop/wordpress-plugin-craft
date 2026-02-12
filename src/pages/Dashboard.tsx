@@ -88,7 +88,7 @@ export default function Dashboard() {
   const statsTransactions = useMemo(() => {
     return filteredTransactions.map((t) => {
       const monthlyAmount = normalizeToMonthly(Number(t.amount), t.frequency);
-      const shouldDivide = t.is_shared && view !== 'all' && memberCount > 1;
+      const shouldDivide = t.is_shared && memberCount > 1;
       const effectiveAmount = shouldDivide ? monthlyAmount / memberCount : monthlyAmount;
       return { ...t, amount: effectiveAmount };
     });

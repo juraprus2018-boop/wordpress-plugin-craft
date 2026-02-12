@@ -39,8 +39,8 @@ function getFrequencyLabel(frequency: number | null) {
 
 function effectiveMonthlyAmount(t: Transaction, memberCount: number, view: TransactionBreakdownProps['view']) {
   const monthly = normalizeToMonthly(Number(t.amount), t.frequency);
-  // Divide shared expenses when not in "all" view and there are multiple members
-  if (t.is_shared && view !== 'all' && memberCount > 1) {
+  // Always divide shared expenses when there are multiple members
+  if (t.is_shared && memberCount > 1) {
     return monthly / memberCount;
   }
   return monthly;
@@ -55,7 +55,7 @@ function sortByDay(a: Transaction, b: Transaction) {
 function TransactionRow({ t, memberCount, view }: { t: Transaction; memberCount: number; view: TransactionBreakdownProps['view'] }) {
   const monthlyTotal = normalizeToMonthly(Number(t.amount), t.frequency);
   const monthlyEffective = effectiveMonthlyAmount(t, memberCount, view);
-  const showSplit = t.is_shared && view !== 'all' && memberCount > 1;
+  const showSplit = t.is_shared && memberCount > 1;
 
   return (
     <div className="flex items-start justify-between gap-3 py-3 border-b border-border last:border-0">

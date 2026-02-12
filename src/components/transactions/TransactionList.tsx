@@ -59,6 +59,7 @@ interface TransactionListProps {
   }) => void;
   onDelete: (id: string) => void;
   onAddMember?: (data: { name: string; color?: string }) => void;
+  memberCount?: number;
 }
 
 export function TransactionList({
@@ -70,6 +71,7 @@ export function TransactionList({
   onUpdate,
   onDelete,
   onAddMember,
+  memberCount = 1,
 }: TransactionListProps) {
   const [formOpen, setFormOpen] = useState(false);
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
@@ -105,7 +107,14 @@ export function TransactionList({
     return t.member_id === memberFilter;
   });
 
-  const total = filteredTransactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const getEffectiveAmount = (t: Transaction) => {
+    const amount = Number(t.amount);
+    const freq = t.frequency || 1;
+    const monthly = amount / freq;
+    return t.is_shared && memberCount > 1 ? monthly / memberCount : monthly;
+  };
+
+  const total = filteredTransactions.reduce((sum, t) => sum + getEffectiveAmount(t), 0);
 
   return (
     <>
@@ -292,12 +301,20 @@ export function TransactionList({
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <p className={cn(
-                      "font-semibold",
-                      type === 'income' ? "text-success" : "text-destructive"
-                    )}>
-                      {formatCurrency(Number(transaction.amount))}
-                    </p>
+                    <div className="text-right">
+                      <p className={cn(
+                        "font-semibold",
+                        type === 'income' ? "text-success" : "text-destructive"
+                      )}>
+                        {formatCurrency(getEffectiveAmount(transaction))}
+                      </p>
+                      {transaction.is_shared && memberCount > 1 && (
+                        <p className="text-[11px] text-muted-foreground">
+                          totaal: {formatCurrency(Number(transaction.amount))}
+                        </p>
+                      )}
+                      <p className="text-[11px] text-muted-foreground">/maand</p>
+                    </div>
                     <Button
                       variant="ghost"
                       size="icon"

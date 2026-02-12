@@ -14,7 +14,7 @@ export default function Income() {
 
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const { incomeTransactions, incomeCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember } = useTransactions();
+  const { incomeTransactions, incomeCategories, householdMembers, addTransaction, updateTransaction, deleteTransaction, addHouseholdMember, memberCount } = useTransactions();
 
   useEffect(() => {
     if (!loading && !user) navigate('/auth');
@@ -35,6 +35,7 @@ export default function Income() {
           onUpdate={(data) => updateTransaction.mutate(data)}
           onDelete={(id) => deleteTransaction.mutate(id)}
           onAddMember={(data) => addHouseholdMember.mutate(data)}
+          memberCount={memberCount}
         />
       </div>
     </DashboardLayout>
