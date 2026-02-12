@@ -43,7 +43,7 @@ export default function Dashboard() {
   const { activeSubscriptions, totalMonthly: subscriptionMonthly, isLoading: subsLoading, calculateMonthlyCost } = useSubscriptions();
   const { checkAndNotifyPayments, permission } = useNotifications();
   const tour = useOnboardingTour();
-  const [selectedMember, setSelectedMember] = useState<string>('all');
+  const [selectedMember, setSelectedMember] = useState<string>('personal');
 
   const allDebtsAndLoans = useMemo(() => [...debts, ...loans], [debts, loans]);
 
