@@ -377,7 +377,7 @@ const SchuldenAflossen = () => {
             </p>
             <Button asChild size="lg" variant="secondary" className="text-lg">
               <Link to="/auth">
-                Direct Beginnen
+                Begin Gratis
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

@@ -5,7 +5,7 @@ import { PublicFooter } from '@/components/layout/PublicFooter';
 export default function Voorwaarden() {
   useSEO({
     title: 'Algemene Voorwaarden - FinOverzicht',
-    description: 'Lees de algemene voorwaarden van FinOverzicht. Informatie over het gebruik van onze huishoudboekje dienst.',
+    description: 'Lees de algemene voorwaarden van FinOverzicht. Informatie over het gebruik van onze gratis huishoudboekje dienst.',
     canonical: 'https://www.finoverzicht.nl/voorwaarden'
   });
 
@@ -25,7 +25,7 @@ export default function Voorwaarden() {
             <h2 className="font-heading text-2xl font-semibold mt-8 mb-4">1. Algemeen</h2>
             <p>
               Door gebruik te maken van FinOverzicht ga je akkoord met deze algemene voorwaarden. 
-              FinOverzicht is een dienst voor het bijhouden van persoonlijke financiën.
+              FinOverzicht is een gratis dienst voor het bijhouden van persoonlijke financiën.
             </p>
 
             <h2 className="font-heading text-2xl font-semibold mt-8 mb-4">2. Gebruik van de dienst</h2>

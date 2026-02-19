@@ -98,7 +98,7 @@ const BudgetBeheren = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="text-lg">
                   <Link to="/auth">
-                    Start met Budgetteren
+                    Start Gratis met Budgetteren
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -145,7 +145,7 @@ const BudgetBeheren = () => {
                   </li>
                 </ul>
                 <p className="text-lg leading-relaxed">
-                  Met FinOverzicht maak je budgetteren eenvoudig. Onze tool helpt je om je 
+                  Met FinOverzicht maak je budgetteren eenvoudig. Onze gratis tool helpt je om je 
                   inkomsten en uitgaven bij te houden, categorieën te maken en je voortgang te monitoren.
                   Bekijk ook onze tips over{" "}
                   <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
@@ -309,11 +309,11 @@ const BudgetBeheren = () => {
               Begin Vandaag nog met Budgetteren
             </h2>
             <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-              FinOverzicht maakt budgetteren eenvoudig. Start nu en krijg grip op je financiën.
+              FinOverzicht maakt budgetteren eenvoudig en gratis. Start nu en krijg grip op je financiën.
             </p>
             <Button asChild size="lg" variant="secondary" className="text-lg">
               <Link to="/auth">
-                Account Aanmaken
+                Maak Gratis Account
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

@@ -358,7 +358,7 @@ export default function Auth() {
     document.title = title;
 
     const description = mode === 'signup'
-      ? 'Maak een FinOverzicht account aan om je inkomsten, uitgaven, vaste lasten en schulden bij te houden.'
+      ? 'Maak een gratis FinOverzicht account aan om je inkomsten, uitgaven, vaste lasten en schulden bij te houden.'
       : mode === 'forgot' 
       ? 'Herstel je wachtwoord voor FinOverzicht.'
       : mode === 'reset'
@@ -455,7 +455,7 @@ export default function Auth() {
 
   const getDescription = () => {
     switch (mode) {
-      case 'signup': return 'Maak een account aan';
+      case 'signup': return 'Maak een gratis account aan';
       case 'forgot': return 'Vul je e-mailadres in om je wachtwoord te herstellen. Controleer ook je spam/ongewenste map.';
       case 'reset': return 'Kies een nieuw wachtwoord';
       default: return 'Log in op je account';
@@ -470,7 +470,7 @@ export default function Auth() {
         
         <div className="relative z-10 flex flex-col items-center justify-center w-full p-12 text-white">
           <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-            Eenvoudig & Overzichtelijk
+            Gratis & Eenvoudig
           </div>
           
           <h2 className="font-heading text-4xl lg:text-5xl font-bold text-center mb-4 leading-tight">

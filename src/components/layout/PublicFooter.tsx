@@ -18,7 +18,7 @@ export function PublicFooter() {
               <span className="font-heading font-bold text-xl tracking-tight">FinOverzicht</span>
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-xs">
-              Jouw tool voor financieel overzicht. Beheer je inkomsten, uitgaven en schulden op één plek.
+              Jouw gratis tool voor financieel overzicht. Beheer je inkomsten, uitgaven en schulden op één plek.
             </p>
             
             {/* Email CTA */}

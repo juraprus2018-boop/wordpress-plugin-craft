@@ -25,18 +25,18 @@ import {
 const FAQ = () => {
   // Collect all FAQs for structured data
   const allFaqs = useMemo(() => [
-    { question: "Wat is FinOverzicht?", answer: "FinOverzicht is een online huishoudboekje waarmee je je inkomsten, uitgaven en schulden kunt bijhouden. Het is speciaal ontwikkeld voor Nederlandse huishoudens." },
-    { question: "Wat kost FinOverzicht?", answer: "FinOverzicht is zonder kosten te gebruiken. Er zijn geen verborgen kosten en geen beperkingen. We geloven dat financieel overzicht voor iedereen toegankelijk moet zijn." },
+    { question: "Wat is FinOverzicht?", answer: "FinOverzicht is een gratis online huishoudboekje waarmee je je inkomsten, uitgaven en schulden kunt bijhouden. Het is speciaal ontwikkeld voor Nederlandse huishoudens en is volledig gratis te gebruiken." },
+    { question: "Is FinOverzicht echt gratis?", answer: "Ja, FinOverzicht is volledig gratis. Er zijn geen verborgen kosten, geen premium versie en geen beperkingen. We geloven dat financieel overzicht voor iedereen toegankelijk moet zijn." },
     { question: "Zijn mijn gegevens veilig?", answer: "Ja, we nemen privacy zeer serieus. Je gegevens worden versleuteld opgeslagen en we delen nooit informatie met derden." },
     { question: "Kan ik FinOverzicht op mijn telefoon gebruiken?", answer: "Ja! FinOverzicht werkt in elke moderne browser op je telefoon, tablet of computer. Je hebt geen app nodig." },
-    { question: "Hoe maak ik een account aan?", answer: "Klik op 'Registreren' en vul je e-mailadres en een wachtwoord in. Je ontvangt een bevestigingsmail en kunt direct beginnen." },
+    { question: "Hoe maak ik een account aan?", answer: "Klik op 'Gratis starten' en vul je e-mailadres en een wachtwoord in. Je ontvangt een bevestigingsmail en kunt direct beginnen." },
     { question: "Kan ik categorieën aanpassen?", answer: "Ja, je kunt eigen categorieën maken, bewerken en verwijderen. Zo past FinOverzicht perfect bij jouw manier van budgetteren." },
     { question: "Kan ik mijn data exporteren?", answer: "Ja, je kunt je transacties exporteren naar Excel of PDF via de exportfunctie op de inkomsten- en uitgavenpagina's." },
   ], []);
 
   useSEO({
     title: 'Veelgestelde Vragen (FAQ) - FinOverzicht',
-    description: 'Antwoorden op veelgestelde vragen over FinOverzicht. Leer meer over functies, privacy, kosten en hoe je begint met je huishoudboekje.',
+    description: 'Antwoorden op veelgestelde vragen over FinOverzicht. Leer meer over functies, privacy, kosten en hoe je begint met je gratis huishoudboekje.',
     canonical: 'https://www.finoverzicht.nl/faq',
     jsonLd: [
       createFAQSchema(allFaqs),
@@ -54,7 +54,7 @@ const FAQ = () => {
       questions: [
         {
           q: "Wat is FinOverzicht?",
-          a: "FinOverzicht is een online huishoudboekje waarmee je je inkomsten, uitgaven en schulden kunt bijhouden. Het is speciaal ontwikkeld voor Nederlandse huishoudens."
+          a: "FinOverzicht is een gratis online huishoudboekje waarmee je je inkomsten, uitgaven en schulden kunt bijhouden. Het is speciaal ontwikkeld voor Nederlandse huishoudens en is volledig gratis te gebruiken."
         },
         {
           q: "Voor wie is FinOverzicht bedoeld?",
@@ -62,7 +62,7 @@ const FAQ = () => {
         },
         {
           q: "Hoe verschilt FinOverzicht van andere apps?",
-          a: "FinOverzicht is gemaakt voor Nederlandse gebruikers en focust op eenvoud. Je kunt gezinsleden toevoegen, categorieën aanpassen en je schulden bijhouden — zonder ingewikkelde instellingen."
+          a: "FinOverzicht is volledig gratis (zonder premium versie), gemaakt voor Nederlandse gebruikers, en focust op eenvoud. Je kunt gezinsleden toevoegen, categorieën aanpassen en je schulden bijhouden - allemaal zonder kosten."
         },
         {
           q: "Kan ik FinOverzicht op mijn telefoon gebruiken?",
@@ -76,7 +76,7 @@ const FAQ = () => {
       questions: [
         {
           q: "Hoe maak ik een account aan?",
-          a: "Klik op 'Registreren' en vul je e-mailadres en een wachtwoord in. Je ontvangt een bevestigingsmail en kunt direct beginnen."
+          a: "Klik op 'Gratis starten' en vul je e-mailadres en een wachtwoord in. Je ontvangt een bevestigingsmail en kunt direct beginnen."
         },
         {
           q: "Kan ik mijn account delen met mijn partner?",
@@ -97,12 +97,12 @@ const FAQ = () => {
       icon: CreditCard,
       questions: [
         {
-          q: "Wat kost FinOverzicht?",
-          a: "FinOverzicht is zonder kosten te gebruiken. Er zijn geen verborgen kosten en geen beperkingen. We geloven dat financieel overzicht voor iedereen toegankelijk moet zijn."
+          q: "Is FinOverzicht echt gratis?",
+          a: "Ja, FinOverzicht is volledig gratis. Er zijn geen verborgen kosten, geen premium versie en geen beperkingen. We geloven dat financieel overzicht voor iedereen toegankelijk moet zijn."
         },
         {
           q: "Waarom is het gratis?",
-          a: "We willen bijdragen aan financiële gezondheid in Nederland. FinOverzicht is gemaakt om iedereen toegang te geven tot goed financieel overzicht, zonder drempels."
+          a: "We willen bijdragen aan financiële gezondheid in Nederland. FinOverzicht is gemaakt om iedereen toegang te geven tot goed financieel overzicht."
         },
         {
           q: "Moet ik mijn bankgegevens invoeren?",
@@ -256,7 +256,7 @@ const FAQ = () => {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <Link to="/auth">Direct Starten</Link>
+                  <Link to="/auth">Gratis Starten</Link>
                 </Button>
               </div>
             </div>
