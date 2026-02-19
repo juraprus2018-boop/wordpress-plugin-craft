@@ -29,8 +29,8 @@ import {
 
 export default function Landing() {
   useSEO({
-    title: 'FinOverzicht - Gratis Inzicht in je Inkomsten en Uitgaven',
-    description: 'Maak je financiën inzichtelijk met FinOverzicht. Houd je inkomsten, uitgaven en schulden bij en ontdek wat je kunt sparen. 100% gratis.',
+    title: 'FinOverzicht - Inzicht in je Inkomsten en Uitgaven',
+    description: 'Maak je financiën inzichtelijk met FinOverzicht. Houd je inkomsten, uitgaven en schulden bij en ontdek wat je kunt sparen.',
     canonical: 'https://www.finoverzicht.nl/',
     jsonLd: [
       createOrganizationSchema(),
@@ -75,7 +75,7 @@ export default function Landing() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <Link to="/auth?mode=signup">
                   <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold w-full sm:w-auto shadow-lg shadow-primary/25">
-                    Gratis starten
+                    Direct starten
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
@@ -144,28 +144,30 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Waarom gratis Section */}
+        {/* Waarom overzicht Section */}
         <section className="py-20 bg-primary/5 border-y border-primary/10">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="font-heading text-3xl md:text-4xl font-bold mb-6">
-                    Waarom is FinOverzicht gratis?
+                    Waarom financieel overzicht?
                   </h2>
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     Veel mensen denken dat ze hun financiën wel ongeveer kennen. Maar zolang alles in je hoofd zit, 
                     ontstaat er onrust. Kleine uitgaven worden vergeten en abonnementen lopen ongemerkt door.
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    FinOverzicht maakt dit inzichtelijk — zonder ingewikkelde termen, verborgen kosten of onnodige functies. 
+                    FinOverzicht maakt dit inzichtelijk — zonder ingewikkelde termen of onnodige functies. 
                     Gewoon duidelijk inzicht, zodat je weet waar je staat.
                   </p>
                 </div>
                 <div className="bg-card rounded-2xl p-8 border border-border">
-                  <div className="text-6xl font-heading font-bold text-primary mb-4">€0</div>
-                  <p className="text-lg font-medium text-foreground mb-2">Volledig gratis, altijd</p>
-                  <p className="text-muted-foreground">Geen abonnementen, geen verborgen kosten en geen verplichtingen. Het doel is simpel: jou helpen grip te krijgen op je geld.</p>
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <Eye className="h-8 w-8" />
+                  </div>
+                  <p className="text-lg font-medium text-foreground mb-2">Inzicht brengt rust</p>
+                  <p className="text-muted-foreground">Wanneer je precies weet wat er binnenkomt en uitgaat, maak je betere financiële beslissingen.</p>
                 </div>
               </div>
             </div>
@@ -380,7 +382,7 @@ export default function Landing() {
                 <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-0.5 bg-primary/30" style={{ left: '16.67%', right: '16.67%' }} />
                 
                 {[
-                  { step: "1", title: "Maak een account", desc: "Registreer gratis met je e-mailadres." },
+                  { step: "1", title: "Maak een account", desc: "Registreer met je e-mailadres." },
                   { step: "2", title: "Voer je gegevens in", desc: "Voeg je inkomsten en uitgaven toe. Schulden zijn optioneel." },
                   { step: "3", title: "Bekijk je overzicht", desc: "Zie wat er binnenkomt, wat er uitgaat en wat je kunt sparen." }
                 ].map((item, i) => (
@@ -461,7 +463,7 @@ export default function Landing() {
               </h2>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 Ontdek hoe FinOverzicht je helpt met overzicht, besparen, schulden beheren en meer. 
-                Lees alles over onze gratis app en hoe het werkt.
+                Lees alles over onze app en hoe het werkt.
               </p>
               <Link to="/wat-is-finoverzicht">
                 <Button size="lg" variant="outline" className="rounded-full px-8 h-12 border-primary/30 hover:bg-primary/10 hover:border-primary/50">
@@ -486,12 +488,9 @@ export default function Landing() {
                 <p className="text-lg text-muted-foreground mb-2">
                   Overzicht voor jezelf. Duidelijkheid voor het gezin. Rust in je hoofd.
                 </p>
-                <p className="text-primary font-semibold mb-8">
-                  Helemaal gratis. Altijd.
-                </p>
                 <Link to="/auth?mode=signup">
                   <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 transition-colors text-primary-foreground font-semibold shadow-lg shadow-primary/25">
-                    Gratis account aanmaken
+                    Account aanmaken
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>

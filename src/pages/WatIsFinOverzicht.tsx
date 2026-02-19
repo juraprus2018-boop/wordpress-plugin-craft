@@ -19,13 +19,13 @@ import {
 
 export default function WatIsFinOverzicht() {
   useSEO({
-    title: 'Wat is FinOverzicht? - Gratis Inzicht in je Financiën',
-    description: 'FinOverzicht is een volledig gratis app die je helpt overzicht te krijgen in je inkomsten en uitgaven. Ontdek waarom financieel overzicht zo belangrijk is.',
+    title: 'Wat is FinOverzicht? - Inzicht in je Financiën',
+    description: 'FinOverzicht helpt je overzicht te krijgen in je inkomsten en uitgaven. Ontdek waarom financieel overzicht zo belangrijk is.',
     canonical: 'https://www.finoverzicht.nl/wat-is-finoverzicht',
     jsonLd: [
       createWebPageSchema(
         'Wat is FinOverzicht?',
-        'FinOverzicht is een volledig gratis app die je helpt overzicht te krijgen in je inkomsten en uitgaven.',
+        'FinOverzicht helpt je overzicht te krijgen in je inkomsten en uitgaven.',
         'https://www.finoverzicht.nl/wat-is-finoverzicht'
       ),
       createBreadcrumbSchema([
@@ -49,14 +49,14 @@ export default function WatIsFinOverzicht() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
                 <Sparkles className="h-3.5 w-3.5" />
-                100% Gratis
+                Financieel inzicht
               </div>
               <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Wat is <span className="text-gradient">FinOverzicht</span>?
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                FinOverzicht is een volledig gratis app die je helpt om overzicht te krijgen in je inkomsten en uitgaven. 
-                Geen ingewikkelde financiële termen, geen verborgen kosten en geen onnodige functies.
+                FinOverzicht helpt je om overzicht te krijgen in je inkomsten en uitgaven. 
+                Geen ingewikkelde financiële termen en geen onnodige functies.
               </p>
             </div>
           </div>
@@ -314,17 +314,16 @@ export default function WatIsFinOverzicht() {
           </div>
         </section>
 
-        {/* 100% Gratis Section */}
+        {/* Missie Section */}
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="text-7xl font-heading font-bold text-primary mb-4">€0</div>
               <h2 className="font-heading text-3xl md:text-4xl font-bold mb-6">
-                100% gratis, zonder kleine lettertjes
+                Onze missie
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                FinOverzicht is en blijft volledig gratis. Geen abonnementen, geen verborgen kosten en geen verplichtingen. 
-                Het doel is simpel: mensen helpen om grip te krijgen op hun geld en financiële rust te ervaren.
+                FinOverzicht is er om mensen te helpen grip te krijgen op hun geld en financiële rust te ervaren.
+                Zonder onnodige complexiteit, gewoon een helder overzicht.
               </p>
             </div>
           </div>
@@ -341,13 +340,13 @@ export default function WatIsFinOverzicht() {
                 Overzicht voor jezelf. Duidelijkheid voor het gezin. Rust in je hoofd.
               </p>
               <p className="text-lg text-primary font-semibold mb-10">
-                Helemaal gratis. Altijd.
+                Begin vandaag nog.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/auth?mode=signup">
                   <Button size="lg" className="text-lg px-8 h-14 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold w-full sm:w-auto shadow-lg shadow-primary/25">
-                    Gratis starten
+                    Direct starten
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>

@@ -157,7 +157,7 @@ function CollapsibleSection({
 export default function HandleidingPublic() {
   useSEO({
     title: 'Handleiding - FinOverzicht | Leer alle functies kennen',
-    description: 'Complete handleiding voor FinOverzicht. Leer stap voor stap hoe je je financiën beheert met onze gratis huishoudboekje app.',
+    description: 'Complete handleiding voor FinOverzicht. Leer stap voor stap hoe je je financiën beheert met onze huishoudboekje app.',
   });
 
   return (
@@ -198,7 +198,7 @@ export default function HandleidingPublic() {
                     <AnimatedStep 
                       step={1} 
                       title="Maak een account" 
-                      description="Registreer gratis met je e-mailadres. Geen creditcard nodig."
+                      description="Registreer met je e-mailadres. Snel en eenvoudig."
                       icon={Users}
                       color="bg-emerald-500"
                       delay={0}
@@ -277,7 +277,7 @@ export default function HandleidingPublic() {
                   <Link to="/auth?mode=signup">
                     <Button size="lg" className="gap-2 rounded-xl shadow-glow">
                       <Sparkles className="h-4 w-4" />
-                      Gratis beginnen
+                      Direct beginnen
                     </Button>
                   </Link>
                   <a href="#functies">
@@ -620,13 +620,13 @@ export default function HandleidingPublic() {
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-md mx-auto">
                   Start vandaag nog met het beheren van je financiën. 
-                  100% gratis, geen creditcard nodig.
+                  Eenvoudig en zonder verplichtingen.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Link to="/auth?mode=signup">
                     <Button size="lg" className="gap-2 rounded-xl shadow-glow">
                       <Sparkles className="h-4 w-4" />
-                      Gratis account aanmaken
+                      Account aanmaken
                     </Button>
                   </Link>
                   <Link to="/functies">

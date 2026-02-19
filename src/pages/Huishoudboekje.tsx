@@ -19,8 +19,8 @@ import {
 
 const Huishoudboekje = () => {
   useSEO({
-    title: 'Digitaal Huishoudboekje - Gratis Online Huishoudboekje | FinOverzicht',
-    description: 'Het moderne digitale huishoudboekje. Houd je inkomsten en uitgaven bij, categoriseer transacties en krijg inzicht in je financiën. 100% gratis.',
+    title: 'Digitaal Huishoudboekje - Online Huishoudboekje | FinOverzicht',
+    description: 'Het moderne digitale huishoudboekje. Houd je inkomsten en uitgaven bij, categoriseer transacties en krijg inzicht in je financiën.',
     canonical: 'https://www.finoverzicht.nl/huishoudboekje',
     jsonLd: [
       createArticleSchema(
@@ -70,7 +70,7 @@ const Huishoudboekje = () => {
   ];
 
   const compareItems = [
-    { feature: "Kosten", paper: "Gratis", excel: "Microsoft 365 abonnement", app: "Gratis" },
+    { feature: "Kosten", paper: "Pen & papier", excel: "Microsoft 365 abonnement", app: "Geen kosten" },
     { feature: "Automatische berekeningen", paper: "Nee", excel: "Ja", app: "Ja" },
     { feature: "Overal toegankelijk", paper: "Nee", excel: "Met cloud", app: "Ja, op elk apparaat" },
     { feature: "Grafieken & inzichten", paper: "Nee", excel: "Handmatig maken", app: "Automatisch" },
@@ -102,7 +102,7 @@ const Huishoudboekje = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="text-lg">
                   <Link to="/auth">
-                    Gratis Huishoudboekje Starten
+                    Huishoudboekje Starten
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -167,7 +167,7 @@ const Huishoudboekje = () => {
                 </div>
                 <p className="text-lg leading-relaxed">
                   Vroeger deed men dit met pen en papier, later met Excel. Nu is er FinOverzicht: 
-                  een gratis, gebruiksvriendelijke app die alles automatisch doet. Ontdek ook onze tips voor{" "}
+                  een gebruiksvriendelijke app die alles automatisch doet. Ontdek ook onze tips voor{" "}
                   <Link to="/budget-beheren" className="text-primary hover:underline">budget beheren</Link>,{" "}
                   <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven beheren</Link>{" "}
                   en{" "}
@@ -309,10 +309,9 @@ const Huishoudboekje = () => {
                     1
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Maak een gratis account</h3>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Maak een account aan</h3>
                     <p className="text-muted-foreground">
-                      Registreer in 30 seconden met je e-mailadres. Geen creditcard nodig, 
-                      geen verplichtingen.
+                      Registreer in 30 seconden met je e-mailadres. Zonder verplichtingen.
                     </p>
                   </div>
                 </div>
@@ -369,7 +368,7 @@ const Huishoudboekje = () => {
             </p>
             <Button asChild size="lg" variant="secondary" className="text-lg">
               <Link to="/auth">
-                Gratis Beginnen
+                Direct Beginnen
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

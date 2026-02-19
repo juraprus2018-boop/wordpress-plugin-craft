@@ -78,7 +78,7 @@ const features = [
 export default function Functies() {
   useSEO({
     title: 'Functies - FinOverzicht | Inzicht in je Financiën',
-    description: 'Ontdek de functies van FinOverzicht: houd je inkomsten en uitgaven bij, volg eventueel je schulden en zie wat je kunt sparen. 100% gratis.',
+    description: 'Ontdek de functies van FinOverzicht: houd je inkomsten en uitgaven bij, volg eventueel je schulden en zie wat je kunt sparen.',
     canonical: 'https://www.finoverzicht.nl/functies',
     jsonLd: [
       createWebPageSchema(
@@ -109,7 +109,7 @@ export default function Functies() {
             </p>
             <Link to="/auth?mode=signup">
               <Button size="lg" className="text-lg px-8">
-                Gratis starten
+                Direct beginnen
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -156,7 +156,7 @@ export default function Functies() {
               
               <div className="space-y-4">
                 {[
-                  '100% gratis — geen premium versie, geen verborgen kosten',
+                  'Geen verplichtingen — begin wanneer je wilt',
                   'Eenvoudig te gebruiken — geen ingewikkelde instellingen',
                   'Privacy-vriendelijk — jouw data blijft van jou',
                   'Werkt op alle apparaten — desktop, tablet en mobiel',
@@ -180,11 +180,11 @@ export default function Functies() {
               Klaar om te beginnen?
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Maak vandaag nog je gratis account aan.
+              Maak vandaag nog een account aan en krijg inzicht in je financiën.
             </p>
             <Link to="/auth?mode=signup">
               <Button size="lg" className="text-lg px-8">
-                Gratis account aanmaken
+                Account aanmaken
               </Button>
             </Link>
           </div>
