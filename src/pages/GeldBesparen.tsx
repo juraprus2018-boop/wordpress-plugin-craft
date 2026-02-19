@@ -99,7 +99,7 @@ const GeldBesparen = () => {
       title: "Entertainment",
       monthlyPotential: "€50-150",
       tips: [
-        { tip: "Gratis evenementen bezoeken", saving: "€20-40/maand" },
+        { tip: "Kosteloze evenementen bezoeken", saving: "€20-40/maand" },
         { tip: "Bibliotheek i.p.v. boeken kopen", saving: "€10-20/maand" },
         { tip: "Matinee voorstellingen", saving: "€10-20/maand" },
         { tip: "Thuis entertainment organiseren", saving: "€20-50/maand" }
@@ -311,7 +311,7 @@ const GeldBesparen = () => {
                       <p className="text-sm text-muted-foreground">
                         Gebruik{" "}
                         <Link to="/huishoudboekje" className="text-primary hover:underline">FinOverzicht</Link>{" "}
-                        - het is gratis! Bekijk ook onze{" "}
+                        - probeer het! Bekijk ook onze{" "}
                         <Link to="/uitgaven-beheren" className="text-primary hover:underline">uitgaven tips</Link>.
                       </p>
                     </div>
@@ -368,7 +368,7 @@ const GeldBesparen = () => {
             </p>
             <Button asChild size="lg" variant="secondary" className="text-lg">
               <Link to="/auth">
-                Gratis Starten
+                Direct Starten
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

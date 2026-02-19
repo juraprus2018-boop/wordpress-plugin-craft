@@ -8,19 +8,19 @@ import { Heart, Target, Users, ArrowRight } from 'lucide-react';
 export default function OverOns() {
   useSEO({
     title: 'Over Ons - FinOverzicht | Inzicht in je Financiën',
-    description: 'FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Gratis, eenvoudig en privacyvriendelijk.',
+    description: 'FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Eenvoudig en privacyvriendelijk.',
     canonical: 'https://www.finoverzicht.nl/over-ons',
     jsonLd: [
       {
         "@context": "https://schema.org",
         "@type": "AboutPage",
         "name": "Over FinOverzicht",
-        "description": "FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Gratis, eenvoudig en privacyvriendelijk.",
+        "description": "FinOverzicht maakt je inkomsten en uitgaven inzichtelijk. Eenvoudig en privacyvriendelijk.",
         "url": "https://www.finoverzicht.nl/over-ons",
         "mainEntity": {
           "@type": "Organization",
           "name": "FinOverzicht",
-          "description": "Gratis tool om je inkomsten en uitgaven inzichtelijk te maken",
+          "description": "Tool om je inkomsten en uitgaven inzichtelijk te maken",
           "foundingDate": "2024",
           "url": "https://www.finoverzicht.nl"
         }
@@ -82,9 +82,9 @@ export default function OverOns() {
                   <div className="p-3 rounded-xl bg-success/10 text-success w-fit mb-4">
                     <Heart className="h-6 w-6" />
                   </div>
-                  <h3 className="font-heading font-semibold text-lg mb-2">Gratis</h3>
+                  <h3 className="font-heading font-semibold text-lg mb-2">Toegankelijk</h3>
                   <p className="text-muted-foreground text-sm">
-                    100% gratis te gebruiken. Geen premium versie, geen verborgen kosten.
+                    Voor iedereen beschikbaar. Zonder drempels, zonder verplichtingen.
                   </p>
                 </div>
                 <div className="p-6 rounded-2xl bg-card border border-border">
@@ -112,7 +112,7 @@ export default function OverOns() {
             </p>
             <Link to="/auth?mode=signup">
               <Button size="lg" className="text-lg px-8">
-                Gratis account aanmaken
+                Account aanmaken
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

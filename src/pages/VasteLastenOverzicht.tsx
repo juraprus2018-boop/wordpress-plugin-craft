@@ -365,7 +365,7 @@ const VasteLastenOverzicht = () => {
             </p>
             <Button asChild size="lg" variant="secondary" className="text-lg">
               <Link to="/auth">
-                Gratis Beginnen
+                Direct Beginnen
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
