@@ -1,4 +1,5 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useMemo } from 'react';
+import { useAdmin } from '@/hooks/useAdmin';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,8 @@ import {
   HelpCircle,
   Receipt,
   Users,
-  Shield
+  Shield,
+  ShieldCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -39,9 +41,18 @@ const navItems = [
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { signOut } = useAuth();
+  const { isAdmin } = useAdmin();
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const allNavItems = useMemo(() => {
+    const items = [...navItems];
+    if (isAdmin) {
+      items.push({ href: '/admin', icon: ShieldCheck, label: 'Admin', color: 'text-amber-500', tourId: 'nav-admin' });
+    }
+    return items;
+  }, [isAdmin]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -93,7 +104,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Navigation */}
           <ScrollArea className="flex-1 px-4 py-6 mt-16 lg:mt-0">
             <nav className="space-y-2">
-              {navItems.map((item) => {
+              {allNavItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
                   <Link
