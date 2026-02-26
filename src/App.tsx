@@ -39,6 +39,7 @@ import Subscriptions from "./pages/Subscriptions";
 import Insurance from "./pages/Insurance";
 import Community from "./pages/Community";
 import CommunityPost from "./pages/CommunityPost";
+import Admin from "./pages/Admin";
 import { InstallBanner } from "./components/pwa/InstallBanner";
 import { ScrollToTop } from "./components/ScrollToTop";
 
@@ -87,6 +88,7 @@ const App = () => (
             <Route path="/insurance" element={<Insurance />} />
             <Route path="/community" element={<Community />} />
             <Route path="/community/:postId" element={<CommunityPost />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <InstallBanner />
